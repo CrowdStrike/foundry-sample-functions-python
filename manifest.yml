@@ -1,0 +1,60 @@
+app_id: 5af6e037cd7649a1baa7f8b222259f72
+name: Funky Functions
+description: ""
+logo: ""
+vendor: ""
+vendor_products: []
+use_case: Cloud security
+manifest_version: "2023-05-09"
+ignored:
+    - .+/node_modules$
+    - .+/node_modules/.+
+    - .+/venv$
+    - .+/venv/.+
+ui:
+    homepage: ""
+    extensions: []
+    pages: {}
+    dashboards: {}
+    navigation: {}
+api_integrations: []
+rtr_scripts: []
+collections: []
+auth:
+    scopes:
+        - devices:read
+        - devices:write
+        - api-integrations:read
+    permissions: {}
+    roles: []
+functions:
+    - id: 3c90153e60414b56b3eed83a740cc058
+      name: Hello
+      config: null
+      description: Returns a greeting based on name input
+      path: functions/Hello
+      environment_variables:
+        profile: dev
+      handlers:
+        - name: hello
+          description: Returns a greeting based on name input
+          method: POST
+          api_path: /hello
+          payload_type: ""
+          request_schema: request_schema.json
+          response_schema: response_schema.json
+          workflow_integration:
+            id: 13511c8194f0447d9da5b34a5b88d3e7
+            disruptive: false
+            system_action: false
+            tags:
+                - 5af6e037cd7649a1baa7f8b222259f72
+                - Funky Functions
+          permissions: []
+      language: python
+workflows: []
+parsers: []
+logscale:
+    saved_searches: []
+lookup_files: []
+docs: {}
