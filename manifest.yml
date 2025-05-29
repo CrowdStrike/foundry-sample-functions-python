@@ -29,10 +29,10 @@ auth:
     roles: []
 functions:
     - id: 3c90153e60414b56b3eed83a740cc058
-      name: Hello
+      name: hello
       config: null
       description: Returns a greeting based on name input
-      path: functions/Hello
+      path: functions/hello
       environment_variables:
         profile: dev
       handlers:
@@ -50,6 +50,106 @@ functions:
             tags:
                 - 5af6e037cd7649a1baa7f8b222259f72
                 - Funky Functions
+          permissions: []
+      language: python
+    - id: ecb62e5f09144ba7986a3cdc7ca1a97d
+      name: host-details
+      config: null
+      description: Get Device Details using FalconPy
+      path: functions/host-details
+      environment_variables: {}
+      handlers:
+        - name: host-details
+          description: Get Device Details using FalconPy
+          method: POST
+          api_path: /host-details
+          payload_type: ""
+          request_schema: request_schema.json
+          response_schema: response_schema.json
+          workflow_integration:
+            id: a73c5b79261a42628f4d04010f73d176
+            disruptive: false
+            system_action: true
+            tags:
+                - 5af6e037cd7649a1baa7f8b222259f72
+                - Funky Functions
+                - HostDetails
+                - FalconPy
+          permissions: []
+      language: python
+    - id: 9afd44e9e03842a780c279d12de1e81f
+      name: servicenow
+      config: null
+      description: Create ServiceNow Ticket
+      path: functions/servicenow
+      environment_variables: {}
+      handlers:
+        - name: snow-ticket
+          description: Create ServiceNow Ticket
+          method: POST
+          api_path: /ticket
+          payload_type: ""
+          request_schema: request_schema.json
+          response_schema: response_schema.json
+          workflow_integration:
+            id: 4029a2f6b7a943b084147b7f8b1be8b0
+            disruptive: false
+            system_action: true
+            tags:
+                - 5af6e037cd7649a1baa7f8b222259f72
+                - Funky Functions
+                - ServiceNow
+                - FalconPy
+          permissions: []
+      language: python
+    - id: cbaecd0e17c040a3bf56a0a627ff34e4
+      name: log-event
+      config: null
+      description: Store Data in a Collection
+      path: functions/log-event
+      environment_variables: {}
+      handlers:
+        - name: log-event
+          description: Store Data in a Collection
+          method: POST
+          api_path: /log-event
+          payload_type: ""
+          request_schema: ""
+          response_schema: ""
+          workflow_integration:
+            id: 8d5f38cfe6e54ddd8f5ba39058a83bda
+            disruptive: false
+            system_action: true
+            tags:
+                - 5af6e037cd7649a1baa7f8b222259f72
+                - Funky Functions
+                - Collections
+                - FalconPy
+          permissions: []
+      language: python
+    - id: 54320438ff5642bfb54d12edb18fceff
+      name: hosts-query
+      config: null
+      description: Query a Host with Good Logging
+      path: functions/hosts-query
+      environment_variables: {}
+      handlers:
+        - name: hosts-query
+          description: Query a Host with Good Logging
+          method: POST
+          api_path: /hosts-query
+          payload_type: ""
+          request_schema: ""
+          response_schema: ""
+          workflow_integration:
+            id: f1f261a5815549d48489d4af0d9a52a7
+            disruptive: false
+            system_action: true
+            tags:
+                - 5af6e037cd7649a1baa7f8b222259f72
+                - Funky Functions
+                - Logging
+                - FalconPy
           permissions: []
       language: python
 workflows: []

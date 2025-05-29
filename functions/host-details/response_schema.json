@@ -1,0 +1,10 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "host_details": {
+      "type": "object"
+    }
+  },
+  "type": "object",
+  "description": "This schema provides information about the properties returned from the function."
+}
