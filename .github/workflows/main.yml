@@ -31,7 +31,7 @@ jobs:
           else
             echo "No test_main.py found, skipping tests"
           fi
-          working-directory: functions/${{ matrix.function }}
+        working-directory: functions/${{ matrix.function }}
       - name: Run Python function and verify output
         run: |
           python main.py > output.log 2>&1 &
