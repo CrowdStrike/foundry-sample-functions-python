@@ -152,6 +152,52 @@ functions:
                 - FalconPy
           permissions: []
       language: python
+    - id: 86c21f8136204c30bcddccfab707d939
+      name: host-info
+      config: null
+      description: host-info function
+      path: functions/host-info
+      environment_variables: {}
+      handlers:
+        - name: on_post
+          description: host-info function
+          method: POST
+          api_path: /host-info
+          payload_type: ""
+          request_schema: request_schema.json
+          response_schema: response_schema.json
+          workflow_integration:
+            id: af9f2c0015c3424aa21fc54e8b814ef4
+            disruptive: false
+            system_action: false
+            tags:
+              - 5af6e037cd7649a1baa7f8b222259f72
+              - Multiple
+          permissions: []
+      language: python
+    - id: 86c21f8136204c30bcffccfab707d939
+      name: user-management
+      config: null
+      description: create-user function
+      path: functions/user-management
+      environment_variables: {}
+      handlers:
+        - name: on_post
+          description: create-user function
+          method: POST
+          api_path: /create-user
+          payload_type: ""
+          request_schema: request_schema.json
+          response_schema: response_schema.json
+          workflow_integration:
+            id: af9f2c0015c3424aa21fc54q8b814ef4
+            disruptive: false
+            system_action: false
+            tags:
+              - 5af6e037cd7649a1baa7f8b222259f72
+              - Multiple
+          permissions: []
+      language: python
 workflows: []
 parsers: []
 logscale:

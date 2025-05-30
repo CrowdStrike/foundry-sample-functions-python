@@ -1,17 +1,13 @@
 from falconfoundry import FoundryFunction, FoundryRequest, FoundryResponse, FoundryAPIError
 from falconpy import APIIntegrations
-import logging
+from logging import Logger
+from typing import Dict
 
 
 func = FoundryFunction.instance()
 
-# This configuration for logging will only work when running locally
-# See the Add Logging section below for how to log to NG-SIEM
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-
 @func.handler(method='POST', path='/ticket')
-def on_post(request: FoundryRequest) -> FoundryResponse:
+def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: Logger) -> FoundryResponse:
     """
     Create an incident ticket in ServiceNow using the Table API.
 
