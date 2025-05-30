@@ -1,0 +1,53 @@
+name: Sample CI
+on: [ push, pull_request ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        function:
+          - hello
+          - host-details
+          - hosts-query
+          - log-event
+          - servicenow
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+        working-directory: functions/${{ matrix.function }}
+      - name: Run tests if test_main.py exists
+        run: |
+          if [ -f "test_main.py" ]; then
+            echo "Running tests with test_main.py"
+            python test_main.py
+          else
+            echo "No test_main.py found, skipping tests"
+          fi
+          working-directory: functions/${{ matrix.function }}
+      - name: Run Python function and verify output
+        run: |
+          python main.py > output.log 2>&1 &
+          PID=$!
+          # Wait for output to appear (with timeout)
+          timeout=30
+          elapsed=0
+          while [ $elapsed -lt $timeout ]; do
+            if grep -q "running at port 8081" output.log; then
+              echo "✅ Application started successfully"
+              exit 0
+            fi
+            sleep 1
+            elapsed=$((elapsed+1))
+          done
+          echo "❌ Application failed to start within $timeout seconds"
+          cat output.log
+          exit 1
+        working-directory: functions/${{ matrix.function }}

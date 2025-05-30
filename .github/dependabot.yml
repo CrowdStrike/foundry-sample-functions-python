@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: pip
+    directories:
+      - "/functions/hello/"
+      - "/functions/host-details/"
+      - "/functions/hosts-query/"
+      - "/functions/log-event/"
+      - "/functions/servicenow/"
+    schedule:
+      interval: weekly
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
