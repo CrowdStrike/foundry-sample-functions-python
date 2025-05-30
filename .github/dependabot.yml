@@ -7,6 +7,8 @@ updates:
       - "/functions/hosts-query/"
       - "/functions/log-event/"
       - "/functions/servicenow/"
+      - "/functions/host-info/"
+      - "/functions/user-management/"
     schedule:
       interval: weekly
   - package-ecosystem: github-actions
