@@ -1,1 +1,2 @@
 crowdstrike-falcon-foundry==1.0.0
+crowdstrike-falconpy
