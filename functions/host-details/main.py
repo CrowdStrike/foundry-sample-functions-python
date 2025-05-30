@@ -35,3 +35,6 @@ def on_post(request: FoundryRequest) -> FoundryResponse:
         body={"host_details": response["body"]["resources"][0]},
         code=200,
     )
+
+if __name__ == '__main__':
+    func.run()

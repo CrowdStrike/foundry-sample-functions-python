@@ -116,3 +116,6 @@ def on_post(request: FoundryRequest) -> FoundryResponse:
             code=500,
             errors=[FoundryAPIError(code=500, message=f"Error creating incident: {str(e)}")]
         )
+
+if __name__ == '__main__':
+    func.run()
