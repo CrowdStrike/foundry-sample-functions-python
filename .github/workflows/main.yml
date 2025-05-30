@@ -27,7 +27,7 @@ jobs:
         run: |
           if [ -f "test_main.py" ]; then
             echo "Running tests with test_main.py"
-            python test_main.py
+            pytest
           else
             echo "No test_main.py found, skipping tests"
           fi
