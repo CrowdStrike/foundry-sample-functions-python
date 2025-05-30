@@ -12,7 +12,7 @@ jobs:
           - log-event
           - servicenow
           - host-info
-          - create-user
+          - user-management
     name: Build and Test
     runs-on: ubuntu-latest
     steps:
