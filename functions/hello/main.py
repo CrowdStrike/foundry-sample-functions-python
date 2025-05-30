@@ -1,5 +1,6 @@
 from falconfoundry import FoundryFunction, FoundryRequest, FoundryResponse, FoundryAPIError
 
+
 func = FoundryFunction.instance()
 
 

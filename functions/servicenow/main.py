@@ -2,6 +2,7 @@ from falconfoundry import FoundryFunction, FoundryRequest, FoundryResponse, Foun
 from falconpy import APIIntegrations
 import logging
 
+
 func = FoundryFunction.instance()
 
 # This configuration for logging will only work when running locally

@@ -20,24 +20,24 @@ def on_post(request: FoundryRequest) -> FoundryResponse:
     try:
         # Store data in a collection
         # This assumes you've already created a collection named "event_logs"
-        json={
+        json = {
             "data": event_data,
             "timestamp": int(time.time())
         }
 
         falcon = CustomStorage()
 
-   	 response = falcon.PutObject(body=json,
+        response = falcon.PutObject(body=json,
                                     collection_name="event_logs",
                                     object_key="event_id"
                                     )
 
         if response.status_code != 201:
             return FoundryResponse(
-                code=create_response.status_code,
+                code=response.status_code,
                 errors=[FoundryAPIError(
-                    code=create_response.status_code,
-                    message=f"Failed to store event: {create_response.text}"
+                    code=response.status_code,
+                    message=f"Failed to store event: {response.text}"
                 )]
             )
 
@@ -51,7 +51,7 @@ def on_post(request: FoundryRequest) -> FoundryResponse:
         return FoundryResponse(
             body={
                 "stored": True,
-                "record_id": create_response.json().get("id"),
+                "record_id": response.json().get("id"),
                 "recent_events": query_response.json().get("resources", [])
             },
             code=200
@@ -61,3 +61,7 @@ def on_post(request: FoundryRequest) -> FoundryResponse:
             code=500,
             errors=[FoundryAPIError(code=500, message=f"Error with collection: {str(e)}")]
         )
+
+
+if __name__ == '__main__':
+    func.run()
