@@ -11,6 +11,8 @@ jobs:
           - hosts-query
           - log-event
           - servicenow
+          - host-info
+          - create-user
     name: Build and Test
     runs-on: ubuntu-latest
     steps:
