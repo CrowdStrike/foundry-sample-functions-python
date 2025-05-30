@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "x-cs-indexable-fields": [
+    { "field": "/event_id", "type": "string", "fql_name": "event_id" },
+    { "field": "/timestamp", "type": "integer", "fql_name": "timestamp" }
+  ],
+  "type": "object",
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "description": "Unique identifier for the event (used as the object key)"
+    },
+    "data": {
+      "type": "object",
+      "description": "Event data payload from the request"
+    },
+    "timestamp": {
+      "type": "integer",
+      "description": "Unix timestamp when the event was recorded"
+    }
+  },
+  "required": [
+    "event_id",
+    "data",
+    "timestamp"
+  ]
+}

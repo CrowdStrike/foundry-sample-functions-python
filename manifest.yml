@@ -19,7 +19,15 @@ ui:
     navigation: {}
 api_integrations: []
 rtr_scripts: []
-collections: []
+collections:
+    - name: event_logs
+      description: Event Logs
+      schema: collections/event_logs_schema.json
+      permissions: []
+      workflow_integration:
+        system_action: false
+        tags:
+            - Functions
 auth:
     scopes:
         - devices:read
@@ -171,8 +179,8 @@ functions:
             disruptive: false
             system_action: false
             tags:
-              - 5af6e037cd7649a1baa7f8b222259f72
-              - Multiple
+                - 5af6e037cd7649a1baa7f8b222259f72
+                - Multiple
           permissions: []
       language: python
     - id: 86c21f8136204c30bcffccfab707d939
@@ -194,8 +202,8 @@ functions:
             disruptive: false
             system_action: false
             tags:
-              - 5af6e037cd7649a1baa7f8b222259f72
-              - Multiple
+                - 5af6e037cd7649a1baa7f8b222259f72
+                - Multiple
           permissions: []
       language: python
 workflows: []
