@@ -1,7 +1,4 @@
 from falconfoundry import FoundryFunction, FoundryRequest, FoundryResponse, FoundryAPIError
-# The following two lines are necessary to import utils
-import sys
-sys.path.append('../')
 from utils import validate_email, format_error_response
 from logging import Logger
 from typing import Dict
