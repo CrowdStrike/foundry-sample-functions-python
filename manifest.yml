@@ -13,7 +13,25 @@ ignored:
     - .+/venv/.+
 ui:
     homepage: ""
-    extensions: []
+    extensions:
+        - id: cf6271db03414e95b34c0205943f30e0
+          name: hello
+          description: UI to call the hello function
+          path: ui/extensions/hello/src/dist
+          entrypoint: ui/extensions/hello/src/dist/index.html
+          sockets:
+            - activity.detections.details
+          content_security_policy:
+            connect-src: []
+            style-src: []
+            style-src-elem: []
+            script-src: []
+            form-action: []
+            img-src: []
+            media-src: []
+            object-src: []
+          permissions: []
+          is_ui_builder: false
     pages: {}
     dashboards: {}
     navigation: {}
