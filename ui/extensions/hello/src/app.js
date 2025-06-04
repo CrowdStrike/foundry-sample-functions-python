@@ -1,7 +1,7 @@
-import React from "react";
-import { FalconApiContext, useFalconApiContext, } from "./contexts/falcon-api-context.js";
-import { Home } from "./pages/home.js";
-import ReactDOM from "react-dom/client";
+import React from 'react';
+import { FalconApiContext, useFalconApiContext, } from './contexts/falcon-api-context.js';
+import { Home } from './pages/home.js';
+import ReactDOM from 'react-dom/client';
 
 // Import Shoelace
 import '@shoelace-style/shoelace/dist/themes/light.css';

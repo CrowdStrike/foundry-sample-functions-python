@@ -1,6 +1,5 @@
-app_id: 6ce23f839c9f4b9d969a6fe104f01019
 name: functions-python
-description: ""
+description: Foundry sample that shows how to use Python functions
 logo: ""
 vendor: ""
 vendor_products: []
@@ -75,7 +74,7 @@ functions:
             system_action: false
             tags:
                 - 5af6e037cd7649a1baa7f8b222259f72
-                - Funky Functions
+                - Functions
           permissions: []
       language: python
     - id: ecb62e5f09144ba7986a3cdc7ca1a97d
@@ -98,7 +97,7 @@ functions:
             system_action: true
             tags:
                 - 5af6e037cd7649a1baa7f8b222259f72
-                - Funky Functions
+                - Functions
                 - HostDetails
                 - FalconPy
           permissions: []
@@ -123,7 +122,7 @@ functions:
             system_action: true
             tags:
                 - 5af6e037cd7649a1baa7f8b222259f72
-                - Funky Functions
+                - Functions
                 - ServiceNow
                 - FalconPy
           permissions: []
@@ -148,7 +147,7 @@ functions:
             system_action: true
             tags:
                 - 5af6e037cd7649a1baa7f8b222259f72
-                - Funky Functions
+                - Functions
                 - Collections
                 - FalconPy
           permissions: []
@@ -173,7 +172,7 @@ functions:
             system_action: true
             tags:
                 - 5af6e037cd7649a1baa7f8b222259f72
-                - Funky Functions
+                - Functions
                 - Logging
                 - FalconPy
           permissions: []

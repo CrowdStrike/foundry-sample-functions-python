@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { FalconApiContext } from "../contexts/falcon-api-context";
+import { FalconApiContext } from '../contexts/falcon-api-context';
 import { Link } from '../components/link';
+import { SlInput } from '@shoelace-style/shoelace/dist/react';
 
 function Home() {
   const { falcon } = useContext(FalconApiContext);
@@ -25,7 +26,7 @@ function Home() {
       setLoading(true);
       setError(null);
 
-      // Call the Hello function
+      // Call the hello function
       const helloFunction = falcon.cloudFunction({
         name: 'hello'
       });
@@ -33,16 +34,14 @@ function Home() {
       const response = await helloFunction.path('/hello')
         .post({ name: name });
 
-      if (!response.ok) {
-        throw new Error(`Function call failed: ${response.status} ${response.statusText}`);
+      if (!response.status_code === 200) {
+        throw new Error(`Function call failed: ${response.status_code} ${response.errors}`);
       }
 
-      const responseData = await response.json();
-
       // Set the greeting from the response
-      setGreeting(responseData.greeting);
+      setGreeting(response.body.greeting);
     } catch (error) {
-      console.error('Error calling hello function:', error);
+      console.error('Error calling function', error);
       const errorMessages = error.errors?.map(err => err.message || String(err)).join(', ');
       setError(`Error: ${errorMessages || 'Failed to get greeting'}`);
       setGreeting(null);
@@ -66,10 +65,7 @@ function Home() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <p className="text-primary">
-          👋 Hello, <span style={{
-          color: 'var(--sl-color-primary-300)',
-          padding: '0 4px'
-        }}>✨{username}✨</span>!
+          👋 Hello, {username}!
         </p>
 
         <div>
@@ -77,15 +73,15 @@ function Home() {
             What name do you want to send to the function?
           </label>
           <div style={{ display: 'flex', gap: '8px' }}>
-            <sl-input
+            <SlInput
               id="name-input"
               placeholder="Enter your name"
               value={name}
-              onSlInput={(e) => setName(e.target.value)}
+              onSlChange={(e) => setName(e.target.value)}
               onKeyDown={handleKeyPress}
               clearable
               style={{ flex: 1 }}
-            ></sl-input>
+            ></SlInput>
             <sl-button
               variant="primary"
               onClick={fetchGreeting}
