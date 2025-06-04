@@ -27,7 +27,7 @@ function Home() {
 
       // Call the Hello function
       const helloFunction = falcon.cloudFunction({
-        name: 'Hello'
+        name: 'hello'
       });
 
       const response = await helloFunction.path('/hello')
@@ -42,8 +42,9 @@ function Home() {
       // Set the greeting from the response
       setGreeting(responseData.greeting);
     } catch (error) {
-      console.error('Error calling Hello function:', error);
-      setError(`Error: ${error.message || 'Failed to get greeting'}`);
+      console.error('Error calling hello function:', error);
+      const errorMessages = error.errors?.map(err => err.message || String(err)).join(', ');
+      setError(`Error: ${errorMessages || 'Failed to get greeting'}`);
       setGreeting(null);
     } finally {
       setLoading(false);

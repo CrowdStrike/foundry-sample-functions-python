@@ -1,5 +1,5 @@
-app_id: 5af6e037cd7649a1baa7f8b222259f72
-name: Funky Functions
+app_id: 6ce23f839c9f4b9d969a6fe104f01019
+name: functions-python
 description: ""
 logo: ""
 vendor: ""
@@ -140,8 +140,8 @@ functions:
           method: POST
           api_path: /log-event
           payload_type: ""
-          request_schema: ""
-          response_schema: ""
+          request_schema: null
+          response_schema: null
           workflow_integration:
             id: 8d5f38cfe6e54ddd8f5ba39058a83bda
             disruptive: false
@@ -165,8 +165,8 @@ functions:
           method: POST
           api_path: /hosts-query
           payload_type: ""
-          request_schema: ""
-          response_schema: ""
+          request_schema: null
+          response_schema: null
           workflow_integration:
             id: f1f261a5815549d48489d4af0d9a52a7
             disruptive: false
@@ -181,12 +181,12 @@ functions:
     - id: 86c21f8136204c30bcddccfab707d939
       name: host-info
       config: null
-      description: host-info function
+      description: Get Host Information
       path: functions/host-info
       environment_variables: {}
       handlers:
         - name: on_post
-          description: host-info function
+          description: Get Host Information
           method: POST
           api_path: /host-info
           payload_type: ""
@@ -204,12 +204,12 @@ functions:
     - id: 86c21f8136204c30bcffccfab707d939
       name: user-management
       config: null
-      description: create-user function
+      description: Create a User
       path: functions/user-management
       environment_variables: {}
       handlers:
         - name: on_post
-          description: create-user function
+          description: Create a User
           method: POST
           api_path: /create-user
           payload_type: ""
