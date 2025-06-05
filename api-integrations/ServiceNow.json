@@ -443,11 +443,10 @@
   ],
   "servers": [
     {
-      "url": "https://{instance}.service-now.com",
+      "url": "{instance}.service-now.com",
       "variables": {
         "instance": {
-          "description": "the \"instance\" variable is replaced with a dynamic value at execution time",
-          "default": "instance"
+          "description": "the \"instance\" variable is replaced with a dynamic value at execution time"
         }
       }
     }
