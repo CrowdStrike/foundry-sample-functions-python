@@ -5335,15 +5335,26 @@ function requireReactDom () {
 function Link({
   children,
   useFalconNavigation = false,
-  to
+  to,
+  openInNewTab = false
 }) {
   const {
+    falcon,
     navigation
   } = reactExports.useContext(FalconApiContext);
+  const absolutePath = falcon.bridge.targetOrigin.concat(to);
+  const onClick = e => {
+    e.preventDefault();
+    navigation?.navigateTo({
+      path: to,
+      type: "falcon",
+      target: openInNewTab ? "_blank" : "_self"
+    });
+  };
   if (useFalconNavigation) {
     return /*#__PURE__*/React.createElement("a", {
-      onClick: navigation.onClick,
-      href: to
+      onClick: onClick,
+      href: absolutePath
     }, children);
   }
   return /*#__PURE__*/React.createElement(Link$1, {
