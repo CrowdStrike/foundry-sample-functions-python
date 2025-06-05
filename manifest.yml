@@ -1,4 +1,4 @@
-app_id: 91ee597245f244869e70bccfc5507aa2
+app_id: 522f28597278491fb97a0e1cdae62961
 name: functions-python
 description: Foundry sample that shows how to use Python functions
 logo: ""
@@ -35,7 +35,11 @@ ui:
     pages: {}
     dashboards: {}
     navigation: {}
-api_integrations: []
+api_integrations:
+    - id: b7eca9f88dcc48938b252eca233e4951
+      name: ServiceNow
+      description: Allows you to perform CRUD operations on tables
+      path: api-integrations/ServiceNow.json
 rtr_scripts: []
 collections:
     - name: event_logs
@@ -74,7 +78,7 @@ functions:
             disruptive: false
             system_action: false
             tags:
-                - 91ee597245f244869e70bccfc5507aa2
+                - 522f28597278491fb97a0e1cdae62961
                 - Functions
           permissions: []
       language: python
@@ -97,7 +101,7 @@ functions:
             disruptive: false
             system_action: true
             tags:
-                - 91ee597245f244869e70bccfc5507aa2
+                - 522f28597278491fb97a0e1cdae62961
                 - Functions
                 - HostDetails
                 - FalconPy
@@ -122,7 +126,7 @@ functions:
             disruptive: false
             system_action: true
             tags:
-                - 91ee597245f244869e70bccfc5507aa2
+                - 522f28597278491fb97a0e1cdae62961
                 - Functions
                 - ServiceNow
                 - FalconPy
@@ -147,7 +151,7 @@ functions:
             disruptive: false
             system_action: true
             tags:
-                - 91ee597245f244869e70bccfc5507aa2
+                - 522f28597278491fb97a0e1cdae62961
                 - Functions
                 - Collections
                 - FalconPy
@@ -172,7 +176,7 @@ functions:
             disruptive: false
             system_action: true
             tags:
-                - 91ee597245f244869e70bccfc5507aa2
+                - 522f28597278491fb97a0e1cdae62961
                 - Functions
                 - Logging
                 - FalconPy
@@ -197,7 +201,7 @@ functions:
             disruptive: false
             system_action: false
             tags:
-                - 91ee597245f244869e70bccfc5507aa2
+                - 522f28597278491fb97a0e1cdae62961
                 - Multiple
           permissions: []
       language: python
@@ -220,7 +224,7 @@ functions:
             disruptive: false
             system_action: false
             tags:
-                - 91ee597245f244869e70bccfc5507aa2
+                - 522f28597278491fb97a0e1cdae62961
                 - Multiple
           permissions: []
       language: python

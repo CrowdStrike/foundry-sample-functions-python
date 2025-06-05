@@ -1,0 +1,456 @@
+{
+  "components": {
+    "securitySchemes": {
+      "http_basic": {
+        "scheme": "basic",
+        "type": "http"
+      }
+    }
+  },
+  "info": {
+    "contact": {
+      "email": "matt.raible@crowdstrike.com"
+    },
+    "description": "Allows you to perform create, read, update and delete (CRUD) operations on existing tables",
+    "title": "ServiceNow",
+    "version": ""
+  },
+  "openapi": "3.0.3",
+  "paths": {
+    "/api/now/table/{tableName}": {
+      "get": {
+        "description": "Retrieve records from a table",
+        "operationId": "GET__api_now_table_tablename",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tableName",
+            "required": true,
+            "schema": {}
+          },
+          {
+            "description": "Return field display values (true), actual values (false), or both (all) (default: false)",
+            "in": "query",
+            "name": "sysparm_display_value",
+            "schema": {
+              "description": "Return field display values (true), actual values (false), or both (all) (default: false)"
+            }
+          },
+          {
+            "description": "True to exclude Table API links for reference fields (default: false)",
+            "in": "query",
+            "name": "sysparm_exclude_reference_link",
+            "schema": {
+              "description": "True to exclude Table API links for reference fields (default: false)"
+            }
+          },
+          {
+            "description": "A comma-separated list of fields to return in the response",
+            "in": "query",
+            "name": "sysparm_fields",
+            "schema": {
+              "description": "A comma-separated list of fields to return in the response"
+            }
+          },
+          {
+            "description": "The maximum number of results returned per page (default: 10,000)",
+            "in": "query",
+            "name": "sysparm_limit",
+            "schema": {
+              "description": "The maximum number of results returned per page (default: 10,000)"
+            }
+          },
+          {
+            "description": "Do not execute a select count(*) on table (default: false)",
+            "in": "query",
+            "name": "sysparm_no_count",
+            "schema": {
+              "description": "Do not execute a select count(*) on table (default: false)"
+            }
+          },
+          {
+            "description": "An encoded query string used to filter the results",
+            "in": "query",
+            "name": "sysparm_query",
+            "schema": {
+              "description": "An encoded query string used to filter the results"
+            }
+          },
+          {
+            "description": "Name of the query category (read replica category) to use for queries",
+            "in": "query",
+            "name": "sysparm_query_category",
+            "schema": {
+              "description": "Name of the query category (read replica category) to use for queries"
+            }
+          },
+          {
+            "description": "True to access data across domains if authorized (default: false)",
+            "in": "query",
+            "name": "sysparm_query_no_domain",
+            "schema": {
+              "description": "True to access data across domains if authorized (default: false)"
+            }
+          },
+          {
+            "description": "True to supress pagination header (default: false)",
+            "in": "query",
+            "name": "sysparm_suppress_pagination_header",
+            "schema": {
+              "description": "True to supress pagination header (default: false)"
+            }
+          },
+          {
+            "description": "Render the response according to the specified UI view (overridden by sysparm_fields)",
+            "in": "query",
+            "name": "sysparm_view",
+            "schema": {
+              "description": "Render the response according to the specified UI view (overridden by sysparm_fields)"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      },
+      "post": {
+        "description": "Create a record",
+        "operationId": "POST__api_now_table_tablename",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tableName",
+            "required": true,
+            "schema": {}
+          },
+          {
+            "description": "Return field display values (true), actual values (false), or both (all) (default: false)",
+            "in": "query",
+            "name": "sysparm_display_value",
+            "schema": {
+              "description": "Return field display values (true), actual values (false), or both (all) (default: false)"
+            }
+          },
+          {
+            "description": "True to exclude Table API links for reference fields (default: false)",
+            "in": "query",
+            "name": "sysparm_exclude_reference_link",
+            "schema": {
+              "description": "True to exclude Table API links for reference fields (default: false)"
+            }
+          },
+          {
+            "description": "A comma-separated list of fields to return in the response",
+            "in": "query",
+            "name": "sysparm_fields",
+            "schema": {
+              "description": "A comma-separated list of fields to return in the response"
+            }
+          },
+          {
+            "description": "Set field values using their display value (true) or actual value (false) (default: false)",
+            "in": "query",
+            "name": "sysparm_input_display_value",
+            "schema": {
+              "description": "Set field values using their display value (true) or actual value (false) (default: false)"
+            }
+          },
+          {
+            "description": "True to suppress auto generation of system fields (default: false)",
+            "in": "query",
+            "name": "sysparm_suppress_auto_sys_field",
+            "schema": {
+              "description": "True to suppress auto generation of system fields (default: false)"
+            }
+          },
+          {
+            "description": "Render the response according to the specified UI view (overridden by sysparm_fields)",
+            "in": "query",
+            "name": "sysparm_view",
+            "schema": {
+              "description": "Render the response according to the specified UI view (overridden by sysparm_fields)"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    },
+    "/api/now/table/{tableName}/{sys_id}": {
+      "delete": {
+        "description": "Delete a record",
+        "operationId": "DELETE__api_now_table_tablename_sys_id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sys_id",
+            "required": true,
+            "schema": {}
+          },
+          {
+            "in": "path",
+            "name": "tableName",
+            "required": true,
+            "schema": {}
+          },
+          {
+            "description": "True to access data across domains if authorized (default: false)",
+            "in": "query",
+            "name": "sysparm_query_no_domain",
+            "schema": {
+              "description": "True to access data across domains if authorized (default: false)"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      },
+      "get": {
+        "description": "Retrieve a record",
+        "operationId": "GET__api_now_table_tablename_sys_id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sys_id",
+            "required": true,
+            "schema": {}
+          },
+          {
+            "in": "path",
+            "name": "tableName",
+            "required": true,
+            "schema": {}
+          },
+          {
+            "description": "Return field display values (true), actual values (false), or both (all) (default: false)",
+            "in": "query",
+            "name": "sysparm_display_value",
+            "schema": {
+              "description": "Return field display values (true), actual values (false), or both (all) (default: false)"
+            }
+          },
+          {
+            "description": "True to exclude Table API links for reference fields (default: false)",
+            "in": "query",
+            "name": "sysparm_exclude_reference_link",
+            "schema": {
+              "description": "True to exclude Table API links for reference fields (default: false)"
+            }
+          },
+          {
+            "description": "A comma-separated list of fields to return in the response",
+            "in": "query",
+            "name": "sysparm_fields",
+            "schema": {
+              "description": "A comma-separated list of fields to return in the response"
+            }
+          },
+          {
+            "description": "True to access data across domains if authorized (default: false) ",
+            "in": "query",
+            "name": "sysparm_query_no_domain",
+            "schema": {
+              "description": "True to access data across domains if authorized (default: false) "
+            }
+          },
+          {
+            "description": "Render the response according to the specified UI view (overridden by sysparm_fields)",
+            "in": "query",
+            "name": "sysparm_view",
+            "schema": {
+              "description": "Render the response according to the specified UI view (overridden by sysparm_fields)"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      },
+      "patch": {
+        "description": "Update a record",
+        "operationId": "PATCH__api_now_table_tablename_sys_id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sys_id",
+            "required": true,
+            "schema": {}
+          },
+          {
+            "in": "path",
+            "name": "tableName",
+            "required": true,
+            "schema": {}
+          },
+          {
+            "description": "Return field display values (true), actual values (false), or both (all) (default: false)",
+            "in": "query",
+            "name": "sysparm_display_value",
+            "schema": {
+              "description": "Return field display values (true), actual values (false), or both (all) (default: false)"
+            }
+          },
+          {
+            "description": "True to exclude Table API links for reference fields (default: false)",
+            "in": "query",
+            "name": "sysparm_exclude_reference_link",
+            "schema": {
+              "description": "True to exclude Table API links for reference fields (default: false)"
+            }
+          },
+          {
+            "description": "A comma-separated list of fields to return in the response",
+            "in": "query",
+            "name": "sysparm_fields",
+            "schema": {
+              "description": "A comma-separated list of fields to return in the response"
+            }
+          },
+          {
+            "description": "Set field values using their display value (true) or actual value (false) (default: false)",
+            "in": "query",
+            "name": "sysparm_input_display_value",
+            "schema": {
+              "description": "Set field values using their display value (true) or actual value (false) (default: false)"
+            }
+          },
+          {
+            "description": "True to access data across domains if authorized (default: false)",
+            "in": "query",
+            "name": "sysparm_query_no_domain",
+            "schema": {
+              "description": "True to access data across domains if authorized (default: false)"
+            }
+          },
+          {
+            "description": "True to suppress auto generation of system fields (default: false)",
+            "in": "query",
+            "name": "sysparm_suppress_auto_sys_field",
+            "schema": {
+              "description": "True to suppress auto generation of system fields (default: false)"
+            }
+          },
+          {
+            "description": "Render the response according to the specified UI view (overridden by sysparm_fields)",
+            "in": "query",
+            "name": "sysparm_view",
+            "schema": {
+              "description": "Render the response according to the specified UI view (overridden by sysparm_fields)"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      },
+      "put": {
+        "description": "Modify a record",
+        "operationId": "PUT__api_now_table_tablename_sys_id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sys_id",
+            "required": true,
+            "schema": {}
+          },
+          {
+            "in": "path",
+            "name": "tableName",
+            "required": true,
+            "schema": {}
+          },
+          {
+            "description": "Return field display values (true), actual values (false), or both (all) (default: false)",
+            "in": "query",
+            "name": "sysparm_display_value",
+            "schema": {
+              "description": "Return field display values (true), actual values (false), or both (all) (default: false)"
+            }
+          },
+          {
+            "description": "True to exclude Table API links for reference fields (default: false)",
+            "in": "query",
+            "name": "sysparm_exclude_reference_link",
+            "schema": {
+              "description": "True to exclude Table API links for reference fields (default: false)"
+            }
+          },
+          {
+            "description": "A comma-separated list of fields to return in the response",
+            "in": "query",
+            "name": "sysparm_fields",
+            "schema": {
+              "description": "A comma-separated list of fields to return in the response"
+            }
+          },
+          {
+            "description": "Set field values using their display value (true) or actual value (false) (default: false)",
+            "in": "query",
+            "name": "sysparm_input_display_value",
+            "schema": {
+              "description": "Set field values using their display value (true) or actual value (false) (default: false)"
+            }
+          },
+          {
+            "description": "True to access data across domains if authorized (default: false)",
+            "in": "query",
+            "name": "sysparm_query_no_domain",
+            "schema": {
+              "description": "True to access data across domains if authorized (default: false)"
+            }
+          },
+          {
+            "description": "True to suppress auto generation of system fields (default: false)",
+            "in": "query",
+            "name": "sysparm_suppress_auto_sys_field",
+            "schema": {
+              "description": "True to suppress auto generation of system fields (default: false)"
+            }
+          },
+          {
+            "description": "Render the response according to the specified UI view (overridden by sysparm_fields)",
+            "in": "query",
+            "name": "sysparm_view",
+            "schema": {
+              "description": "Render the response according to the specified UI view (overridden by sysparm_fields)"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "http_basic": []
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://{instance}.service-now.com",
+      "variables": {
+        "instance": {
+          "description": "the \"instance\" variable is replaced with a dynamic value at execution time",
+          "default": "instance"
+        }
+      }
+    }
+  ],
+  "x-cs-multi-instance": true
+}
