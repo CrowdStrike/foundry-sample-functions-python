@@ -1,3 +1,4 @@
+app_id: 91ee597245f244869e70bccfc5507aa2
 name: functions-python
 description: Foundry sample that shows how to use Python functions
 logo: ""
@@ -73,7 +74,7 @@ functions:
             disruptive: false
             system_action: false
             tags:
-                - 5af6e037cd7649a1baa7f8b222259f72
+                - 91ee597245f244869e70bccfc5507aa2
                 - Functions
           permissions: []
       language: python
@@ -96,7 +97,7 @@ functions:
             disruptive: false
             system_action: true
             tags:
-                - 5af6e037cd7649a1baa7f8b222259f72
+                - 91ee597245f244869e70bccfc5507aa2
                 - Functions
                 - HostDetails
                 - FalconPy
@@ -121,7 +122,7 @@ functions:
             disruptive: false
             system_action: true
             tags:
-                - 5af6e037cd7649a1baa7f8b222259f72
+                - 91ee597245f244869e70bccfc5507aa2
                 - Functions
                 - ServiceNow
                 - FalconPy
@@ -146,7 +147,7 @@ functions:
             disruptive: false
             system_action: true
             tags:
-                - 5af6e037cd7649a1baa7f8b222259f72
+                - 91ee597245f244869e70bccfc5507aa2
                 - Functions
                 - Collections
                 - FalconPy
@@ -171,7 +172,7 @@ functions:
             disruptive: false
             system_action: true
             tags:
-                - 5af6e037cd7649a1baa7f8b222259f72
+                - 91ee597245f244869e70bccfc5507aa2
                 - Functions
                 - Logging
                 - FalconPy
@@ -196,7 +197,7 @@ functions:
             disruptive: false
             system_action: false
             tags:
-                - 5af6e037cd7649a1baa7f8b222259f72
+                - 91ee597245f244869e70bccfc5507aa2
                 - Multiple
           permissions: []
       language: python
@@ -219,7 +220,7 @@ functions:
             disruptive: false
             system_action: false
             tags:
-                - 5af6e037cd7649a1baa7f8b222259f72
+                - 91ee597245f244869e70bccfc5507aa2
                 - Multiple
           permissions: []
       language: python
