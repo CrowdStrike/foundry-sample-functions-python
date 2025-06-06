@@ -32,12 +32,13 @@ def on_post(request: FoundryRequest) -> FoundryResponse:
                                     object_key="event_id"
                                     )
 
-        if response.status_code != 201:
+        if response["status_code"] != 201:
+            error_message = response.get('error', {}).get('message', 'Unknown error')
             return FoundryResponse(
-                code=response.status_code,
+                code=response["status_code"],
                 errors=[FoundryAPIError(
-                    code=response.status_code,
-                    message=f"Failed to store event: {response.text}"
+                    code=response["status_code"],
+                    message=f"Failed to store event: {error_message}"
                 )]
             )
 
@@ -51,15 +52,15 @@ def on_post(request: FoundryRequest) -> FoundryResponse:
         return FoundryResponse(
             body={
                 "stored": True,
-                "record_id": response.json().get("id"),
-                "recent_events": query_response.json().get("resources", [])
+                "record_id": response["id"],
+                "recent_events": query_response.get("resources", [])
             },
             code=200
         )
     except Exception as e:
         return FoundryResponse(
             code=500,
-            errors=[FoundryAPIError(code=500, message=f"Error with collection: {str(e)}")]
+            errors=[FoundryAPIError(code=500, message=f"Error saving collection: {str(e)}")]
         )
 
 

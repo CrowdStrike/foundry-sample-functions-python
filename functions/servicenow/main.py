@@ -53,24 +53,8 @@ def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: L
 
     logger.info(f"Creating ServiceNow incident with payload: {payload}")
 
-    # Call ServiceNow Table API to create incident
     try:
-        body = {
-            "resources": [{
-                "definition_id": "ServiceNow",
-                "operation_id": "POST__api_now_table_tablename",
-                "params": {
-                    "path": {
-                        "tableName": "incident",
-                    }
-                },
-                "request": {
-                    "json": payload
-                }
-            }]
-        }
-
-        # Use the APIIntegrations client to call ServiceNow
+        # Use the APIIntegrations client to call ServiceNow Table API to create incident
         api = APIIntegrations()
         response = api.execute_command_proxy(
             definition_id="ServiceNow",
@@ -93,9 +77,9 @@ def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: L
         if response["status_code"] >= 400:
             error_message = response.get('error', {}).get('message', 'Unknown error')
             return FoundryResponse(
-                code=response.status_code,
+                code=response["status_code"],
                 errors=[FoundryAPIError(
-                    code=response.status_code,
+                    code=response["status_code"],
                     message=f"ServiceNow integration error: {error_message}"
                 )]
             )

@@ -1,7 +1,7 @@
 app_id: 6ddb0b6688a345bdafaae5d5678477f3
 name: functions-python
 description: Foundry sample that shows how to use Python functions
-logo: ""
+logo: "images/logo.png"
 vendor: ""
 vendor_products: []
 use_case: Cloud security
@@ -154,31 +154,6 @@ functions:
                 - 6ddb0b6688a345bdafaae5d5678477f3
                 - Functions
                 - Collections
-                - FalconPy
-          permissions: []
-      language: python
-    - id: 54320438ff5642bfb54d12edb18fceff
-      name: hosts-query
-      config: null
-      description: Query a Host with Good Logging
-      path: functions/hosts-query
-      environment_variables: {}
-      handlers:
-        - name: hosts-query
-          description: Query a Host with Good Logging
-          method: POST
-          api_path: /hosts-query
-          payload_type: ""
-          request_schema: request_schema.json
-          response_schema: response_schema.json
-          workflow_integration:
-            id: f1f261a5815549d48489d4af0d9a52a7
-            disruptive: false
-            system_action: true
-            tags:
-                - 6ddb0b6688a345bdafaae5d5678477f3
-                - Functions
-                - Logging
                 - FalconPy
           permissions: []
       language: python
