@@ -44,8 +44,8 @@ def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: L
         "subcategory": request.body.get("subcategory"),
         "assignment_group": request.body.get("assignment_group"),
         "caller_id": request.body.get("caller_id"),
-        "sysparm_display_value": "true",  # Return both display and actual values
-        "sysparm_exclude_reference_link": "true"  # Exclude reference links for cleaner response
+        # "sysparm_display_value": "true",  # Return both display and actual values
+        # "sysparm_exclude_reference_link": "true"  # Exclude reference links for cleaner response
     }
 
     # Only include fields with non-None values
@@ -67,26 +67,35 @@ def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: L
                     }
                 },
                 "request": {
-                    "json": payload,
-                    "headers": {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json"
-                    }
+                    "json": payload
                 }
             }]
         }
 
         # Use the APIIntegrations client to call ServiceNow
         api = APIIntegrations()
-        response = api.execute_command_proxy(body=body)
+        response = api.execute_command_proxy(
+            definition_id="ServiceNow",
+            operation_id="POST__api_now_table_tablename",
+            params={
+                "path": {"tableName": "incident"}
+            },
+            request={
+                "json": payload,
+                "headers": {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                }
+            }
+        )
 
         # Log the raw response for troubleshooting
         logger.info(f"ServiceNow API response: {response}")
 
-        logger.info(f"status_code: {response.status_code}")
+        logger.info(f"headers: {response['headers']}")
 
-        if response.status_code >= 400:
-            error_message = response.json().get('error', {}).get('message', 'Unknown error')
+        if response["status_code"] >= 400:
+            error_message = response.get('error', {}).get('message', 'Unknown error')
             return FoundryResponse(
                 code=response.status_code,
                 errors=[FoundryAPIError(
@@ -96,20 +105,20 @@ def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: L
             )
 
         # Extract relevant information from the response
-        result = response.json().get("result", {})
+        result = response["body"]["result"]
 
         # Return formatted response with incident details
         return FoundryResponse(
             body={
-                "incident_id": result.get("sys_id"),
-                "incident_number": result.get("number"),
-                "state": result.get("state", {}).get("display_value"),
-                "priority": result.get("priority", {}).get("display_value"),
-                "created_at": result.get("sys_created_on"),
-                "assigned_to": result.get("assigned_to", {}).get("display_value"),
-                "url": f"https://{request.body.get('instance', 'yourinstance')}.service-now.com/nav_to.do?uri=incident.do?sys_id={result.get('sys_id')}"
+                "incident_id": result["sys_id"],
+                "incident_number": result["number"],
+                "state": result["state"],
+                "priority": result["priority"],
+                "created_at": result["sys_created_on"],
+                "assigned_to": result["assigned_to"],
+                "url": response["headers"]["Location"]
             },
-            code=201 if response.status_code == 200 else response.status_code
+            code=201 if response["status_code"] == 200 else response["status_code"]
         )
     except Exception as e:
         logger.error(f"Error creating ServiceNow incident: {str(e)}", exc_info=True)
@@ -117,6 +126,7 @@ def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: L
             code=500,
             errors=[FoundryAPIError(code=500, message=f"Error creating incident: {str(e)}")]
         )
+
 
 if __name__ == '__main__':
     func.run()
