@@ -43,7 +43,9 @@ def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: L
         "category": request.body.get("category"),
         "subcategory": request.body.get("subcategory"),
         "assignment_group": request.body.get("assignment_group"),
-        "caller_id": request.body.get("caller_id")
+        "caller_id": request.body.get("caller_id"),
+        "sysparm_display_value": "true",  # Return both display and actual values
+        "sysparm_exclude_reference_link": "true"  # Exclude reference links for cleaner response
     }
 
     # Only include fields with non-None values
@@ -59,10 +61,10 @@ def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: L
             "resources": [{
                 "definition_id": "ServiceNow",
                 "operation_id": "POST__api_now_table_tablename",
-                "parameters": {
-                    "tableName": "incident",
-                    "sysparm_display_value": "true",  # Return both display and actual values
-                    "sysparm_exclude_reference_link": "true"  # Exclude reference links for cleaner response
+                "params": {
+                    "path": {
+                        "tableName": "incident",
+                    }
                 },
                 "request": {
                     "json": payload,
@@ -76,10 +78,12 @@ def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: L
 
         # Use the APIIntegrations client to call ServiceNow
         api = APIIntegrations()
-        response = api.execute_command(body=body)
+        response = api.execute_command_proxy(body=body)
 
         # Log the raw response for troubleshooting
-        logger.info(f"ServiceNow API response: {response.status_code} - {response.text}")
+        logger.info(f"ServiceNow API response: {response}")
+
+        logger.info(f"status_code: {response.status_code}")
 
         if response.status_code >= 400:
             error_message = response.json().get('error', {}).get('message', 'Unknown error')

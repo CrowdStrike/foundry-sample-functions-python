@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "stored": {
+      "type": "boolean"
+    },
+    "record_id": {
+      "type": "string"
+    },
+    "recent_events": {
+      "type": "array"
+    }
+  },
+  "type": "object",
+  "description": "This schema provides information about the properties returned from the function."
+}

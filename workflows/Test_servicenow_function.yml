@@ -1,0 +1,12 @@
+name: Test servicenow function
+description: Workflow to invoke servicenow function
+provision_on_install: true
+trigger:
+    next:
+        - snow_ticket_da48b691
+actions:
+    snow_ticket_da48b691:
+        id: functions.servicenow.snow-ticket
+        properties:
+            description: ServiceNow issue from Fusion SOAR Workflow
+            title: First incident

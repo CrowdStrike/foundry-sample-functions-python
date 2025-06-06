@@ -1,13 +1,13 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "properties": {
-    "host_id": {
+    "event_data": {
       "type": "string"
     }
   },
   "required": [
-    "host_id"
+    "event_data"
   ],
   "type": "object",
-  "description": "This schema makes the host_id required for requests."
+  "description": "This schema makes the event_data required for requests."
 }

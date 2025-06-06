@@ -1,12 +1,16 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "properties": {
-    "name": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
       "type": "string"
     }
   },
   "required": [
-    "name"
+    "title",
+    "description"
   ],
   "type": "object",
   "description": "This generated sample schema should be updated to match the input of your function."

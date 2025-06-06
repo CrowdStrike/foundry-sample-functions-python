@@ -1,0 +1,11 @@
+name: Test log-event function
+description: Workflow to invoke the log-event function
+provision_on_install: true
+trigger:
+    next:
+        - log_event_510f8f4e
+actions:
+    log_event_510f8f4e:
+        id: functions.log-event.log-event
+        properties:
+            event_data: some text to log

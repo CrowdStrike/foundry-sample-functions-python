@@ -1,0 +1,11 @@
+name: Test host-details function
+description: Workflow to invoke the host-details function
+provision_on_install: true
+trigger:
+    next:
+        - host_details_6d220b7a
+actions:
+    host_details_6d220b7a:
+        id: functions.host-details.host-details
+        properties:
+            host_id: "42"

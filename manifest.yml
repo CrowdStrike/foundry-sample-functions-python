@@ -1,4 +1,4 @@
-app_id: 522f28597278491fb97a0e1cdae62961
+app_id: 6ddb0b6688a345bdafaae5d5678477f3
 name: functions-python
 description: Foundry sample that shows how to use Python functions
 logo: ""
@@ -63,8 +63,7 @@ functions:
       config: null
       description: Returns a greeting based on name input
       path: functions/hello
-      environment_variables:
-        profile: dev
+      environment_variables: {}
       handlers:
         - name: hello
           description: Returns a greeting based on name input
@@ -79,6 +78,7 @@ functions:
             system_action: false
             tags:
                 - 522f28597278491fb97a0e1cdae62961
+                - Hello
                 - Functions
           permissions: []
       language: python
@@ -144,8 +144,8 @@ functions:
           method: POST
           api_path: /log-event
           payload_type: ""
-          request_schema: null
-          response_schema: null
+          request_schema: request_schema.json
+          response_schema: response_schema.json
           workflow_integration:
             id: 8d5f38cfe6e54ddd8f5ba39058a83bda
             disruptive: false
@@ -228,7 +228,23 @@ functions:
                 - Multiple
           permissions: []
       language: python
-workflows: []
+workflows:
+    - id: f9fa1e26bdd0481f962a69b5453e059e
+      name: Test log-event function
+      path: workflows/Test_log-event_function.yml
+      permissions: []
+    - id: d601624237d04f58ac97445ceded5bb8
+      name: Test hello function
+      path: workflows/Test_hello_function.yml
+      permissions: []
+    - id: be5c02ea9b9f468da8d42df46c8cd5f4
+      name: Test host-details function
+      path: workflows/Test_host-details_function.yml
+      permissions: []
+    - id: 9a79d44830894c3db2cb1ffb76ceb2a0
+      name: Test servicenow function
+      path: workflows/Test_servicenow_function.yml
+      permissions: []
 parsers: []
 logscale:
     saved_searches: []

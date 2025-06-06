@@ -1,7 +1,25 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "properties": {
-    "greeting": {
+    "incident_id": {
+      "type": "string"
+    },
+    "incident_number": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "assigned_to": {
+      "type": "string"
+    },
+    "url": {
       "type": "string"
     }
   },
