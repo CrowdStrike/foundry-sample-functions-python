@@ -169,8 +169,8 @@ functions:
           method: POST
           api_path: /hosts-query
           payload_type: ""
-          request_schema: null
-          response_schema: null
+          request_schema: request_schema.json
+          response_schema: response_schema.json
           workflow_integration:
             id: f1f261a5815549d48489d4af0d9a52a7
             disruptive: false

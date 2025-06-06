@@ -43,9 +43,7 @@ def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: L
         "category": request.body.get("category"),
         "subcategory": request.body.get("subcategory"),
         "assignment_group": request.body.get("assignment_group"),
-        "caller_id": request.body.get("caller_id"),
-        # "sysparm_display_value": "true",  # Return both display and actual values
-        # "sysparm_exclude_reference_link": "true"  # Exclude reference links for cleaner response
+        "caller_id": request.body.get("caller_id")
     }
 
     # Only include fields with non-None values
@@ -91,8 +89,6 @@ def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: L
 
         # Log the raw response for troubleshooting
         logger.info(f"ServiceNow API response: {response}")
-
-        logger.info(f"headers: {response['headers']}")
 
         if response["status_code"] >= 400:
             error_message = response.get('error', {}).get('message', 'Unknown error')
