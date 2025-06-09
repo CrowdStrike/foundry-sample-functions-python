@@ -8,4 +8,5 @@ actions:
     log_event_510f8f4e:
         id: functions.log-event.log-event
         properties:
-            event_data: '{"quote": "Tis but a scratch"}'
+            event_data:
+                quote: Tis but a scratch
