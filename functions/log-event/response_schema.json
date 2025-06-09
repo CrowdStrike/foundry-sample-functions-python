@@ -4,10 +4,7 @@
     "stored": {
       "type": "boolean"
     },
-    "record_id": {
-      "type": "string"
-    },
-    "recent_events": {
+    "metadata": {
       "type": "array"
     }
   },

@@ -1,13 +1,16 @@
 from falconfoundry import FoundryFunction, FoundryRequest, FoundryResponse, FoundryAPIError
-from falconpy import CustomStorage
+from falconpy import APIHarnessV2
+from logging import Logger
+from typing import Dict
 import time
-
+import os
+import uuid
 
 func = FoundryFunction.instance()
 
 
 @func.handler(method='POST', path='/log-event')
-def on_post(request: FoundryRequest) -> FoundryResponse:
+def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: Logger) -> FoundryResponse:
     # Validate request
     if 'event_data' not in request.body:
         return FoundryResponse(
@@ -20,19 +23,34 @@ def on_post(request: FoundryRequest) -> FoundryResponse:
     try:
         # Store data in a collection
         # This assumes you've already created a collection named "event_logs"
+        event_id = str(uuid.uuid4())
         json = {
+            "event_id": event_id,
             "data": event_data,
             "timestamp": int(time.time())
         }
 
-        falcon = CustomStorage()
+        # Allow setting APP_ID as an env variable for local testing
+        headers = {}
+        if os.environ.get("APP_ID"):
+            headers = {
+                "X-CS-APP-ID": os.environ.get("APP_ID")
+            }
 
-        response = falcon.PutObject(body=json,
-                                    collection_name="event_logs",
-                                    object_key="event_id"
-                                    )
+        api_client = APIHarnessV2()
+        collection_name = "event_logs"
 
-        if response["status_code"] != 201:
+        response = api_client.command("PutObject",
+                                      body=json,
+                                      collection_name=collection_name,
+                                      object_key=event_id,
+                                      headers=headers
+                                      )
+
+        # Log the raw response for troubleshooting
+        logger.info(f"Collections API response: {response}")
+
+        if response["status_code"] != 200:
             error_message = response.get('error', {}).get('message', 'Unknown error')
             return FoundryResponse(
                 code=response["status_code"],
@@ -42,18 +60,18 @@ def on_post(request: FoundryRequest) -> FoundryResponse:
                 )]
             )
 
-        # Query the collection to retrieve recent events
-        one_hour_ago = int(time.time()) - 3600
-        query_response = falcon.search(filter=f"timestamp > {one_hour_ago}",
-                                       collection_name="event_logs",
-                                       limit=5
-                                       )
+        # Query the collection to retrieve the event by id
+        query_response = api_client.command("SearchObjects",
+                                            filter=f"event_id:'{event_id}'",
+                                            collection_name=collection_name,
+                                            limit=5,
+                                            headers=headers
+                                            )
 
         return FoundryResponse(
             body={
                 "stored": True,
-                "record_id": response["id"],
-                "recent_events": query_response.get("resources", [])
+                "metadata": query_response.get("body").get("resources", [])
             },
             code=200
         )
