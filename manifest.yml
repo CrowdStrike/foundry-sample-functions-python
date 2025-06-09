@@ -1,7 +1,7 @@
 app_id: ""
 name: functions-python
 description: Foundry sample that shows how to use Python functions
-logo: app-docs/images/logo.png
+logo: app_docs/images/logo.png
 vendor: ""
 vendor_products: []
 use_case: Cloud security
@@ -224,5 +224,8 @@ logscale:
     saved_searches: []
 lookup_files: []
 docs:
-    path: app-docs
+    id: ""
+    path: app_docs
     entrypoint: README.md
+    links:
+        - images/snow.png
