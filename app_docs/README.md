@@ -14,6 +14,6 @@ When you install this app, you will be prompted for ServiceNow credentials. You 
 
 ![ServiceNow Configuration](images/snow.png)
 
-**NOTE**: If you'd rather not create an account, just fill in fake values when installing. You won't be able to test the ServiceNow API integration nor invoke the servicenow function if you use fake values.
+> If you'd rather not create an account, just fill in fake values when installing. You won't be able to test the ServiceNow API integration nor invoke the servicenow function if you use fake values.
 
 After installing the app, go to **Fusion SOAR** > **Workflows** to see the Test workflows for functions. Execute the **Test hello function** workflow to ensure it works. The host-details one won't succeed unless you change its `host_id` value to match a host in your CID. 
