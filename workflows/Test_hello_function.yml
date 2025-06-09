@@ -1,5 +1,5 @@
 name: Test hello function
-description: Workflow to invoke hello function
+description: Workflow to invoke the hello function
 provision_on_install: true
 trigger:
     next:

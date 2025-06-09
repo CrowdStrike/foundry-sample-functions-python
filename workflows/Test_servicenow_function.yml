@@ -1,5 +1,5 @@
 name: Test servicenow function
-description: Workflow to invoke servicenow function
+description: Workflow to invoke the servicenow function
 provision_on_install: true
 trigger:
     next:
