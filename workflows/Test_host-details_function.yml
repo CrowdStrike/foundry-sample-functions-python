@@ -8,4 +8,4 @@ actions:
     host_details_6d220b7a:
         id: functions.host-details.host-details
         properties:
-            host_id: "42"
+            host_id: "8f3e99d73be8434a83d9d328c02ce3ab"
