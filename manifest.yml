@@ -1,7 +1,7 @@
-app_id: 6ddb0b6688a345bdafaae5d5678477f3
+app_id: 911d4531429f4deb9bd79725c34912b7
 name: functions-python
 description: Foundry sample that shows how to use Python functions
-logo: "images/logo.png"
+logo: images/logo.png
 vendor: ""
 vendor_products: []
 use_case: Cloud security
@@ -77,7 +77,7 @@ functions:
             disruptive: false
             system_action: false
             tags:
-                - 6ddb0b6688a345bdafaae5d5678477f3
+                - 911d4531429f4deb9bd79725c34912b7
                 - Hello
                 - Functions
           permissions: []
@@ -101,7 +101,7 @@ functions:
             disruptive: false
             system_action: true
             tags:
-                - 6ddb0b6688a345bdafaae5d5678477f3
+                - 911d4531429f4deb9bd79725c34912b7
                 - Functions
                 - HostDetails
                 - FalconPy
@@ -126,7 +126,7 @@ functions:
             disruptive: false
             system_action: true
             tags:
-                - 6ddb0b6688a345bdafaae5d5678477f3
+                - 911d4531429f4deb9bd79725c34912b7
                 - Functions
                 - ServiceNow
                 - FalconPy
@@ -151,7 +151,7 @@ functions:
             disruptive: false
             system_action: true
             tags:
-                - 6ddb0b6688a345bdafaae5d5678477f3
+                - 911d4531429f4deb9bd79725c34912b7
                 - Functions
                 - Collections
                 - FalconPy
@@ -176,7 +176,7 @@ functions:
             disruptive: false
             system_action: false
             tags:
-                - 6ddb0b6688a345bdafaae5d5678477f3
+                - 911d4531429f4deb9bd79725c34912b7
                 - Multiple
           permissions: []
       language: python
@@ -199,7 +199,7 @@ functions:
             disruptive: false
             system_action: false
             tags:
-                - 6ddb0b6688a345bdafaae5d5678477f3
+                - 911d4531429f4deb9bd79725c34912b7
                 - Multiple
           permissions: []
       language: python
