@@ -1,7 +1,5 @@
 from falconfoundry import FoundryFunction, FoundryRequest, FoundryResponse, FoundryAPIError
 from falconpy import APIHarnessV2
-from logging import Logger
-from typing import Dict
 import time
 import os
 import uuid
@@ -10,7 +8,7 @@ func = FoundryFunction.instance()
 
 
 @func.handler(method='POST', path='/log-event')
-def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: Logger) -> FoundryResponse:
+def on_post(request: FoundryRequest) -> FoundryResponse:
     # Validate request
     if 'event_data' not in request.body:
         return FoundryResponse(
@@ -46,9 +44,6 @@ def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: L
                                       object_key=event_id,
                                       headers=headers
                                       )
-
-        # Log the raw response for troubleshooting
-        logger.info(f"Collections API response: {response}")
 
         if response["status_code"] != 200:
             error_message = response.get('error', {}).get('message', 'Unknown error')
