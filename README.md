@@ -91,10 +91,10 @@ This sample is designed to show how to use Python Functions in Falcon Foundry. I
 
 1. Python functions:
 
-   - **hello**: Simple greeting service
-   - **host-details**: Uses FalconPy to get Host details
-   - **servicenow**: Uses FalconPy to invoke an API Integration
-   - **log-event**: Uses FalconPy to store data in a collection
+   - [**hello**](functions/hello/main.py): Simple greeting service
+   - [**host-details**](functions/host-details/main.py): Uses FalconPy to get Host details
+   - [**servicenow**](functions/servicenow/main.py): Uses FalconPy to invoke an API Integration
+   - [**log-event**](functions/log-event/main.py): Uses FalconPy to store data in a collection
 
 2. Test workflows to invoke each function.
 3. A UI extension on **Endpoint security** > **Endpoint detections** that can be used to call the `hello` function.
