@@ -53,7 +53,6 @@ collections:
 auth:
     scopes:
         - devices:read
-        - api-integrations:read
     permissions: {}
     roles: []
 functions:
