@@ -1,12 +1,12 @@
-from falconfoundry import FoundryFunction, FoundryRequest, FoundryResponse, FoundryAPIError
+from crowdstrike.foundry.function import Function, Request, Response, APIError
 
 
-func = FoundryFunction.instance()
+func = Function.instance()
 
 
 # Handler hello
 @func.handler(method='POST', path='/hello')
-def on_post(request: FoundryRequest) -> FoundryResponse:
+def on_post(request: Request) -> Response:
 
     #
     # Replace the following example code with your handler code
@@ -17,14 +17,14 @@ def on_post(request: FoundryRequest) -> FoundryResponse:
     if 'name' not in request.body:
         # This example expects 'name' field in the request body and returns
         # an error response (400 - Bad Request) if not provided by the caller
-        return FoundryResponse(
+        return Response(
             code=400,
-            errors=[FoundryAPIError(code=400, message='missing name from request body')]
+            errors=[APIError(code=400, message='missing name from request body')]
         )
 
     # Demonstrates how to return a success response with JSON body
     # Replace with your response and update the response_schema.json to match
-    return FoundryResponse(
+    return Response(
         body={'greeting': f'Hello {request.body["name"]}! It is nice to see you.'},
         code=200,
     )

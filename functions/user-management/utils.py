@@ -1,7 +1,7 @@
 import re
 import json
 from typing import Dict, Any, Optional, Union, List
-from falconfoundry import FoundryAPIError
+from crowdstrike.foundry.function import APIError
 
 def validate_host_id(host_id: str) -> bool:
     """Validate that a host ID is in the correct format."""
@@ -16,7 +16,7 @@ def validate_email(email: str) -> bool:
 
 def format_error_response(message: str, code: int = 400) -> list[Any]:
     """Create a standardized error response."""
-    return [FoundryAPIError(code=code, message=message)]
+    return [APIError(code=code, message=message)]
 
 def safe_json_parse(data: str) -> Optional[Dict[str, Any]]:
     """Safely parse JSON data."""

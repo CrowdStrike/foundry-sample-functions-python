@@ -1,18 +1,18 @@
-from falconfoundry import FoundryFunction, FoundryRequest, FoundryResponse, FoundryAPIError
+from crowdstrike.foundry.function import Function, Request, Response, APIError
 # Import service collection you'd like to use
 from falconpy import Hosts
 
 
-func = FoundryFunction.instance()
+func = Function.instance()
 
 
 @func.handler(method='POST', path='/host-details')
-def on_post(request: FoundryRequest) -> FoundryResponse:
+def on_post(request: Request) -> Response:
     # Validate request
     if 'host_id' not in request.body:
-        return FoundryResponse(
+        return Response(
             code=400,
-            errors=[FoundryAPIError(code=400, message='missing host_id from request body')]
+            errors=[APIError(code=400, message='missing host_id from request body')]
         )
 
     host_id = request.body['host_id']
@@ -24,14 +24,14 @@ def on_post(request: FoundryRequest) -> FoundryResponse:
     response = falcon.get_device_details(ids=host_id)
 
     if response["status_code"] != 200:
-        return FoundryResponse(
+        return Response(
             code=response["status_code"],
-            errors=[FoundryAPIError(code=response["status_code"],
+            errors=[APIError(code=response["status_code"],
                                     message=f"Error retrieving host: {response['body']}")],
         )
 
     # Return host information
-    return FoundryResponse(
+    return Response(
         body={"host_details": response["body"]["resources"][0]},
         code=200,
     )

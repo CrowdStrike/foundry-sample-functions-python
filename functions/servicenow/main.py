@@ -1,13 +1,13 @@
-from falconfoundry import FoundryFunction, FoundryRequest, FoundryResponse, FoundryAPIError
+from crowdstrike.foundry.function import Function, Request, Response, APIError
 from falconpy import APIIntegrations
 from logging import Logger
 from typing import Dict
 
 
-func = FoundryFunction.instance()
+func = Function.instance()
 
 @func.handler(method='POST', path='/ticket')
-def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: Logger) -> FoundryResponse:
+def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) -> Response:
     """
     Create an incident ticket in ServiceNow using the Table API.
 
@@ -25,9 +25,9 @@ def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: L
     """
     # Validate required fields
     if 'title' not in request.body or 'description' not in request.body:
-        return FoundryResponse(
+        return Response(
             code=400,
-            errors=[FoundryAPIError(code=400, message='Missing required fields: title and description')]
+            errors=[APIError(code=400, message='Missing required fields: title and description')]
         )
 
     # Prepare payload for ServiceNow incident creation
@@ -76,9 +76,9 @@ def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: L
 
         if response["status_code"] >= 400:
             error_message = response.get('error', {}).get('message', 'Unknown error')
-            return FoundryResponse(
+            return Response(
                 code=response["status_code"],
-                errors=[FoundryAPIError(
+                errors=[APIError(
                     code=response["status_code"],
                     message=f"ServiceNow integration error: {error_message}"
                 )]
@@ -88,7 +88,7 @@ def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: L
         result = response["body"]["result"]
 
         # Return formatted response with incident details
-        return FoundryResponse(
+        return Response(
             body={
                 "incident_id": result["sys_id"],
                 "incident_number": result["number"],
@@ -102,9 +102,9 @@ def on_post(request: FoundryRequest, config: Dict[str, object] | None, logger: L
         )
     except Exception as e:
         logger.error(f"Error creating ServiceNow incident: {str(e)}", exc_info=True)
-        return FoundryResponse(
+        return Response(
             code=500,
-            errors=[FoundryAPIError(code=500, message=f"Error creating incident: {str(e)}")]
+            errors=[APIError(code=500, message=f"Error creating incident: {str(e)}")]
         )
 
 
