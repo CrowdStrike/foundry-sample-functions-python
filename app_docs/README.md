@@ -22,7 +22,7 @@ When you install this app, you will be prompted for ServiceNow credentials. You 
 
 ## Usage
 
-After installing the app, go to **Fusion SOAR** > **Workflows** to see the Test workflows for functions. Execute the **Test hello function** workflow to ensure it works. The host-details workflow won't succeed unless you change its `host_id` value to match a host in your CID. 
+After installing the app, go to **Fusion SOAR** > **Workflows** to see the test workflows for functions. Execute the **Test hello function** workflow to ensure it works. To execute the **Test host-details function** workflow successfully, enter a **Host ID** that matches a host in your CID. 
 
 To see the UI extension, go to **Endpoint security** > **Endpoint detections** and click on a detection. Look for the **hello** panel on the right. Click to expand, enter a name, and click the **Say Hello** button.
 

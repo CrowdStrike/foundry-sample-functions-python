@@ -4,8 +4,17 @@ provision_on_install: true
 trigger:
     next:
         - host_details_6d220b7a
+    name: On demand
+    parameters:
+        properties:
+            host_id:
+                type: string
+                title: Host ID
+        required:
+            - host_id
+        type: object
 actions:
     host_details_6d220b7a:
         id: functions.host-details.host-details
         properties:
-            host_id: "8f3e99d73be8434a83d9d328c02ce3ab"
+            host_id: ${host_id}
