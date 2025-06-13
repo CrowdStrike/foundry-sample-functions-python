@@ -1,19 +1,19 @@
-from falconfoundry import FoundryFunction, FoundryRequest, FoundryResponse, FoundryAPIError
+from crowdstrike.foundry.function import Function, Request, Response, APIError
 from falconpy import APIHarnessV2
 import time
 import os
 import uuid
 
-func = FoundryFunction.instance()
+func = Function.instance()
 
 
 @func.handler(method='POST', path='/log-event')
-def on_post(request: FoundryRequest) -> FoundryResponse:
+def on_post(request: Request) -> Response:
     # Validate request
     if 'event_data' not in request.body:
-        return FoundryResponse(
+        return Response(
             code=400,
-            errors=[FoundryAPIError(code=400, message='missing event_data')]
+            errors=[APIError(code=400, message='missing event_data')]
         )
 
     event_data = request.body['event_data']
@@ -47,9 +47,9 @@ def on_post(request: FoundryRequest) -> FoundryResponse:
 
         if response["status_code"] != 200:
             error_message = response.get('error', {}).get('message', 'Unknown error')
-            return FoundryResponse(
+            return Response(
                 code=response["status_code"],
-                errors=[FoundryAPIError(
+                errors=[APIError(
                     code=response["status_code"],
                     message=f"Failed to store event: {error_message}"
                 )]
@@ -63,7 +63,7 @@ def on_post(request: FoundryRequest) -> FoundryResponse:
                                             headers=headers
                                             )
 
-        return FoundryResponse(
+        return Response(
             body={
                 "stored": True,
                 "metadata": query_response.get("body").get("resources", [])
@@ -71,9 +71,9 @@ def on_post(request: FoundryRequest) -> FoundryResponse:
             code=200
         )
     except Exception as e:
-        return FoundryResponse(
+        return Response(
             code=500,
-            errors=[FoundryAPIError(code=500, message=f"Error saving collection: {str(e)}")]
+            errors=[APIError(code=500, message=f"Error saving collection: {str(e)}")]
         )
 
 

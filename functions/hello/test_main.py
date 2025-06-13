@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from falconfoundry import FoundryRequest
+from crowdstrike.foundry.function import Request
 
 def mock_handler(*args, **kwargs):
     def identity(func):
@@ -10,7 +10,7 @@ def mock_handler(*args, **kwargs):
 
 class FnTestCase(unittest.TestCase):
     def setUp(self):
-        patcher = patch('falconfoundry.FoundryFunction.handler', new=mock_handler)
+        patcher = patch('crowdstrike.foundry.function.Function.handler', new=mock_handler)
         self.addCleanup(patcher.stop)
         self.handler_patch = patcher.start()
 
@@ -20,7 +20,7 @@ class FnTestCase(unittest.TestCase):
 
     def test_on_post_success(self):
         from main import on_post
-        request = FoundryRequest()
+        request = Request()
         request.body = {
             "name": "Test User"
         }
@@ -31,7 +31,7 @@ class FnTestCase(unittest.TestCase):
 
     def test_on_post_missing_name(self):
         from main import on_post
-        request = FoundryRequest()
+        request = Request()
 
         response = on_post(request)
         self.assertEqual(response.code, 400)
