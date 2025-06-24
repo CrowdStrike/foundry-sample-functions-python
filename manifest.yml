@@ -1,5 +1,5 @@
-app_id: 2a51ccfdce4b4633b474241517bad918
-name: functions-python
+app_id: ""
+name: Functions with Python
 description: Foundry sample that shows how to use Python functions
 logo: app_docs/images/logo.png
 vendor: ""
@@ -14,7 +14,7 @@ ignored:
 ui:
   homepage: ""
   extensions:
-    - id: d9c0db66bf9f4f7f913041405766d7f4
+    - id: ""
       name: hello
       description: UI to call the hello function
       path: ui/extensions/hello/src/dist
@@ -36,7 +36,7 @@ ui:
   dashboards: {}
   navigation: {}
 api_integrations:
-  - id: 77a7be518bcb4df99bffa926daf2593f
+  - id: ""
     name: ServiceNow
     description: Allows you to perform CRUD operations on tables
     path: api-integrations/ServiceNow.json
@@ -56,7 +56,7 @@ auth:
   permissions: {}
   roles: []
 functions:
-  - id: 4d4c12e18a94497fbf8f182f699342ba
+  - id: ""
     name: hello
     config: null
     description: Returns a greeting based on name input
@@ -71,16 +71,16 @@ functions:
         request_schema: request_schema.json
         response_schema: response_schema.json
         workflow_integration:
-          id: 7a6370010f594d3fb4f555e5c53f173a
+          id: ""
           disruptive: false
           system_action: false
           tags:
-            - 911d4531429f4deb9bd79725c34912b7
+            - ""
             - Hello
             - Functions
         permissions: []
     language: python
-  - id: 7002ee67469a47b4b346632f2f3cc5d9
+  - id: ""
     name: host-details
     config: null
     description: Get Device Details using FalconPy
@@ -95,17 +95,17 @@ functions:
         request_schema: request_schema.json
         response_schema: response_schema.json
         workflow_integration:
-          id: a695f317cf2a47b49e24beaefb4da128
+          id: ""
           disruptive: false
           system_action: true
           tags:
-            - 911d4531429f4deb9bd79725c34912b7
+            - ""
             - Functions
             - HostDetails
             - FalconPy
         permissions: []
     language: python
-  - id: 078ff8d8dcc24f7188d455a9aa9aecc4
+  - id: ""
     name: servicenow
     config: null
     description: Create ServiceNow Ticket
@@ -120,17 +120,17 @@ functions:
         request_schema: request_schema.json
         response_schema: response_schema.json
         workflow_integration:
-          id: 7860b842e231471cbcea36c994fbe682
+          id: ""
           disruptive: false
           system_action: true
           tags:
-            - 911d4531429f4deb9bd79725c34912b7
+            - ""
             - Functions
             - ServiceNow
             - FalconPy
         permissions: []
     language: python
-  - id: b6f9f57dc5634101b1f0c75539eb181f
+  - id: ""
     name: log-event
     config: null
     description: Store Data in a Collection
@@ -145,17 +145,17 @@ functions:
         request_schema: request_schema.json
         response_schema: response_schema.json
         workflow_integration:
-          id: 324bd526a6aa4ac8acdf9973f1a0edb8
+          id: ""
           disruptive: false
           system_action: true
           tags:
-            - 911d4531429f4deb9bd79725c34912b7
+            - ""
             - Functions
             - Collections
             - FalconPy
         permissions: []
     language: python
-  - id: 646b3a7a261d4ee8b816ca34070173b0
+  - id: ""
     name: host-info
     config: null
     description: Get Host Information
@@ -170,15 +170,15 @@ functions:
         request_schema: request_schema.json
         response_schema: response_schema.json
         workflow_integration:
-          id: b8f1150310e745fbad9e899ff8770de2
+          id: ""
           disruptive: false
           system_action: false
           tags:
-            - 911d4531429f4deb9bd79725c34912b7
+            - ""
             - Multiple
         permissions: []
     language: python
-  - id: 915f9e9baeb04476b70545443880f7b9
+  - id: ""
     name: user-management
     config: null
     description: Create a User
@@ -193,28 +193,28 @@ functions:
         request_schema: request_schema.json
         response_schema: response_schema.json
         workflow_integration:
-          id: d9c116ed5766444a9ab9e39cdf160e9a
+          id: ""
           disruptive: false
           system_action: false
           tags:
-            - 911d4531429f4deb9bd79725c34912b7
+            - ""
             - Multiple
         permissions: []
     language: python
 workflows:
-  - id: 8b65c69113d74aae88538a4fe4a8c610
+  - id: ""
     name: Test log-event function
     path: workflows/Test_log-event_function.yml
     permissions: []
-  - id: 9b524e9b83164979a267654a75c5378c
+  - id: ""
     name: Test hello function
     path: workflows/Test_hello_function.yml
     permissions: []
-  - id: f4d40f45023f44d186c0c5bef138f142
+  - id: ""
     name: Test host-details function
     path: workflows/Test_host-details_function.yml
     permissions: []
-  - id: a25c6642b21141f794bfff18905a12c6
+  - id: ""
     name: Test servicenow function
     path: workflows/Test_servicenow_function.yml
     permissions: []
@@ -223,7 +223,7 @@ logscale:
   saved_searches: []
 lookup_files: []
 docs:
-  id: e761f8b6b31747d9a862a9dd7827d0c3
+  id: ""
   path: app_docs
   entrypoint: README.md
   links:
