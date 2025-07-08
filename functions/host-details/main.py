@@ -2,7 +2,6 @@ from crowdstrike.foundry.function import Function, Request, Response, APIError
 # Import service collection you'd like to use
 from falconpy import Hosts
 
-
 func = Function.instance()
 
 
@@ -27,7 +26,7 @@ def on_post(request: Request) -> Response:
         return Response(
             code=response["status_code"],
             errors=[APIError(code=response["status_code"],
-                                    message=f"Error retrieving host: {response['body']}")],
+                             message=f"Error retrieving host: {response['body']}")],
         )
 
     # Return host information
@@ -35,6 +34,7 @@ def on_post(request: Request) -> Response:
         body={"host_details": response["body"]["resources"][0]},
         code=200,
     )
+
 
 if __name__ == '__main__':
     func.run()

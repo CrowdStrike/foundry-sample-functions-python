@@ -1,13 +1,11 @@
 from crowdstrike.foundry.function import Function, Request, Response, APIError
 
-
 func = Function.instance()
 
 
 # Handler hello
 @func.handler(method='POST', path='/hello')
 def on_post(request: Request) -> Response:
-
     #
     # Replace the following example code with your handler code
     #

@@ -1,8 +1,9 @@
+import os
+import time
+import uuid
+
 from crowdstrike.foundry.function import Function, Request, Response, APIError
 from falconpy import APIHarnessV2
-import time
-import os
-import uuid
 
 func = Function.instance()
 

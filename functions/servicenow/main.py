@@ -1,10 +1,11 @@
-from crowdstrike.foundry.function import Function, Request, Response, APIError
-from falconpy import APIIntegrations
 from logging import Logger
 from typing import Dict
 
+from crowdstrike.foundry.function import Function, Request, Response, APIError
+from falconpy import APIIntegrations
 
 func = Function.instance()
+
 
 @func.handler(method='POST', path='/ticket')
 def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) -> Response:

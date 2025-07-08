@@ -3,10 +3,13 @@ from unittest.mock import patch
 
 from crowdstrike.foundry.function import Request
 
+
 def mock_handler(*args, **kwargs):
     def identity(func):
         return func
+
     return identity
+
 
 class FnTestCase(unittest.TestCase):
     def setUp(self):
@@ -37,6 +40,7 @@ class FnTestCase(unittest.TestCase):
         self.assertEqual(response.code, 400)
         self.assertEqual(len(response.errors), 1)
         self.assertEqual(response.errors[0].message, 'missing name from request body')
+
 
 if __name__ == '__main__':
     unittest.main()
