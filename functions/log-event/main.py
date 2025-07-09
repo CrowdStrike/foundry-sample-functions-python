@@ -40,11 +40,11 @@ def on_post(request: Request) -> Response:
         collection_name = "event_logs"
 
         response = api_client.command("PutObject",
-                                      body=json,
-                                      collection_name=collection_name,
-                                      object_key=event_id,
-                                      headers=headers
-                                      )
+            body=json,
+            collection_name=collection_name,
+            object_key=event_id,
+            headers=headers
+        )
 
         if response["status_code"] != 200:
             error_message = response.get('error', {}).get('message', 'Unknown error')
@@ -58,11 +58,11 @@ def on_post(request: Request) -> Response:
 
         # Query the collection to retrieve the event by id
         query_response = api_client.command("SearchObjects",
-                                            filter=f"event_id:'{event_id}'",
-                                            collection_name=collection_name,
-                                            limit=5,
-                                            headers=headers
-                                            )
+            filter=f"event_id:'{event_id}'",
+            collection_name=collection_name,
+            limit=5,
+            headers=headers
+        )
 
         return Response(
             body={
