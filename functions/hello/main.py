@@ -23,7 +23,7 @@ def on_post(request: Request) -> Response:
     # Demonstrates how to return a success response with JSON body
     # Replace with your response and update the response_schema.json to match
     return Response(
-        body={"greeting": f"Hello {request.body["name"]}! It is nice to see you."},
+        body={"greeting": f"Hello {request.body['name']}! It is nice to see you."},
         code=200,
     )
 
