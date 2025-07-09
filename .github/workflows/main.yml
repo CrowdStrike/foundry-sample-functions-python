@@ -52,3 +52,13 @@ jobs:
           cat output.log
           exit 1
         working-directory: functions/${{ matrix.function }}
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ui/extensions/hello
+      - name: Build React app
+        run: npm run build
+        working-directory: ui/extensions/hello
