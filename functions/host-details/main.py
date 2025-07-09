@@ -26,7 +26,7 @@ def on_post(request: Request) -> Response:
         return Response(
             code=response["status_code"],
             errors=[APIError(code=response["status_code"],
-                message=f"Error retrieving host: {response['body']}")],
+                             message=f"Error retrieving host: {response['body']}")],
         )
 
     # Return host information
