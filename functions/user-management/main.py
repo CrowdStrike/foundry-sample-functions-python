@@ -8,7 +8,6 @@ from utils import validate_email, format_error_response
 func = Function.instance()
 
 
-# Handler on_post
 @func.handler(method="POST", path="/create-user")
 def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) -> Response:
     email = request.body.get("email")

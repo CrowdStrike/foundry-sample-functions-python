@@ -8,7 +8,6 @@ from utils import validate_host_id, format_error_response
 func = Function.instance()
 
 
-# Handler on_post
 @func.handler(method="POST", path="/host-info")
 def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) -> Response:
     host_id = request.body.get("host_id")
