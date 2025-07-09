@@ -9,9 +9,9 @@ func = Function.instance()
 
 
 # Handler on_post
-@func.handler(method='POST', path='/create-user')
+@func.handler(method="POST", path="/create-user")
 def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) -> Response:
-    email = request.body.get('email')
+    email = request.body.get("email")
 
     logger.info(f"Email: {email}")
     logger.info(f"Is valid? {validate_email(email)}")
@@ -27,5 +27,5 @@ def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) 
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     func.run()

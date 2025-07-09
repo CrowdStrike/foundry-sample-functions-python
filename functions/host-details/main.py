@@ -5,16 +5,16 @@ from falconpy import Hosts
 func = Function.instance()
 
 
-@func.handler(method='POST', path='/host-details')
+@func.handler(method="POST", path="/host-details")
 def on_post(request: Request) -> Response:
     # Validate request
-    if 'host_id' not in request.body:
+    if "host_id" not in request.body:
         return Response(
             code=400,
-            errors=[APIError(code=400, message='missing host_id from request body')]
+            errors=[APIError(code=400, message="missing host_id from request body")]
         )
 
-    host_id = request.body['host_id']
+    host_id = request.body["host_id"]
 
     # Initialize the Hosts class with context-aware authentication
     falcon = Hosts()
@@ -36,5 +36,5 @@ def on_post(request: Request) -> Response:
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     func.run()

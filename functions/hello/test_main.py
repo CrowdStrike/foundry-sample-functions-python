@@ -13,7 +13,7 @@ def mock_handler(*args, **kwargs):
 
 class FnTestCase(unittest.TestCase):
     def setUp(self):
-        patcher = patch('crowdstrike.foundry.function.Function.handler', new=mock_handler)
+        patcher = patch("crowdstrike.foundry.function.Function.handler", new=mock_handler)
         self.addCleanup(patcher.stop)
         self.handler_patch = patcher.start()
 
@@ -30,7 +30,7 @@ class FnTestCase(unittest.TestCase):
 
         response = on_post(request)
         self.assertEqual(response.code, 200)
-        self.assertEqual(response.body['greeting'], 'Hello Test User! It is nice to see you.')
+        self.assertEqual(response.body["greeting"], "Hello Test User! It is nice to see you.")
 
     def test_on_post_missing_name(self):
         from main import on_post
@@ -39,8 +39,8 @@ class FnTestCase(unittest.TestCase):
         response = on_post(request)
         self.assertEqual(response.code, 400)
         self.assertEqual(len(response.errors), 1)
-        self.assertEqual(response.errors[0].message, 'missing name from request body')
+        self.assertEqual(response.errors[0].message, "missing name from request body")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -9,9 +9,9 @@ func = Function.instance()
 
 
 # Handler on_post
-@func.handler(method='POST', path='/host-info')
+@func.handler(method="POST", path="/host-info")
 def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) -> Response:
-    host_id = request.body.get('host_id')
+    host_id = request.body.get("host_id")
 
     logger.info(f"Host ID: {host_id}")
     logger.info(f"Is valid? {validate_host_id(host_id)}")
@@ -27,5 +27,5 @@ def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) 
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     func.run()

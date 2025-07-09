@@ -7,7 +7,7 @@ from falconpy import APIIntegrations
 func = Function.instance()
 
 
-@func.handler(method='POST', path='/ticket')
+@func.handler(method="POST", path="/ticket")
 def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) -> Response:
     """
     Create an incident ticket in ServiceNow using the Table API.
@@ -25,10 +25,10 @@ def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) 
     - caller_id: User ID of the caller
     """
     # Validate required fields
-    if 'title' not in request.body or 'description' not in request.body:
+    if "title" not in request.body or "description" not in request.body:
         return Response(
             code=400,
-            errors=[APIError(code=400, message='Missing required fields: title and description')]
+            errors=[APIError(code=400, message="Missing required fields: title and description")]
         )
 
     # Prepare payload for ServiceNow incident creation
@@ -76,7 +76,7 @@ def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) 
         logger.info(f"ServiceNow API response: {response}")
 
         if response["status_code"] >= 400:
-            error_message = response.get('error', {}).get('message', 'Unknown error')
+            error_message = response.get("error", {}).get("message", "Unknown error")
             return Response(
                 code=response["status_code"],
                 errors=[APIError(
@@ -109,5 +109,5 @@ def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) 
         )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     func.run()
