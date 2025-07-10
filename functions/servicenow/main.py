@@ -102,12 +102,14 @@ def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) 
             code=201 if response["status_code"] == 200 else response["status_code"]
         )
     except ValueError as e:
+        # ValueError can be thrown if one of the fields accessed in the response does not exist
         logger.error(f"Error processing ServiceNow response: {str(e)}", exc_info=True)
         return Response(
             code=500,
             errors=[APIError(code=500, message=f"Error creating incident: {str(e)}")]
         )
     except Exception as e:
+        # Catch-all for unexpected errors
         logger.error(f"Error creating ServiceNow incident: {str(e)}", exc_info=True)
         return Response(
             code=500,
