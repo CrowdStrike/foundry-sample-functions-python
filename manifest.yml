@@ -1,6 +1,6 @@
 app_id: ""
 name: Functions with Python
-description: Foundry sample that shows how to use Python functions
+description: Production-ready Python function examples - FalconPy SDK, API integrations, Collections, workflows, and UI extensions with comprehensive testing
 logo: app_docs/images/logo.png
 vendor: ""
 vendor_products: []
