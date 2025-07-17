@@ -1,0 +1,8 @@
+{
+  "body": {
+    "name": "Banu"
+  },
+  "method": "POST",
+  "url": "/hello"
+}
+
