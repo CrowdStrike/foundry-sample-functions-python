@@ -11,6 +11,11 @@ updates:
       - "/functions/user-management/"
     schedule:
       interval: weekly
+  - package-ecosystem: npm
+    directory: "/ui/extensions/hello/"
+    open-pull-requests-limit: 10
+    schedule:
+      interval: weekly
   - package-ecosystem: github-actions
     directory: "/"
     schedule:

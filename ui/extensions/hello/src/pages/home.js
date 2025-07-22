@@ -34,7 +34,7 @@ function Home() {
       const response = await helloFunction.path('/hello')
         .post({ name: name });
 
-      if (!response.status_code === 200) {
+      if (response.status_code !== 200) {
         throw new Error(`Function call failed: ${response.status_code} ${response.errors}`);
       }
 
