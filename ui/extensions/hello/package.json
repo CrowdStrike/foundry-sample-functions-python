@@ -1,9 +1,16 @@
 {
   "name": "hello",
   "version": "1.0.0",
-  "license": "MIT",
   "private": true,
+  "license": "MIT",
   "directories": {},
+  "scripts": {
+    "build": "rollup -c ./config/rollup.config.js",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "watch": "npm run build -- --watch"
+  },
   "dependencies": {
     "@crowdstrike/falcon-shoelace": "^0.4.0",
     "@crowdstrike/foundry-js": "^0.18.0",
@@ -22,39 +29,37 @@
     "@rollup/plugin-json": "6.1.0",
     "@rollup/plugin-node-resolve": "16.0.1",
     "@rollup/plugin-replace": "6.0.2",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@web/rollup-plugin-html": "2.3.0",
+    "jest": "^30.0.5",
+    "jest-environment-jsdom": "^30.0.5",
     "postcss": "^8.5.6",
     "rollup": "4.45.1",
-    "rollup-plugin-postcss": "^4.0.2",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/user-event": "^14.6.1",
-    "jest": "^30.0.5",
-    "jest-environment-jsdom": "^30.0.5"
-  },
-  "scripts": {
-    "build": "rollup -c ./config/rollup.config.js",
-    "watch": "npm run build -- --watch",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "rollup-plugin-postcss": "^4.0.2"
   },
   "jest": {
-    "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": ["<rootDir>/src/setupTests.js"],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
     "moduleNameMapper": {
       "\\.(css|less|scss|sass)$": "identity-obj-proxy",
       "@crowdstrike/foundry-js": "<rootDir>/src/__mocks__/@crowdstrike/foundry-js.js"
     },
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.js"
+    ],
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "<rootDir>/src/**/*.{test,spec}.{js,jsx}"
+    ],
     "transform": {
       "^.+\\.(js|jsx)$": "babel-jest"
     },
     "transformIgnorePatterns": [
       "node_modules/(?!(@crowdstrike|@shoelace-style)/)"
-    ],
-    "moduleFileExtensions": ["js", "jsx"],
-    "testMatch": [
-      "<rootDir>/src/**/*.{test,spec}.{js,jsx}"
     ]
   },
   "engines": {
