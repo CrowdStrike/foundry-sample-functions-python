@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Home } from './Home';
+import { Home } from './home';
 import { FalconApiContext } from '../contexts/falcon-api-context';
 
 // Mock the Link component
