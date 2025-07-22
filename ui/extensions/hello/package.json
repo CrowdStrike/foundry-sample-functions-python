@@ -7,6 +7,7 @@
   "scripts": {
     "build": "rollup -c ./config/rollup.config.js",
     "test": "jest",
+    "test:ci": "jest --coverage --watchAll=false",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "watch": "npm run build -- --watch"

@@ -69,5 +69,5 @@ jobs:
         run: npm run build
         working-directory: ui/extensions/hello
       - name: Test React app
-        run: npm test
+        run: npm run test:ci
         working-directory: ui/extensions/hello
