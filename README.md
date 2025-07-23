@@ -16,7 +16,7 @@ The Functions with Python sample Foundry app shows how to use Python functions w
 ## Prerequisites
 
 * The Foundry CLI (instructions below).
-* Python 3.9+ (needed if running the app's functions locally). See [Python For Beginners](https://www.python.org/about/gettingstarted/) for installation instructions.
+* Python 3.13+ (needed if running the app's functions locally). See [Python For Beginners](https://www.python.org/about/gettingstarted/) for installation instructions.
 
 ### Install the Foundry CLI
 
