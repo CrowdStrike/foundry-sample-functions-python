@@ -1,4 +1,4 @@
-name: Rebuild sample
+name: Rebuild sample UI
 on:
   schedule:
     - cron: 0 0 * * 2
@@ -30,7 +30,7 @@ jobs:
       - name: Create commit
         run: |
           git add .
-          git commit -a -m "Rebuild with latest dependencies" || true
+          git commit -a -m "Rebuild UI with latest dependencies" || true
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
