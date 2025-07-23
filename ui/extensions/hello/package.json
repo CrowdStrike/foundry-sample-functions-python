@@ -4,6 +4,7 @@
   "private": true,
   "license": "MIT",
   "directories": {},
+  "type": "module",
   "scripts": {
     "build": "rollup -c ./config/rollup.config.js",
     "test": "jest",

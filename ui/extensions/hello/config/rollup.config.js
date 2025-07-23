@@ -23,6 +23,8 @@ export default defineConfig([
       }),
       babel({
         presets: ["@babel/preset-react"],
+        babelHelpers: 'bundled',
+        exclude: 'node_modules/**'
       }),
       commonjs(),
       nodeResolve({
@@ -37,6 +39,7 @@ export default defineConfig([
     ],
     onwarn: (msg, warn) => {
       if (msg.code === 'THIS_IS_UNDEFINED') return;
+      if (msg.code === 'MODULE_LEVEL_DIRECTIVE') return;
       if (!/Circular/.test(`${msg}`)) {
         warn(msg)
       }

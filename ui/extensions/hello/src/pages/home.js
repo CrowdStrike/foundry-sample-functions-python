@@ -82,6 +82,7 @@ function Home() {
               onKeyDown={handleKeyPress}
               clearable
               style={{ flex: 1 }}
+              required="true"
             ></SlInput>
             <sl-button
               variant="primary"
