@@ -42,8 +42,9 @@ class FnTestCase(unittest.TestCase):
         self.assertEqual(response.code, 200)
         self.assertEqual(response.body["email"], "user@example.com")
 
-        # Verify validation was called with correct email
-        mock_validate_email.assert_called_once_with("user@example.com")
+        # Verify validation was called twice (once for logging, once for condition)
+        self.assertEqual(mock_validate_email.call_count, 2)
+        mock_validate_email.assert_called_with("user@example.com")
 
         # Verify logger was called
         self.assertEqual(mock_logger.info.call_count, 2)
@@ -77,8 +78,9 @@ class FnTestCase(unittest.TestCase):
         # Should return error response
         self.assertEqual(response.errors, [{"code": 400, "message": "Invalid email format"}])
 
-        # Verify validation was called with correct email
-        mock_validate_email.assert_called_once_with("invalid-email")
+        # Verify validation was called twice (once for logging, once for condition)
+        self.assertEqual(mock_validate_email.call_count, 2)
+        mock_validate_email.assert_called_with("invalid-email")
 
         # Verify error formatting was called
         mock_format_error.assert_called_once_with("Invalid email format")
@@ -110,8 +112,9 @@ class FnTestCase(unittest.TestCase):
         # Should return error response
         self.assertEqual(response.errors, [{"code": 400, "message": "Invalid email format"}])
 
-        # Verify validation was called with None
-        mock_validate_email.assert_called_once_with(None)
+        # Verify validation was called twice (once for logging, once for condition)
+        self.assertEqual(mock_validate_email.call_count, 2)
+        mock_validate_email.assert_called_with(None)
 
         # Verify error formatting was called
         mock_format_error.assert_called_once_with("Invalid email format")
@@ -145,8 +148,9 @@ class FnTestCase(unittest.TestCase):
         # Should return error response
         self.assertEqual(response.errors, [{"code": 400, "message": "Invalid email format"}])
 
-        # Verify validation was called with empty string
-        mock_validate_email.assert_called_once_with("")
+        # Verify validation was called twice (once for logging, once for condition)
+        self.assertEqual(mock_validate_email.call_count, 2)
+        mock_validate_email.assert_called_with("")
 
         # Verify error formatting was called
         mock_format_error.assert_called_once_with("Invalid email format")
@@ -191,8 +195,9 @@ class FnTestCase(unittest.TestCase):
                 self.assertEqual(response.code, 200)
                 self.assertEqual(response.body["email"], email)
 
-                # Verify validation was called with correct email
-                mock_validate_email.assert_called_once_with(email)
+                # Verify validation was called twice (once for logging, once for condition)
+                self.assertEqual(mock_validate_email.call_count, 2)
+                mock_validate_email.assert_called_with(email)
 
                 # Verify format_error_response was not called
                 mock_format_error.assert_not_called()
@@ -235,8 +240,9 @@ class FnTestCase(unittest.TestCase):
                 # Should return error response
                 self.assertEqual(response.errors, [{"code": 400, "message": "Invalid email format"}])
 
-                # Verify validation was called with correct email
-                mock_validate_email.assert_called_once_with(email)
+                # Verify validation was called twice (once for logging, once for condition)
+                self.assertEqual(mock_validate_email.call_count, 2)
+                mock_validate_email.assert_called_with(email)
 
                 # Verify error formatting was called
                 mock_format_error.assert_called_once_with("Invalid email format")
@@ -265,8 +271,9 @@ class FnTestCase(unittest.TestCase):
         self.assertEqual(response.code, 200)
         self.assertEqual(response.body["email"], "newuser@company.com")
 
-        # Verify validation was called
-        mock_validate_email.assert_called_once_with("newuser@company.com")
+        # Verify validation was called twice (once for logging, once for condition)
+        self.assertEqual(mock_validate_email.call_count, 2)
+        mock_validate_email.assert_called_with("newuser@company.com")
 
         # Verify logger was called
         self.assertEqual(mock_logger.info.call_count, 2)
@@ -293,8 +300,9 @@ class FnTestCase(unittest.TestCase):
         self.assertEqual(response.code, 200)
         self.assertEqual(response.body["email"], "User.Name@EXAMPLE.COM")
 
-        # Verify validation was called with the exact email as provided
-        mock_validate_email.assert_called_once_with("User.Name@EXAMPLE.COM")
+        # Verify validation was called twice (once for logging, once for condition)
+        self.assertEqual(mock_validate_email.call_count, 2)
+        mock_validate_email.assert_called_with("User.Name@EXAMPLE.COM")
 
         # Verify logger was called with the exact email
         mock_logger.info.assert_any_call("Email: User.Name@EXAMPLE.COM")
@@ -322,8 +330,9 @@ class FnTestCase(unittest.TestCase):
         # Should return error response (assuming validation handles whitespace)
         self.assertEqual(response.errors, [{"code": 400, "message": "Invalid email format"}])
 
-        # Verify validation was called with the exact email including whitespace
-        mock_validate_email.assert_called_once_with(" user@example.com ")
+        # Verify validation was called twice (once for logging, once for condition)
+        self.assertEqual(mock_validate_email.call_count, 2)
+        mock_validate_email.assert_called_with(" user@example.com ")
 
 
 if __name__ == "__main__":

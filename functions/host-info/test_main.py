@@ -42,8 +42,9 @@ class FnTestCase(unittest.TestCase):
         self.assertEqual(response.code, 200)
         self.assertEqual(response.body["host"], "valid-host-123")
 
-        # Verify validation was called with correct host_id
-        mock_validate_host_id.assert_called_once_with("valid-host-123")
+        # Verify validation was called twice (once for logging, once for condition)
+        self.assertEqual(mock_validate_host_id.call_count, 2)
+        mock_validate_host_id.assert_called_with("valid-host-123")
 
         # Verify logger was called
         self.assertEqual(mock_logger.info.call_count, 2)
@@ -77,8 +78,9 @@ class FnTestCase(unittest.TestCase):
         # Should return error response (default code is likely 400)
         self.assertEqual(response.errors, [{"code": 400, "message": "Invalid host ID format"}])
 
-        # Verify validation was called with correct host_id
-        mock_validate_host_id.assert_called_once_with("invalid-host")
+        # Verify validation was called twice (once for logging, once for condition)
+        self.assertEqual(mock_validate_host_id.call_count, 2)
+        mock_validate_host_id.assert_called_with("invalid-host")
 
         # Verify error formatting was called
         mock_format_error.assert_called_once_with("Invalid host ID format")
@@ -110,8 +112,9 @@ class FnTestCase(unittest.TestCase):
         # Should return error response
         self.assertEqual(response.errors, [{"code": 400, "message": "Invalid host ID format"}])
 
-        # Verify validation was called with None
-        mock_validate_host_id.assert_called_once_with(None)
+        # Verify validation was called twice (once for logging, once for condition)
+        self.assertEqual(mock_validate_host_id.call_count, 2)
+        mock_validate_host_id.assert_called_with(None)
 
         # Verify error formatting was called
         mock_format_error.assert_called_once_with("Invalid host ID format")
@@ -145,8 +148,9 @@ class FnTestCase(unittest.TestCase):
         # Should return error response
         self.assertEqual(response.errors, [{"code": 400, "message": "Invalid host ID format"}])
 
-        # Verify validation was called with empty string
-        mock_validate_host_id.assert_called_once_with("")
+        # Verify validation was called twice (once for logging, once for condition)
+        self.assertEqual(mock_validate_host_id.call_count, 2)
+        mock_validate_host_id.assert_called_with("")
 
         # Verify error formatting was called
         mock_format_error.assert_called_once_with("Invalid host ID format")
@@ -180,8 +184,9 @@ class FnTestCase(unittest.TestCase):
         self.assertEqual(response.code, 200)
         self.assertEqual(response.body["host"], "test-host-456")
 
-        # Verify validation was called
-        mock_validate_host_id.assert_called_once_with("test-host-456")
+        # Verify validation was called twice (once for logging, once for condition)
+        self.assertEqual(mock_validate_host_id.call_count, 2)
+        mock_validate_host_id.assert_called_with("test-host-456")
 
         # Verify logger was called
         self.assertEqual(mock_logger.info.call_count, 2)
