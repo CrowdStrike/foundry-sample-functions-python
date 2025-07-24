@@ -16,6 +16,7 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Calls the 'hello' cloud function with the user's name and displays the response
   const fetchGreeting = async () => {
     if (!name.trim()) {
       setError("Please enter a name first");
@@ -81,6 +82,7 @@ function Home() {
               onKeyDown={handleKeyPress}
               clearable
               style={{ flex: 1 }}
+              required="true"
             ></SlInput>
             <sl-button
               variant="primary"
