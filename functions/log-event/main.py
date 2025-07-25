@@ -8,16 +8,16 @@ from falconpy import APIHarnessV2
 func = Function.instance()
 
 
-@func.handler(method='POST', path='/log-event')
+@func.handler(method="POST", path="/log-event")
 def on_post(request: Request) -> Response:
     # Validate request
-    if 'event_data' not in request.body:
+    if "event_data" not in request.body:
         return Response(
             code=400,
-            errors=[APIError(code=400, message='missing event_data')]
+            errors=[APIError(code=400, message="missing event_data")]
         )
 
-    event_data = request.body['event_data']
+    event_data = request.body["event_data"]
 
     try:
         # Store data in a collection
@@ -47,7 +47,7 @@ def on_post(request: Request) -> Response:
                                       )
 
         if response["status_code"] != 200:
-            error_message = response.get('error', {}).get('message', 'Unknown error')
+            error_message = response.get("error", {}).get("message", "Unknown error")
             return Response(
                 code=response["status_code"],
                 errors=[APIError(
@@ -78,5 +78,5 @@ def on_post(request: Request) -> Response:
         )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     func.run()
