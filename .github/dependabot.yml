@@ -4,10 +4,9 @@ updates:
     directories:
       - "/functions/hello/"
       - "/functions/host-details/"
-      - "/functions/hosts-query/"
+      - "/functions/host-info/"
       - "/functions/log-event/"
       - "/functions/servicenow/"
-      - "/functions/host-info/"
       - "/functions/user-management/"
     schedule:
       interval: weekly
