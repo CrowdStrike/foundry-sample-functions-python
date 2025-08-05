@@ -570,7 +570,7 @@ function requireReact_production () {
 	react_production.useTransition = function () {
 	  return ReactSharedInternals.H.useTransition();
 	};
-	react_production.version = "19.1.0";
+	react_production.version = "19.1.1";
 	return react_production;
 }
 
@@ -3895,7 +3895,7 @@ function useFalconApiContext() {
 }
 
 /**
- * react-router v7.7.0
+ * react-router v7.7.1
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -4640,68 +4640,71 @@ function _renderMatches(matches, parentMatches = [], dataRouterState = null, fut
       }
     }
   }
-  return renderedMatches.reduceRight((outlet, match, index) => {
-    let error;
-    let shouldRenderHydrateFallback = false;
-    let errorElement = null;
-    let hydrateFallbackElement = null;
-    if (dataRouterState) {
-      error = errors && match.route.id ? errors[match.route.id] : void 0;
-      errorElement = match.route.errorElement || defaultErrorElement;
-      if (renderFallback) {
-        if (fallbackIndex < 0 && index === 0) {
-          warningOnce(
-            "route-fallback",
-            false,
-            "No `HydrateFallback` element provided to render during initial hydration"
-          );
-          shouldRenderHydrateFallback = true;
-          hydrateFallbackElement = null;
-        } else if (fallbackIndex === index) {
-          shouldRenderHydrateFallback = true;
-          hydrateFallbackElement = match.route.hydrateFallbackElement || null;
+  return renderedMatches.reduceRight(
+    (outlet, match, index) => {
+      let error;
+      let shouldRenderHydrateFallback = false;
+      let errorElement = null;
+      let hydrateFallbackElement = null;
+      if (dataRouterState) {
+        error = errors && match.route.id ? errors[match.route.id] : void 0;
+        errorElement = match.route.errorElement || defaultErrorElement;
+        if (renderFallback) {
+          if (fallbackIndex < 0 && index === 0) {
+            warningOnce(
+              "route-fallback",
+              false,
+              "No `HydrateFallback` element provided to render during initial hydration"
+            );
+            shouldRenderHydrateFallback = true;
+            hydrateFallbackElement = null;
+          } else if (fallbackIndex === index) {
+            shouldRenderHydrateFallback = true;
+            hydrateFallbackElement = match.route.hydrateFallbackElement || null;
+          }
         }
       }
-    }
-    let matches2 = parentMatches.concat(renderedMatches.slice(0, index + 1));
-    let getChildren = () => {
-      let children;
-      if (error) {
-        children = errorElement;
-      } else if (shouldRenderHydrateFallback) {
-        children = hydrateFallbackElement;
-      } else if (match.route.Component) {
-        children = /* @__PURE__ */ reactExports.createElement(match.route.Component, null);
-      } else if (match.route.element) {
-        children = match.route.element;
-      } else {
-        children = outlet;
-      }
-      return /* @__PURE__ */ reactExports.createElement(
-        RenderedRoute,
+      let matches2 = parentMatches.concat(renderedMatches.slice(0, index + 1));
+      let getChildren = () => {
+        let children;
+        if (error) {
+          children = errorElement;
+        } else if (shouldRenderHydrateFallback) {
+          children = hydrateFallbackElement;
+        } else if (match.route.Component) {
+          children = /* @__PURE__ */ reactExports.createElement(match.route.Component, null);
+        } else if (match.route.element) {
+          children = match.route.element;
+        } else {
+          children = outlet;
+        }
+        return /* @__PURE__ */ reactExports.createElement(
+          RenderedRoute,
+          {
+            match,
+            routeContext: {
+              outlet,
+              matches: matches2,
+              isDataRoute: dataRouterState != null
+            },
+            children
+          }
+        );
+      };
+      return dataRouterState && (match.route.ErrorBoundary || match.route.errorElement || index === 0) ? /* @__PURE__ */ reactExports.createElement(
+        RenderErrorBoundary,
         {
-          match,
-          routeContext: {
-            outlet,
-            matches: matches2,
-            isDataRoute: dataRouterState != null
-          },
-          children
+          location: dataRouterState.location,
+          revalidation: dataRouterState.revalidation,
+          component: errorElement,
+          error,
+          children: getChildren(),
+          routeContext: { outlet: null, matches: matches2, isDataRoute: true }
         }
-      );
-    };
-    return dataRouterState && (match.route.ErrorBoundary || match.route.errorElement || index === 0) ? /* @__PURE__ */ reactExports.createElement(
-      RenderErrorBoundary,
-      {
-        location: dataRouterState.location,
-        revalidation: dataRouterState.revalidation,
-        component: errorElement,
-        error,
-        children: getChildren(),
-        routeContext: { outlet: null, matches: matches2, isDataRoute: true }
-      }
-    ) : getChildren();
-  }, null);
+      ) : getChildren();
+    },
+    null
+  );
 }
 function getDataRouterConsoleError(hookName) {
   return `${hookName} must be used within a data router.  See https://reactrouter.com/en/main/routers/picking-a-router.`;
@@ -5147,10 +5150,7 @@ function composeEventHandlers(theirHandler, ourHandler) {
     }
   };
 }
-function PrefetchPageLinks({
-  page,
-  ...dataLinkProps
-}) {
+function PrefetchPageLinks({ page, ...linkProps }) {
   let { router } = useDataRouterContext2();
   let matches = reactExports.useMemo(
     () => matchRoutes(router.routes, page, router.basename),
@@ -5159,7 +5159,7 @@ function PrefetchPageLinks({
   if (!matches) {
     return null;
   }
-  return /* @__PURE__ */ reactExports.createElement(PrefetchPageLinksImpl, { page, matches, ...dataLinkProps });
+  return /* @__PURE__ */ reactExports.createElement(PrefetchPageLinksImpl, { page, matches, ...linkProps });
 }
 function useKeyedPrefetchLinks(matches) {
   let { manifest, routeModules } = useFrameworkContext();
@@ -5276,7 +5276,7 @@ var isBrowser = typeof window !== "undefined" && typeof window.document !== "und
 try {
   if (isBrowser) {
     window.__reactRouterVersion = // @ts-expect-error
-    "7.7.0";
+    "7.7.1";
   }
 } catch (e) {
 }
@@ -5590,7 +5590,7 @@ function useFormAction(action, { relative } = {}) {
   }
   return createPath(path);
 }
-function useViewTransitionState(to, opts = {}) {
+function useViewTransitionState(to, { relative } = {}) {
   let vtContext = reactExports.useContext(ViewTransitionContext);
   invariant(
     vtContext != null,
@@ -5599,7 +5599,7 @@ function useViewTransitionState(to, opts = {}) {
   let { basename } = useDataRouterContext3(
     "useViewTransitionState" /* useViewTransitionState */
   );
-  let path = useResolvedPath(to, { relative: opts.relative });
+  let path = useResolvedPath(to, { relative });
   if (!vtContext.isTransitioning) {
     return false;
   }
@@ -5825,7 +5825,7 @@ function requireReactDom_production () {
 	reactDom_production.useFormStatus = function () {
 	  return ReactSharedInternals.H.useHostTransitionStatus();
 	};
-	reactDom_production.version = "19.1.0";
+	reactDom_production.version = "19.1.1";
 	return reactDom_production;
 }
 
@@ -43689,14 +43689,14 @@ function requireReactDomClient_production () {
 	};
 	var isomorphicReactPackageVersion$jscomp$inline_1785 = React.version;
 	if (
-	  "19.1.0" !==
+	  "19.1.1" !==
 	  isomorphicReactPackageVersion$jscomp$inline_1785
 	)
 	  throw Error(
 	    formatProdErrorMessage(
 	      527,
 	      isomorphicReactPackageVersion$jscomp$inline_1785,
-	      "19.1.0"
+	      "19.1.1"
 	    )
 	  );
 	ReactDOMSharedInternals.findDOMNode = function (componentOrElement) {
@@ -43718,10 +43718,10 @@ function requireReactDomClient_production () {
 	};
 	var internals$jscomp$inline_2256 = {
 	  bundleType: 0,
-	  version: "19.1.0",
+	  version: "19.1.1",
 	  rendererPackageName: "react-dom",
 	  currentDispatcherRef: ReactSharedInternals,
-	  reconcilerVersion: "19.1.0"
+	  reconcilerVersion: "19.1.1"
 	};
 	if ("undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__) {
 	  var hook$jscomp$inline_2257 = __REACT_DEVTOOLS_GLOBAL_HOOK__;
@@ -43825,7 +43825,7 @@ function requireReactDomClient_production () {
 	  listenToAllSupportedEvents(container);
 	  return new ReactDOMHydrationRoot(initialChildren);
 	};
-	reactDomClient_production.version = "19.1.0";
+	reactDomClient_production.version = "19.1.1";
 	return reactDomClient_production;
 }
 
