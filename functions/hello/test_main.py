@@ -1,10 +1,15 @@
+"""Test module for the hello function handler."""
+
+import importlib
 import unittest
 from unittest.mock import patch
 
+import main
 from crowdstrike.foundry.function import Request
 
 
-def mock_handler(*args, **kwargs):
+def mock_handler(*_args, **_kwargs):
+    """Mock handler decorator for testing."""
     def identity(func):
         return func
 
@@ -12,16 +17,18 @@ def mock_handler(*args, **kwargs):
 
 
 class FnTestCase(unittest.TestCase):
+    """Test case class for function handler tests."""
+
     def setUp(self):
+        """Set up test fixtures before each test method."""
         patcher = patch("crowdstrike.foundry.function.Function.handler", new=mock_handler)
         self.addCleanup(patcher.stop)
         self.handler_patch = patcher.start()
 
-        import importlib
-        import main
         importlib.reload(main)
 
     def test_on_post_success(self):
+        """Test successful POST request with valid name in body."""
         from main import on_post
         request = Request()
         request.body = {
@@ -33,6 +40,7 @@ class FnTestCase(unittest.TestCase):
         self.assertEqual(response.body["greeting"], "Hello Test User! It is nice to see you.")
 
     def test_on_post_missing_name(self):
+        """Test POST request with missing name in body returns error."""
         from main import on_post
         request = Request()
 
