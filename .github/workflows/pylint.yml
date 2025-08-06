@@ -1,11 +1,11 @@
 name: Pylint
 on:
+  workflow_dispatch:
   push:
     paths:
       - '**.py'
     branches:
       - main
-      - pylint
   pull_request:
     paths:
       - '**.py'
