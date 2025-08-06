@@ -1,12 +1,23 @@
+"""Main module for the host-details function handler."""
+
 from crowdstrike.foundry.function import Function, Request, Response, APIError
 # Import service collection you'd like to use
 from falconpy import Hosts
 
-func = Function.instance()
+FUNC = Function.instance()
 
 
-@func.handler(method="POST", path="/host-details")
+@FUNC.handler(method="POST", path="/host-details")
 def on_post(request: Request) -> Response:
+    """
+    Handle POST requests to /host-details endpoint.
+
+    Args:
+        request: The incoming request object containing the request body.
+
+    Returns:
+        Response: JSON response with host details or error message.
+    """
     # Validate request
     if "host_id" not in request.body:
         return Response(
@@ -37,4 +48,4 @@ def on_post(request: Request) -> Response:
 
 
 if __name__ == "__main__":
-    func.run()
+    FUNC.run()

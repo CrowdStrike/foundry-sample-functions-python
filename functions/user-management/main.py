@@ -1,3 +1,5 @@
+"""Main module for the user-management function handler."""
+
 from logging import Logger
 from typing import Dict
 
@@ -5,11 +7,22 @@ from crowdstrike.foundry.function import Function, Request, Response
 
 from utils import validate_email, format_error_response
 
-func = Function.instance()
+FUNC = Function.instance()
 
 
-@func.handler(method="POST", path="/create-user")
-def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) -> Response:
+@FUNC.handler(method="POST", path="/create-user")
+def on_post(request: Request, _config: Dict[str, object] | None, logger: Logger) -> Response:
+    """
+    Handle POST requests to /create-user endpoint.
+
+    Args:
+        request: The incoming request object containing the request body.
+        _config: Configuration dictionary (unused).
+        logger: Logger instance for logging.
+
+    Returns:
+        Response: JSON response with user info or error message.
+    """
     email = request.body.get("email")
 
     logger.info(f"Email: {email}")
@@ -27,4 +40,4 @@ def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) 
 
 
 if __name__ == "__main__":
-    func.run()
+    FUNC.run()

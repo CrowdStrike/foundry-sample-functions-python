@@ -1,3 +1,5 @@
+"""Main module for the log-event function handler."""
+
 import os
 import time
 import uuid
@@ -5,11 +7,20 @@ import uuid
 from crowdstrike.foundry.function import Function, Request, Response, APIError
 from falconpy import APIHarnessV2
 
-func = Function.instance()
+FUNC = Function.instance()
 
 
-@func.handler(method="POST", path="/log-event")
+@FUNC.handler(method="POST", path="/log-event")
 def on_post(request: Request) -> Response:
+    """
+    Handle POST requests to /log-event endpoint.
+
+    Args:
+        request: The incoming request object containing the request body.
+
+    Returns:
+        Response: JSON response with event storage result or error message.
+    """
     # Validate request
     if "event_data" not in request.body:
         return Response(
@@ -23,7 +34,7 @@ def on_post(request: Request) -> Response:
         # Store data in a collection
         # This assumes you've already created a collection named "event_logs"
         event_id = str(uuid.uuid4())
-        json = {
+        json_data = {
             "event_id": event_id,
             "data": event_data,
             "timestamp": int(time.time())
@@ -40,7 +51,7 @@ def on_post(request: Request) -> Response:
         collection_name = "event_logs"
 
         response = api_client.command("PutObject",
-                                      body=json,
+                                      body=json_data,
                                       collection_name=collection_name,
                                       object_key=event_id,
                                       headers=headers
@@ -71,7 +82,7 @@ def on_post(request: Request) -> Response:
             },
             code=200
         )
-    except Exception as e:
+    except (ConnectionError, ValueError, KeyError) as e:
         return Response(
             code=500,
             errors=[APIError(code=500, message=f"Error saving collection: {str(e)}")]
@@ -79,4 +90,4 @@ def on_post(request: Request) -> Response:
 
 
 if __name__ == "__main__":
-    func.run()
+    FUNC.run()

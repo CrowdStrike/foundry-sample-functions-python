@@ -4,12 +4,14 @@ import importlib
 import unittest
 from unittest.mock import patch
 
-import main
 from crowdstrike.foundry.function import Request
+
+import main
 
 
 def mock_handler(*_args, **_kwargs):
     """Mock handler decorator for testing."""
+
     def identity(func):
         return func
 
