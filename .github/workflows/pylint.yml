@@ -1,0 +1,31 @@
+name: Pylint
+on:
+  push:
+    paths:
+      - '**.py'
+    branches:
+      - main
+  pull_request:
+    paths:
+      - '**.py'
+    branches:
+      - main
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pylint
+          pip install -r requirements.txt
+      - name: Lint functions with pylint
+        run: |
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          pylint functions --max-line-length=127 --disable=R0801
