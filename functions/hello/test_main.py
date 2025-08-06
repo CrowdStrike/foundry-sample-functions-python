@@ -29,22 +29,20 @@ class FnTestCase(unittest.TestCase):
 
     def test_on_post_success(self):
         """Test successful POST request with valid name in body."""
-        from main import on_post
         request = Request()
         request.body = {
             "name": "Test User"
         }
 
-        response = on_post(request)
+        response = main.on_post(request)
         self.assertEqual(response.code, 200)
         self.assertEqual(response.body["greeting"], "Hello Test User! It is nice to see you.")
 
     def test_on_post_missing_name(self):
         """Test POST request with missing name in body returns error."""
-        from main import on_post
         request = Request()
 
-        response = on_post(request)
+        response = main.on_post(request)
         self.assertEqual(response.code, 400)
         self.assertEqual(len(response.errors), 1)
         self.assertEqual(response.errors[0].message, "missing name from request body")
