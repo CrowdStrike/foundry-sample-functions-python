@@ -5,6 +5,7 @@ on:
       - '**.py'
     branches:
       - main
+      - pylint
   pull_request:
     paths:
       - '**.py'
