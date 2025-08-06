@@ -1,7 +1,7 @@
 """Main module for the host-info function handler."""
 
 from logging import Logger
-from typing import Dict, Optional, Union
+from typing import Dict, Optional
 
 from crowdstrike.foundry.function import Function, Request, Response
 
