@@ -1,7 +1,7 @@
 """Main module for the user-management function handler."""
 
 from logging import Logger
-from typing import Dict
+from typing import Dict, Optional
 
 from crowdstrike.foundry.function import Function, Request, Response
 
@@ -11,7 +11,7 @@ FUNC = Function.instance()
 
 
 @FUNC.handler(method="POST", path="/create-user")
-def on_post(request: Request, _config: Dict[str, object] | None, logger: Logger) -> Response:
+def on_post(request: Request, _config: Optional[Dict[str, object]], logger: Logger) -> Response:
     """
     Handle POST requests to /create-user endpoint.
 
