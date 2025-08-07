@@ -1,10 +1,17 @@
+"""Test module for the host-details function handler."""
+
+import importlib
 import unittest
 from unittest.mock import patch, MagicMock
 
 from crowdstrike.foundry.function import Request
 
+import main
 
-def mock_handler(*args, **kwargs):
+
+def mock_handler(*_args, **_kwargs):
+    """Mock handler decorator for testing."""
+
     def identity(func):
         return func
 
@@ -12,19 +19,19 @@ def mock_handler(*args, **kwargs):
 
 
 class FnTestCase(unittest.TestCase):
+    """Test case class for function handler tests."""
+
     def setUp(self):
+        """Set up test fixtures before each test method."""
         patcher = patch("crowdstrike.foundry.function.Function.handler", new=mock_handler)
         self.addCleanup(patcher.stop)
         self.handler_patch = patcher.start()
 
-        import importlib
-        import main
         importlib.reload(main)
 
     @patch("main.Hosts")
     def test_on_post_success(self, mock_hosts_class):
-        from main import on_post
-
+        """Test successful POST request with valid host_id in body."""
         # Mock the Hosts instance and its response
         mock_hosts_instance = MagicMock()
         mock_hosts_class.return_value = mock_hosts_instance
@@ -44,7 +51,7 @@ class FnTestCase(unittest.TestCase):
             "host_id": "test-host-123"
         }
 
-        response = on_post(request)
+        response = main.on_post(request)
 
         self.assertEqual(response.code, 200)
         self.assertIn("host_details", response.body)
@@ -52,10 +59,10 @@ class FnTestCase(unittest.TestCase):
         mock_hosts_instance.get_device_details.assert_called_once_with(ids="test-host-123")
 
     def test_on_post_missing_host_id(self):
-        from main import on_post
+        """Test POST request with missing host_id in body returns error."""
         request = Request()
 
-        response = on_post(request)
+        response = main.on_post(request)
 
         self.assertEqual(response.code, 400)
         self.assertEqual(len(response.errors), 1)
@@ -63,8 +70,7 @@ class FnTestCase(unittest.TestCase):
 
     @patch("main.Hosts")
     def test_on_post_api_error(self, mock_hosts_class):
-        from main import on_post
-
+        """Test POST request when API returns an error."""
         # Mock the Hosts instance to return an error
         mock_hosts_instance = MagicMock()
         mock_hosts_class.return_value = mock_hosts_instance
@@ -78,7 +84,7 @@ class FnTestCase(unittest.TestCase):
             "host_id": "nonexistent-host"
         }
 
-        response = on_post(request)
+        response = main.on_post(request)
 
         self.assertEqual(response.code, 404)
         self.assertEqual(len(response.errors), 1)

@@ -1,12 +1,17 @@
+"""Test module for the log-event function handler."""
+
+import importlib
 import unittest
 from unittest.mock import patch, MagicMock
-import uuid
-import time
 
 from crowdstrike.foundry.function import Request
 
+import main
 
-def mock_handler(*args, **kwargs):
+
+def mock_handler(*_args, **_kwargs):
+    """Mock handler decorator for testing."""
+
     def identity(func):
         return func
 
@@ -14,21 +19,21 @@ def mock_handler(*args, **kwargs):
 
 
 class FnTestCase(unittest.TestCase):
+    """Test case class for function handler tests."""
+
     def setUp(self):
+        """Set up test fixtures before each test method."""
         patcher = patch("crowdstrike.foundry.function.Function.handler", new=mock_handler)
         self.addCleanup(patcher.stop)
         self.handler_patch = patcher.start()
 
-        import importlib
-        import main
         importlib.reload(main)
 
     @patch('main.APIHarnessV2')
     @patch('main.uuid.uuid4')
     @patch('main.time.time')
     def test_on_post_success(self, mock_time, mock_uuid, mock_api_harness_class):
-        from main import on_post
-
+        """Test successful POST request with valid event_data in body."""
         # Mock dependencies
         mock_uuid.return_value = MagicMock()
         mock_uuid.return_value.__str__ = MagicMock(return_value="test-event-id-123")
@@ -61,7 +66,7 @@ class FnTestCase(unittest.TestCase):
             "event_data": {"test": "data", "message": "test event"}
         }
 
-        response = on_post(request)
+        response = main.on_post(request)
 
         self.assertEqual(response.code, 200)
         self.assertTrue(response.body["stored"])
@@ -87,10 +92,10 @@ class FnTestCase(unittest.TestCase):
         self.assertEqual(search_call[1]["collection_name"], "event_logs")
 
     def test_on_post_missing_event_data(self):
-        from main import on_post
+        """Test POST request with missing event_data returns error."""
         request = Request()
 
-        response = on_post(request)
+        response = main.on_post(request)
 
         self.assertEqual(response.code, 400)
         self.assertEqual(len(response.errors), 1)
@@ -100,8 +105,7 @@ class FnTestCase(unittest.TestCase):
     @patch('main.uuid.uuid4')
     @patch('main.time.time')
     def test_on_post_put_object_error(self, mock_time, mock_uuid, mock_api_harness_class):
-        from main import on_post
-
+        """Test POST request when PutObject API returns an error."""
         # Mock dependencies
         mock_uuid.return_value = MagicMock()
         mock_uuid.return_value.__str__ = MagicMock(return_value="test-event-id-123")
@@ -120,7 +124,7 @@ class FnTestCase(unittest.TestCase):
             "event_data": {"test": "data"}
         }
 
-        response = on_post(request)
+        response = main.on_post(request)
 
         self.assertEqual(response.code, 500)
         self.assertEqual(len(response.errors), 1)
@@ -130,22 +134,21 @@ class FnTestCase(unittest.TestCase):
     @patch('main.uuid.uuid4')
     @patch('main.time.time')
     def test_on_post_exception_handling(self, mock_time, mock_uuid, mock_api_harness_class):
-        from main import on_post
-
+        """Test POST request when an exception is raised."""
         # Mock dependencies
         mock_uuid.return_value = MagicMock()
         mock_uuid.return_value.__str__ = MagicMock(return_value="test-event-id-123")
         mock_time.return_value = 1690123456
 
         # Mock APIHarnessV2 to raise an exception
-        mock_api_harness_class.side_effect = Exception("Connection failed")
+        mock_api_harness_class.side_effect = ConnectionError("Connection failed")
 
         request = Request()
         request.body = {
             "event_data": {"test": "data"}
         }
 
-        response = on_post(request)
+        response = main.on_post(request)
 
         self.assertEqual(response.code, 500)
         self.assertEqual(len(response.errors), 1)
@@ -156,8 +159,7 @@ class FnTestCase(unittest.TestCase):
     @patch('main.uuid.uuid4')
     @patch('main.time.time')
     def test_on_post_with_app_id_header(self, mock_time, mock_uuid, mock_api_harness_class):
-        from main import on_post
-
+        """Test POST request with APP_ID environment variable set."""
         # Mock dependencies
         mock_uuid.return_value = MagicMock()
         mock_uuid.return_value.__str__ = MagicMock(return_value="test-event-id-123")
@@ -176,7 +178,7 @@ class FnTestCase(unittest.TestCase):
             "event_data": {"test": "data"}
         }
 
-        response = on_post(request)
+        response = main.on_post(request)
 
         self.assertEqual(response.code, 200)
 

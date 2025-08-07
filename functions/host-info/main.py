@@ -1,15 +1,28 @@
+"""Main module for the host-info function handler."""
+
 from logging import Logger
-from typing import Dict
+from typing import Dict, Optional
 
 from crowdstrike.foundry.function import Function, Request, Response
 
 from utils import validate_host_id, format_error_response
 
-func = Function.instance()
+FUNC = Function.instance()
 
 
-@func.handler(method="POST", path="/host-info")
-def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) -> Response:
+@FUNC.handler(method="POST", path="/host-info")
+def on_post(request: Request, _config: Optional[Dict[str, object]], logger: Logger) -> Response:
+    """
+    Handle POST requests to /host-info endpoint.
+
+    Args:
+        request: The incoming request object containing the request body.
+        _config: Configuration dictionary (unused).
+        logger: Logger instance for logging.
+
+    Returns:
+        Response: JSON response with host info or error message.
+    """
     host_id = request.body.get("host_id")
 
     logger.info(f"Host ID: {host_id}")
@@ -27,4 +40,4 @@ def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) 
 
 
 if __name__ == "__main__":
-    func.run()
+    FUNC.run()

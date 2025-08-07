@@ -1,11 +1,21 @@
+"""Main module for the hello function handler."""
+
 from crowdstrike.foundry.function import Function, Request, Response, APIError
 
-func = Function.instance()
+FUNC = Function.instance()
 
 
-# Handler hello
-@func.handler(method="POST", path="/hello")
+@FUNC.handler(method="POST", path="/hello")
 def on_post(request: Request) -> Response:
+    """
+    Handle POST requests to /hello endpoint.
+
+    Args:
+        request: The incoming request object containing the request body.
+
+    Returns:
+        Response: JSON response with greeting or error message.
+    """
     #
     # Replace the following example code with your handler code
     #
@@ -29,4 +39,4 @@ def on_post(request: Request) -> Response:
 
 
 if __name__ == "__main__":
-    func.run()
+    FUNC.run()

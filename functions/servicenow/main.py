@@ -1,16 +1,26 @@
+"""Main module for the ServiceNow function handler."""
+
 from logging import Logger
-from typing import Dict
+from typing import Dict, Optional
 
 from crowdstrike.foundry.function import Function, Request, Response, APIError
 from falconpy import APIIntegrations
 
-func = Function.instance()
+FUNC = Function.instance()
 
 
-@func.handler(method="POST", path="/ticket")
-def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) -> Response:
+@FUNC.handler(method="POST", path="/ticket")
+def on_post(request: Request, _config: Optional[Dict[str, object]], logger: Logger) -> Response:
     """
     Create an incident ticket in ServiceNow using the Table API.
+
+    Args:
+        request: The incoming request object containing the request body.
+        _config: Configuration dictionary (unused).
+        logger: Logger instance for logging.
+
+    Returns:
+        Response: JSON response with incident details or error message.
 
     Required fields in request body:
     - title: Short description of the incident
@@ -101,15 +111,15 @@ def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) 
             },
             code=201 if response["status_code"] == 200 else response["status_code"]
         )
-    except ValueError as v:
-        # ValueError can be thrown if one of the fields accessed in the response does not exist
+    except (ValueError, KeyError) as v:
+        # ValueError/KeyError can be thrown if one of the fields accessed in the response does not exist
         logger.error(f"Error processing ServiceNow response: {str(v)}", exc_info=True)
         return Response(
             code=500,
             errors=[APIError(code=500, message=f"Error creating incident: {str(v)}")]
         )
-    except Exception as e:
-        # Catch-all for unexpected errors
+    except (ConnectionError, TimeoutError) as e:
+        # Specific network-related errors
         logger.error(f"Error creating ServiceNow incident: {str(e)}", exc_info=True)
         return Response(
             code=500,
@@ -118,4 +128,4 @@ def on_post(request: Request, config: Dict[str, object] | None, logger: Logger) 
 
 
 if __name__ == "__main__":
-    func.run()
+    FUNC.run()

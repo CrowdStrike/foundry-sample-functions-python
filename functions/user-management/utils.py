@@ -1,3 +1,5 @@
+"""Utility functions for user-management function handler."""
+
 import json
 import re
 from typing import Dict, Any, Optional
@@ -14,6 +16,8 @@ def validate_host_id(host_id: str) -> bool:
 
 def validate_email(email: str) -> bool:
     """Validate email format."""
+    if not email or not isinstance(email, str):
+        return False
     pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
     return bool(re.match(pattern, email))
 

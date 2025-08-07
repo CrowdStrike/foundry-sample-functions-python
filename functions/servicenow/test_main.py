@@ -1,10 +1,17 @@
+"""Test module for the ServiceNow function handler."""
+
+import importlib
 import unittest
 from unittest.mock import patch, MagicMock
 
 from crowdstrike.foundry.function import Request
 
+import main
 
-def mock_handler(*args, **kwargs):
+
+def mock_handler(*_args, **_kwargs):
+    """Mock handler decorator for testing."""
+
     def identity(func):
         return func
 
@@ -12,19 +19,19 @@ def mock_handler(*args, **kwargs):
 
 
 class FnTestCase(unittest.TestCase):
+    """Test case class for function handler tests."""
+
     def setUp(self):
+        """Set up test fixtures before each test method."""
         patcher = patch("crowdstrike.foundry.function.Function.handler", new=mock_handler)
         self.addCleanup(patcher.stop)
         self.handler_patch = patcher.start()
 
-        import importlib
-        import main
         importlib.reload(main)
 
     @patch("main.APIIntegrations")
     def test_on_post_success_minimal_fields(self, mock_api_integrations_class):
-        from main import on_post
-
+        """Test successful POST request with minimal required fields."""
         # Mock APIIntegrations instance
         mock_api_instance = MagicMock()
         mock_api_integrations_class.return_value = mock_api_instance
@@ -56,7 +63,7 @@ class FnTestCase(unittest.TestCase):
             "description": "This is a test incident description"
         }
 
-        response = on_post(request, config=None, logger=mock_logger)
+        response = main.on_post(request, _config=None, logger=mock_logger)
 
         self.assertEqual(response.code, 201)
         self.assertEqual(response.body["incident_id"], "abc123def456")
@@ -93,8 +100,7 @@ class FnTestCase(unittest.TestCase):
 
     @patch("main.APIIntegrations")
     def test_on_post_success_all_fields(self, mock_api_integrations_class):
-        from main import on_post
-
+        """Test successful POST request with all optional fields."""
         # Mock APIIntegrations instance
         mock_api_instance = MagicMock()
         mock_api_integrations_class.return_value = mock_api_instance
@@ -132,7 +138,7 @@ class FnTestCase(unittest.TestCase):
             "caller_id": "jane.smith"
         }
 
-        response = on_post(request, config=None, logger=mock_logger)
+        response = main.on_post(request, _config=None, logger=mock_logger)
 
         self.assertEqual(response.code, 201)
         self.assertEqual(response.body["incident_id"], "xyz789abc123")
@@ -148,8 +154,7 @@ class FnTestCase(unittest.TestCase):
         self.assertEqual(payload["caller_id"], "jane.smith")
 
     def test_on_post_missing_title(self):
-        from main import on_post
-
+        """Test POST request with missing title field returns error."""
         # Create mock logger
         mock_logger = MagicMock()
 
@@ -158,15 +163,14 @@ class FnTestCase(unittest.TestCase):
             "description": "Missing title field"
         }
 
-        response = on_post(request, config=None, logger=mock_logger)
+        response = main.on_post(request, _config=None, logger=mock_logger)
 
         self.assertEqual(response.code, 400)
         self.assertEqual(len(response.errors), 1)
         self.assertEqual(response.errors[0].message, "Missing required fields: title and description")
 
     def test_on_post_missing_description(self):
-        from main import on_post
-
+        """Test POST request with missing description field returns error."""
         # Create mock logger
         mock_logger = MagicMock()
 
@@ -175,22 +179,21 @@ class FnTestCase(unittest.TestCase):
             "title": "Missing description field"
         }
 
-        response = on_post(request, config=None, logger=mock_logger)
+        response = main.on_post(request, _config=None, logger=mock_logger)
 
         self.assertEqual(response.code, 400)
         self.assertEqual(len(response.errors), 1)
         self.assertEqual(response.errors[0].message, "Missing required fields: title and description")
 
     def test_on_post_missing_both_required_fields(self):
-        from main import on_post
-
+        """Test POST request with both required fields missing returns error."""
         # Create mock logger
         mock_logger = MagicMock()
 
         request = Request()
         request.body = {}
 
-        response = on_post(request, config=None, logger=mock_logger)
+        response = main.on_post(request, _config=None, logger=mock_logger)
 
         self.assertEqual(response.code, 400)
         self.assertEqual(len(response.errors), 1)
@@ -198,8 +201,7 @@ class FnTestCase(unittest.TestCase):
 
     @patch("main.APIIntegrations")
     def test_on_post_servicenow_api_error(self, mock_api_integrations_class):
-        from main import on_post
-
+        """Test POST request when ServiceNow API returns an error."""
         # Mock APIIntegrations instance
         mock_api_instance = MagicMock()
         mock_api_integrations_class.return_value = mock_api_instance
@@ -221,7 +223,7 @@ class FnTestCase(unittest.TestCase):
             "description": "Test description"
         }
 
-        response = on_post(request, config=None, logger=mock_logger)
+        response = main.on_post(request, _config=None, logger=mock_logger)
 
         self.assertEqual(response.code, 400)
         self.assertEqual(len(response.errors), 1)
@@ -229,8 +231,7 @@ class FnTestCase(unittest.TestCase):
 
     @patch("main.APIIntegrations")
     def test_on_post_servicenow_api_error_no_message(self, mock_api_integrations_class):
-        from main import on_post
-
+        """Test POST request when ServiceNow API returns error without message."""
         # Mock APIIntegrations instance
         mock_api_instance = MagicMock()
         mock_api_integrations_class.return_value = mock_api_instance
@@ -249,7 +250,7 @@ class FnTestCase(unittest.TestCase):
             "description": "Test description"
         }
 
-        response = on_post(request, config=None, logger=mock_logger)
+        response = main.on_post(request, _config=None, logger=mock_logger)
 
         self.assertEqual(response.code, 500)
         self.assertEqual(len(response.errors), 1)
@@ -257,8 +258,7 @@ class FnTestCase(unittest.TestCase):
 
     @patch("main.APIIntegrations")
     def test_on_post_value_error_handling(self, mock_api_integrations_class):
-        from main import on_post
-
+        """Test POST request when ValueError is raised during response processing."""
         # Mock APIIntegrations instance
         mock_api_instance = MagicMock()
         mock_api_integrations_class.return_value = mock_api_instance
@@ -281,7 +281,7 @@ class FnTestCase(unittest.TestCase):
             "description": "Test description"
         }
 
-        response = on_post(request, config=None, logger=mock_logger)
+        response = main.on_post(request, _config=None, logger=mock_logger)
 
         self.assertEqual(response.code, 500)
         self.assertEqual(len(response.errors), 1)
@@ -292,10 +292,9 @@ class FnTestCase(unittest.TestCase):
 
     @patch("main.APIIntegrations")
     def test_on_post_general_exception_handling(self, mock_api_integrations_class):
-        from main import on_post
-
+        """Test POST request when general exception is raised."""
         # Mock APIIntegrations to raise an exception
-        mock_api_integrations_class.side_effect = Exception("Connection failed")
+        mock_api_integrations_class.side_effect = ConnectionError("Connection failed")
 
         # Create mock logger
         mock_logger = MagicMock()
@@ -306,7 +305,7 @@ class FnTestCase(unittest.TestCase):
             "description": "Test description"
         }
 
-        response = on_post(request, config=None, logger=mock_logger)
+        response = main.on_post(request, _config=None, logger=mock_logger)
 
         self.assertEqual(response.code, 500)
         self.assertEqual(len(response.errors), 1)
@@ -317,8 +316,7 @@ class FnTestCase(unittest.TestCase):
 
     @patch("main.APIIntegrations")
     def test_on_post_optional_fields_filtering(self, mock_api_integrations_class):
-        from main import on_post
-
+        """Test POST request with optional fields filtering (None values excluded)."""
         # Mock APIIntegrations instance
         mock_api_instance = MagicMock()
         mock_api_integrations_class.return_value = mock_api_instance
@@ -355,7 +353,7 @@ class FnTestCase(unittest.TestCase):
             "caller_id": None  # This should be filtered out
         }
 
-        response = on_post(request, config=None, logger=mock_logger)
+        response = main.on_post(request, _config=None, logger=mock_logger)
 
         self.assertEqual(response.code, 201)
 
