@@ -75,7 +75,7 @@ functions:
           disruptive: false
           system_action: false
           tags:
-            - ""
+            - ac7135c6ad5342b3b179db27a3b939b0
             - Hello
             - Functions
         permissions: []
@@ -99,7 +99,7 @@ functions:
           disruptive: false
           system_action: true
           tags:
-            - ""
+            - ac7135c6ad5342b3b179db27a3b939b0
             - Functions
             - HostDetails
             - FalconPy
@@ -124,7 +124,7 @@ functions:
           disruptive: false
           system_action: true
           tags:
-            - ""
+            - ac7135c6ad5342b3b179db27a3b939b0
             - Functions
             - ServiceNow
             - FalconPy
@@ -149,7 +149,7 @@ functions:
           disruptive: false
           system_action: true
           tags:
-            - ""
+            - ac7135c6ad5342b3b179db27a3b939b0
             - Functions
             - Collections
             - FalconPy
@@ -174,7 +174,7 @@ functions:
           disruptive: false
           system_action: false
           tags:
-            - ""
+            - ac7135c6ad5342b3b179db27a3b939b0
             - Multiple
         permissions: []
     language: python
@@ -197,7 +197,7 @@ functions:
           disruptive: false
           system_action: false
           tags:
-            - ""
+            - ac7135c6ad5342b3b179db27a3b939b0
             - Multiple
         permissions: []
     language: python
