@@ -7,224 +7,224 @@ vendor_products: []
 use_case: Cloud security
 manifest_version: "2023-05-09"
 ignored:
-    - .+/node_modules$
-    - .+/node_modules/.+
-    - .+/venv$
-    - .+/venv/.+
+  - .+/node_modules$
+  - .+/node_modules/.+
+  - .+/venv$
+  - .+/venv/.+
 ui:
-    homepage: ""
-    extensions:
-        - id: ""
-          name: hello
-          description: UI to call the hello function
-          path: ui/extensions/hello/src/dist
-          entrypoint: ui/extensions/hello/src/dist/index.html
-          sockets:
-            - activity.detections.details
-          content_security_policy:
-            connect-src: []
-            style-src: []
-            style-src-elem: []
-            script-src: []
-            form-action: []
-            img-src: []
-            media-src: []
-            object-src: []
-          permissions: []
-          is_ui_builder: false
-    pages: {}
-    dashboards: {}
-    navigation: {}
-api_integrations:
-    - id: ""
-      name: ServiceNow
-      description: Allows you to perform CRUD operations on tables
-      path: api-integrations/ServiceNow.json
-rtr_scripts: []
-collections:
-    - name: event_logs
-      description: Event Logs
-      schema: collections/event_logs_schema.json
-      permissions: []
-      workflow_integration:
-        system_action: false
-        tags:
-            - Functions
-auth:
-    scopes:
-        - devices:read
-    permissions: {}
-    roles: []
-functions:
+  homepage: ""
+  extensions:
     - id: ""
       name: hello
-      config: null
-      description: Returns a greeting based on name input
-      path: functions/hello
-      environment_variables: {}
-      handlers:
-        - name: hello
-          description: Returns a greeting based on name input
-          method: POST
-          api_path: /hello
-          payload_type: ""
-          request_schema: request_schema.json
-          response_schema: response_schema.json
-          workflow_integration:
-            id: ""
-            disruptive: false
-            system_action: false
-            tags:
-                - ac7135c6ad5342b3b179db27a3b939b0
-                - Hello
-                - Functions
-          permissions: []
-      language: python
-    - id: ""
-      name: host-details
-      config: null
-      description: Get Device Details using FalconPy
-      path: functions/host-details
-      environment_variables: {}
-      handlers:
-        - name: host-details
-          description: Get Device Details using FalconPy
-          method: POST
-          api_path: /host-details
-          payload_type: ""
-          request_schema: request_schema.json
-          response_schema: response_schema.json
-          workflow_integration:
-            id: ""
-            disruptive: false
-            system_action: true
-            tags:
-                - ac7135c6ad5342b3b179db27a3b939b0
-                - Functions
-                - HostDetails
-                - FalconPy
-          permissions: []
-      language: python
-    - id: ""
-      name: servicenow
-      config: null
-      description: Create ServiceNow Ticket
-      path: functions/servicenow
-      environment_variables: {}
-      handlers:
-        - name: snow-ticket
-          description: Create ServiceNow Ticket
-          method: POST
-          api_path: /ticket
-          payload_type: ""
-          request_schema: request_schema.json
-          response_schema: response_schema.json
-          workflow_integration:
-            id: ""
-            disruptive: false
-            system_action: true
-            tags:
-                - ac7135c6ad5342b3b179db27a3b939b0
-                - Functions
-                - ServiceNow
-                - FalconPy
-          permissions: []
-      language: python
-    - id: ""
-      name: log-event
-      config: null
-      description: Store Data in a Collection
-      path: functions/log-event
-      environment_variables: {}
-      handlers:
-        - name: log-event
-          description: Store Data in a Collection
-          method: POST
-          api_path: /log-event
-          payload_type: ""
-          request_schema: request_schema.json
-          response_schema: response_schema.json
-          workflow_integration:
-            id: ""
-            disruptive: false
-            system_action: true
-            tags:
-                - ac7135c6ad5342b3b179db27a3b939b0
-                - Functions
-                - Collections
-                - FalconPy
-          permissions: []
-      language: python
-    - id: ""
-      name: host-info
-      config: null
-      description: Get Host Information
-      path: functions/host-info
-      environment_variables: {}
-      handlers:
-        - name: on_post
-          description: Get Host Information
-          method: POST
-          api_path: /host-info
-          payload_type: ""
-          request_schema: request_schema.json
-          response_schema: response_schema.json
-          workflow_integration:
-            id: ""
-            disruptive: false
-            system_action: false
-            tags:
-                - ac7135c6ad5342b3b179db27a3b939b0
-                - Multiple
-          permissions: []
-      language: python
-    - id: ""
-      name: user-management
-      config: null
-      description: Create a User
-      path: functions/user-management
-      environment_variables: {}
-      handlers:
-        - name: on_post
-          description: Create a User
-          method: POST
-          api_path: /create-user
-          payload_type: ""
-          request_schema: request_schema.json
-          response_schema: response_schema.json
-          workflow_integration:
-            id: ""
-            disruptive: false
-            system_action: false
-            tags:
-                - ac7135c6ad5342b3b179db27a3b939b0
-                - Multiple
-          permissions: []
-      language: python
+      description: UI to call the hello function
+      path: ui/extensions/hello/src/dist
+      entrypoint: ui/extensions/hello/src/dist/index.html
+      sockets:
+        - activity.detections.details
+      content_security_policy:
+        connect-src: []
+        style-src: []
+        style-src-elem: []
+        script-src: []
+        form-action: []
+        img-src: []
+        media-src: []
+        object-src: []
+      permissions: []
+      is_ui_builder: false
+  pages: {}
+  dashboards: {}
+  navigation: {}
+api_integrations:
+  - id: ""
+    name: ServiceNow
+    description: Allows you to perform CRUD operations on tables
+    path: api-integrations/ServiceNow.json
+rtr_scripts: []
+collections:
+  - name: event_logs
+    description: Event Logs
+    schema: collections/event_logs_schema.json
+    permissions: []
+    workflow_integration:
+      system_action: false
+      tags:
+        - Functions
+auth:
+  scopes:
+    - devices:read
+  permissions: {}
+  roles: []
+functions:
+  - id: ""
+    name: hello
+    config: null
+    description: Returns a greeting based on name input
+    path: functions/hello
+    environment_variables: {}
+    handlers:
+      - name: hello
+        description: Returns a greeting based on name input
+        method: POST
+        api_path: /hello
+        payload_type: ""
+        request_schema: request_schema.json
+        response_schema: response_schema.json
+        workflow_integration:
+          id: ""
+          disruptive: false
+          system_action: false
+          tags:
+            - ac7135c6ad5342b3b179db27a3b939b0
+            - Hello
+            - Functions
+        permissions: []
+    language: python
+  - id: ""
+    name: host-details
+    config: null
+    description: Get Device Details using FalconPy
+    path: functions/host-details
+    environment_variables: {}
+    handlers:
+      - name: host-details
+        description: Get Device Details using FalconPy
+        method: POST
+        api_path: /host-details
+        payload_type: ""
+        request_schema: request_schema.json
+        response_schema: response_schema.json
+        workflow_integration:
+          id: ""
+          disruptive: false
+          system_action: true
+          tags:
+            - ac7135c6ad5342b3b179db27a3b939b0
+            - Functions
+            - HostDetails
+            - FalconPy
+        permissions: []
+    language: python
+  - id: ""
+    name: servicenow
+    config: null
+    description: Create ServiceNow Ticket
+    path: functions/servicenow
+    environment_variables: {}
+    handlers:
+      - name: snow-ticket
+        description: Create ServiceNow Ticket
+        method: POST
+        api_path: /ticket
+        payload_type: ""
+        request_schema: request_schema.json
+        response_schema: response_schema.json
+        workflow_integration:
+          id: ""
+          disruptive: false
+          system_action: true
+          tags:
+            - ac7135c6ad5342b3b179db27a3b939b0
+            - Functions
+            - ServiceNow
+            - FalconPy
+        permissions: []
+    language: python
+  - id: ""
+    name: log-event
+    config: null
+    description: Store Data in a Collection
+    path: functions/log-event
+    environment_variables: {}
+    handlers:
+      - name: log-event
+        description: Store Data in a Collection
+        method: POST
+        api_path: /log-event
+        payload_type: ""
+        request_schema: request_schema.json
+        response_schema: response_schema.json
+        workflow_integration:
+          id: ""
+          disruptive: false
+          system_action: true
+          tags:
+            - ac7135c6ad5342b3b179db27a3b939b0
+            - Functions
+            - Collections
+            - FalconPy
+        permissions: []
+    language: python
+  - id: ""
+    name: host-info
+    config: null
+    description: Get Host Information
+    path: functions/host-info
+    environment_variables: {}
+    handlers:
+      - name: on_post
+        description: Get Host Information
+        method: POST
+        api_path: /host-info
+        payload_type: ""
+        request_schema: request_schema.json
+        response_schema: response_schema.json
+        workflow_integration:
+          id: ""
+          disruptive: false
+          system_action: false
+          tags:
+            - ac7135c6ad5342b3b179db27a3b939b0
+            - Multiple
+        permissions: []
+    language: python
+  - id: ""
+    name: user-management
+    config: null
+    description: Create a User
+    path: functions/user-management
+    environment_variables: {}
+    handlers:
+      - name: on_post
+        description: Create a User
+        method: POST
+        api_path: /create-user
+        payload_type: ""
+        request_schema: request_schema.json
+        response_schema: response_schema.json
+        workflow_integration:
+          id: ""
+          disruptive: false
+          system_action: false
+          tags:
+            - ac7135c6ad5342b3b179db27a3b939b0
+            - Multiple
+        permissions: []
+    language: python
 workflows:
-    - id: ""
-      name: Test log-event function
-      path: workflows/Test_log-event_function.yml
-      permissions: []
-    - id: ""
-      name: Test hello function
-      path: workflows/Test_hello_function.yml
-      permissions: []
-    - id: ""
-      name: Test host-details function
-      path: workflows/Test_host-details_function.yml
-      permissions: []
-    - id: ""
-      name: Test servicenow function
-      path: workflows/Test_servicenow_function.yml
-      permissions: []
+  - id: ""
+    name: Test log-event function
+    path: workflows/Test_log-event_function.yml
+    permissions: []
+  - id: ""
+    name: Test hello function
+    path: workflows/Test_hello_function.yml
+    permissions: []
+  - id: ""
+    name: Test host-details function
+    path: workflows/Test_host-details_function.yml
+    permissions: []
+  - id: ""
+    name: Test servicenow function
+    path: workflows/Test_servicenow_function.yml
+    permissions: []
 parsers: []
 logscale:
-    saved_searches: []
+  saved_searches: []
 lookup_files: []
 docs:
-    id: ""
-    path: app_docs
-    entrypoint: README.md
-    links:
-        - images/snow.png
+  id: ""
+  path: app_docs
+  entrypoint: README.md
+  links:
+    - images/snow.png
