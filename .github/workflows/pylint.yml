@@ -11,16 +11,18 @@ on:
 jobs:
   analyze:
     runs-on: ubuntu-latest
+    env:
+      PYTHON_VERSION: '3.13'
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: Install global dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install pylint
+          python -m pip install --upgrade pylint
       - name: Lint all functions
         run: |
           # Find all subdirectories in functions/ that contain Python files
@@ -39,7 +41,7 @@ jobs:
           
               # Run pylint on the function directory
               echo "Running pylint on $func_name..."
-              pylint "$func_dir" --max-line-length=127 --disable=R0801 || {
+              pylint "$func_dir" --max-line-length=127 --disable=R0801 --py-version=${{ env.PYTHON_VERSION }} || {
                 echo "::error::Pylint failed for $func_name"
                 exit 1
               }
