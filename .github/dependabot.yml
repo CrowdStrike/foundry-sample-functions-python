@@ -9,12 +9,18 @@ updates:
       - "/functions/servicenow/"
       - "/functions/user-management/"
     schedule:
-      interval: weekly
+      interval: "weekly"
+      day: "monday"
+      time: "14:00"
+      timezone: "UTC"
   - package-ecosystem: npm
     directory: "/ui/extensions/hello/"
     open-pull-requests-limit: 10
     schedule:
-      interval: weekly
+      interval: "weekly"
+      day: "monday"
+      time: "14:00"
+      timezone: "UTC"
     groups:
       react:
         patterns:
@@ -23,4 +29,7 @@ updates:
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: weekly
+      interval: "weekly"
+      day: "monday"
+      time: "14:00"
+      timezone: "UTC"
