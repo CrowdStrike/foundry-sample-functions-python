@@ -4157,7 +4157,7 @@ function useFalconApiContext() {
 }
 
 /**
- * react-router v7.8.0
+ * react-router v7.8.1
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -4232,8 +4232,8 @@ function matchRoutesImpl(routes, locationArg, basename, allowPartial) {
   }
   return matches;
 }
-function flattenRoutes(routes, branches = [], parentsMeta = [], parentPath = "") {
-  let flattenRoute = (route, index, relativePath) => {
+function flattenRoutes(routes, branches = [], parentsMeta = [], parentPath = "", _hasParentOptionalSegments = false) {
+  let flattenRoute = (route, index, hasParentOptionalSegments = _hasParentOptionalSegments, relativePath) => {
     let meta = {
       relativePath: relativePath === void 0 ? route.path || "" : relativePath,
       caseSensitive: route.caseSensitive === true,
@@ -4241,6 +4241,9 @@ function flattenRoutes(routes, branches = [], parentsMeta = [], parentPath = "")
       route
     };
     if (meta.relativePath.startsWith("/")) {
+      if (!meta.relativePath.startsWith(parentPath) && hasParentOptionalSegments) {
+        return;
+      }
       invariant(
         meta.relativePath.startsWith(parentPath),
         `Absolute route path "${meta.relativePath}" nested under path "${parentPath}" is not valid. An absolute child route path must start with the combined path of all its parent routes.`
@@ -4256,7 +4259,13 @@ function flattenRoutes(routes, branches = [], parentsMeta = [], parentPath = "")
         route.index !== true,
         `Index routes must not have child routes. Please remove all child routes from route path "${path}".`
       );
-      flattenRoutes(route.children, branches, routesMeta, path);
+      flattenRoutes(
+        route.children,
+        branches,
+        routesMeta,
+        path,
+        hasParentOptionalSegments
+      );
     }
     if (route.path == null && !route.index) {
       return;
@@ -4272,7 +4281,7 @@ function flattenRoutes(routes, branches = [], parentsMeta = [], parentPath = "")
       flattenRoute(route, index);
     } else {
       for (let exploded of explodeOptionalSegments(route.path)) {
-        flattenRoute(route, index, exploded);
+        flattenRoute(route, index, true, exploded);
       }
     }
   });
@@ -4436,7 +4445,7 @@ function compilePath(path, caseSensitive = false, end = true) {
       params.push({ paramName, isOptional: isOptional != null });
       return isOptional ? "/?([^\\/]+)?" : "/([^\\/]+)";
     }
-  );
+  ).replace(/\/([\w-]+)\?(\/|$)/g, "(/$1)?$2");
   if (path.endsWith("*")) {
     params.push({ paramName: "*" });
     regexpSource += path === "*" || path === "/*" ? "(.*)$" : "(?:\\/(.+)|\\/*)$";
@@ -5538,7 +5547,7 @@ var isBrowser = typeof window !== "undefined" && typeof window.document !== "und
 try {
   if (isBrowser) {
     window.__reactRouterVersion = // @ts-expect-error
-    "7.8.0";
+    "7.8.1";
   }
 } catch (e) {
 }
