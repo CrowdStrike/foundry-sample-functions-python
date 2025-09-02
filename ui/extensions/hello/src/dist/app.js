@@ -4157,7 +4157,7 @@ function useFalconApiContext() {
 }
 
 /**
- * react-router v7.8.1
+ * react-router v7.8.2
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -4721,7 +4721,7 @@ function useResolvedPath(to, { relative } = {}) {
     [to, routePathnamesJson, locationPathname, relative]
   );
 }
-function useRoutesImpl(routes, locationArg, dataRouterState, future) {
+function useRoutesImpl(routes, locationArg, dataRouterState, unstable_onError, future) {
   invariant(
     useInRouterContext(),
     // TODO: This error is probably because they somehow have 2 versions of the
@@ -4786,6 +4786,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     ),
     parentMatches,
     dataRouterState,
+    unstable_onError,
     future
   );
   return renderedMatches;
@@ -4835,11 +4836,14 @@ var RenderErrorBoundary = class extends reactExports.Component {
     };
   }
   componentDidCatch(error, errorInfo) {
-    console.error(
-      "React Router caught the following error during render",
-      error,
-      errorInfo
-    );
+    if (this.props.unstable_onError) {
+      this.props.unstable_onError(error, errorInfo);
+    } else {
+      console.error(
+        "React Router caught the following error during render",
+        error
+      );
+    }
   }
   render() {
     return this.state.error !== void 0 ? /* @__PURE__ */ reactExports.createElement(RouteContext.Provider, { value: this.props.routeContext }, /* @__PURE__ */ reactExports.createElement(
@@ -4858,7 +4862,7 @@ function RenderedRoute({ routeContext, match, children }) {
   }
   return /* @__PURE__ */ reactExports.createElement(RouteContext.Provider, { value: routeContext }, children);
 }
-function _renderMatches(matches, parentMatches = [], dataRouterState = null, future = null) {
+function _renderMatches(matches, parentMatches = [], dataRouterState = null, unstable_onError = null, future = null) {
   if (matches == null) {
     if (!dataRouterState) {
       return null;
@@ -4970,7 +4974,8 @@ function _renderMatches(matches, parentMatches = [], dataRouterState = null, fut
           component: errorElement,
           error,
           children: getChildren(),
-          routeContext: { outlet: null, matches: matches2, isDataRoute: true }
+          routeContext: { outlet: null, matches: matches2, isDataRoute: true },
+          unstable_onError
         }
       ) : getChildren();
     },
@@ -5048,9 +5053,10 @@ reactExports.memo(DataRoutes);
 function DataRoutes({
   routes,
   future,
-  state
+  state,
+  unstable_onError
 }) {
-  return useRoutesImpl(routes, void 0, state, future);
+  return useRoutesImpl(routes, void 0, state, unstable_onError, future);
 }
 
 // lib/dom/dom.ts
@@ -5547,7 +5553,7 @@ var isBrowser = typeof window !== "undefined" && typeof window.document !== "und
 try {
   if (isBrowser) {
     window.__reactRouterVersion = // @ts-expect-error
-    "7.8.1";
+    "7.8.2";
   }
 } catch (e) {
 }
