@@ -4157,7 +4157,7 @@ function useFalconApiContext() {
 }
 
 /**
- * react-router v7.8.2
+ * react-router v7.9.1
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -5553,7 +5553,7 @@ var isBrowser = typeof window !== "undefined" && typeof window.document !== "und
 try {
   if (isBrowser) {
     window.__reactRouterVersion = // @ts-expect-error
-    "7.8.2";
+    "7.9.1";
   }
 } catch (e) {
 }
