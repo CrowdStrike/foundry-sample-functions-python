@@ -1,6 +1,6 @@
 # Foundry E2E Tests
 
-End-to-end tests for the foundry-sample-category-blocking application using Playwright.
+End-to-end tests for the foundry-sample-functions-python application using Playwright.
 
 ## Prerequisites
 
@@ -10,7 +10,7 @@ End-to-end tests for the foundry-sample-category-blocking application using Play
    FALCON_PASSWORD=your-password
    FALCON_AUTH_SECRET=your-totp-secret
    FALCON_BASE_URL=https://falcon.us-2.crowdstrike.com
-   APP_NAME=foundry-sample-category-blocking
+   APP_NAME=foundry-sample-functions-python
    ```
 
 2. **App Deployment**: Ensure the app is deployed to your Falcon environment:
@@ -18,6 +18,15 @@ End-to-end tests for the foundry-sample-category-blocking application using Play
    foundry apps deploy
    foundry apps release
    ```
+
+## Installation
+
+Install dependencies before running tests:
+
+```bash
+npm ci
+npx playwright install chromium
+```
 
 ## Running Tests
 
@@ -88,8 +97,17 @@ If login fails:
 ## Test Structure
 
 - **authenticate.setup.ts**: Handles Falcon login with MFA
-- **foundry.spec.ts**: Main test suite with app installation and interaction tests
+- **app-install.setup.ts**: Installs app with ServiceNow API configuration
+- **foundry.spec.ts**: Main test suite covering:
+  - Hello extension rendering in detection details
+  - Workflow execution (3 workflows with full execution)
+  - Workflow rendering (ServiceNow workflow without execution)
+- **app-uninstall.teardown.ts**: Uninstalls app using 3-dot menu pattern
 - **Page Objects**: Structured page interactions in `src/pages/`
+  - **HelloExtensionPage**: Extension verification in detection socket
+  - **WorkflowsPage**: Workflow execution and verification
+  - **HostManagementPage**: Host ID lookup for workflow parameters
+  - **AppCatalogPage**: App installation with ServiceNow configuration
 - **Configuration**: Environment-specific settings in `src/config/TestConfig.ts`
 
 ## Available Test Commands
