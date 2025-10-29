@@ -75,29 +75,33 @@ export class SocketNavigationPage extends BasePage {
   async navigateToXDRDetections(): Promise<void> {
     return this.withTiming(
       async () => {
-        this.logger.info('Navigating to XDR Detections page');
+        this.logger.info('Navigating to XDR Detections page (Incidents)');
+
+        // Navigate to Foundry home first to ensure menu is available
+        await this.navigateToPath('/foundry/home', 'Foundry home');
+        await this.page.waitForLoadState('networkidle');
 
         // Open the hamburger menu
         const menuButton = this.page.getByRole('button', { name: 'Menu' });
         await menuButton.click();
         await this.page.waitForLoadState('networkidle');
 
-        // Click "Next-Gen SIEM"
-        const ngsiemButton = this.page.getByRole('button', { name: /Next-Gen SIEM/i });
+        // Click "Next-Gen SIEM" in the menu (not the home page card)
+        const ngsiemButton = this.page.getByTestId('popout-button').filter({ hasText: /Next-Gen SIEM/i });
         await ngsiemButton.click();
         await this.waiter.delay(500);
 
-        // Look for XDR-related navigation items
-        // Note: This may vary based on environment configuration
-        const xdrLink = this.page.getByRole('link', { name: /XDR.*[Dd]etections?/i });
-        await xdrLink.click();
+        // Click "Incidents" - use section-link selector to avoid the learn card
+        
+        const incidentsLink = this.page.getByTestId('section-link').filter({ hasText: /Incidents/i });
+        await incidentsLink.click();
 
         await this.page.waitForLoadState('networkidle');
 
         const pageTitle = this.page.locator('h1, [role="heading"]').first();
         await expect(pageTitle).toBeVisible({ timeout: 10000 });
 
-        this.logger.success('Navigated to XDR Detections page');
+        this.logger.success('Navigated to XDR Detections page (Incidents)');
       },
       'Navigate to XDR Detections'
     );
@@ -105,26 +109,29 @@ export class SocketNavigationPage extends BasePage {
 
   /**
    * Navigate to NGSIEM Incidents page (ngsiem.workbench.details socket)
-   * Uses menu navigation: Menu → Next-Gen SIEM → appropriate submenu → Incidents
-   * Note: Requires NGSIEM SKU - may not be available in all environments
+   * Uses menu navigation: Menu → Next-Gen SIEM → Incidents
    */
   async navigateToNGSIEMIncidents(): Promise<void> {
     return this.withTiming(
       async () => {
         this.logger.info('Navigating to NGSIEM Incidents page');
 
+        // Navigate to Foundry home first to ensure menu is available
+        await this.navigateToPath('/foundry/home', 'Foundry home');
+        await this.page.waitForLoadState('networkidle');
+
         // Open the hamburger menu
         const menuButton = this.page.getByRole('button', { name: 'Menu' });
         await menuButton.click();
         await this.page.waitForLoadState('networkidle');
 
-        // Click "Next-Gen SIEM"
-        const ngsiemButton = this.page.getByRole('button', { name: /Next-Gen SIEM/i });
+        // Click "Next-Gen SIEM" in the menu (not the home page card)
+        const ngsiemButton = this.page.getByTestId('popout-button').filter({ hasText: /Next-Gen SIEM/i });
         await ngsiemButton.click();
         await this.waiter.delay(500);
 
-        // Look for Incidents navigation
-        const incidentsLink = this.page.getByRole('link', { name: /Incidents/i });
+        // Click "Incidents" - use section-link selector to avoid the learn card
+        const incidentsLink = this.page.getByTestId('section-link').filter({ hasText: /Incidents/i });
         await incidentsLink.click();
 
         await this.page.waitForLoadState('networkidle');
