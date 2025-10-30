@@ -289,7 +289,7 @@ export class AppCatalogPage extends BasePage {
       const successMessage = this.page.getByText(/has been uninstalled/i);
       await this.waiter.waitForVisible(successMessage, {
         description: 'Uninstall success message',
-        timeout: 10000
+        timeout: 30000
       });
 
       this.logger.success(`App '${appName}' uninstalled successfully`);

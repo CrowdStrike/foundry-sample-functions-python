@@ -32,6 +32,10 @@ export class SocketNavigationPage extends BasePage {
       async () => {
         this.logger.info('Navigating to Endpoint Detections page');
 
+        // Navigate to Foundry home first to ensure menu is available
+        await this.navigateToPath('/foundry/home', 'Foundry home');
+        await this.page.waitForLoadState('networkidle');
+
         // Open the hamburger menu
         const menuButton = this.page.getByRole('button', { name: 'Menu' });
         await menuButton.click();
