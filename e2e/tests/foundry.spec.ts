@@ -1,5 +1,7 @@
 import { test, expect } from '../src/fixtures';
 
+test.describe.configure({ mode: 'serial' });
+
 test.describe('Functions with Python - E2E Tests', () => {
   test('should render Hello UI extension', async ({ helloExtensionPage }) => {
     await helloExtensionPage.navigateToExtension();

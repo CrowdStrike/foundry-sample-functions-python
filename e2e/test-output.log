@@ -1,0 +1,124 @@
+
+> playwright-foundry@1.0.0 test
+> npx playwright test
+
+[38;5;142m[dotenvx@1.49.0] injecting env (0) from .env[39m
+
+Running 8 tests using 4 workers
+
+[33m[dotenvx@1.49.0] injecting env (0) from .env[39m
+  ✓  1 [setup] › tests/authenticate.setup.ts:9:6 › authenticate (1.0s)
+🔧 Test Configuration:
+  Environment: Local
+  Base URL: https://falcon.us-2.crowdstrike.com
+  App Name: foundry-sample-functions-python
+  Default Timeout: 30000ms
+  Retry Attempts: 2
+  Debug Mode: false (enable with DEBUG=true npm test or npm run test:debug)
+🔍 [1] AppCatalogPage: Check if app 'foundry-sample-functions-python' is installed
+ℹ️ Searching for app 'foundry-sample-functions-python' in catalog
+🔧 [2] AppCatalogPage: App catalog page
+✅ Found app 'foundry-sample-functions-python' in catalog
+👆 [3] AppCatalogPage: Click App 'foundry-sample-functions-python' link
+ℹ️ App 'foundry-sample-functions-python' installation status: Installed
+App 'foundry-sample-functions-python' is already installed
+  ✓  2 [app-install] › tests/app-install.setup.ts:3:6 › install Functions with Python app (8.7s)
+ℹ️ Retrieving first host ID from host management
+🔧 [1] Host Management: Host management page
+ℹ️ Navigating to Fusion SOAR Workflows
+🔧 [1] Workflows: Foundry Home
+ℹ️ Navigating to Fusion SOAR Workflows
+🔧 [1] Workflows: Foundry Home
+ℹ️ Navigating to Endpoint Detections page
+🔧 [1] Socket Navigation: Foundry home
+✅ Host management page loaded
+⚡ Navigate to Host Management completed in 10.75s
+✅ Found host ID: 814b5827a16549818f71a64bbe973ba7
+⚡ Get first host ID completed in 10.76s
+ℹ️ Navigating to Fusion SOAR Workflows
+🔧 [2] Workflows: Foundry Home
+✅ Workflows page loaded
+⚡ Navigate to Workflows completed in 10.90s
+ℹ️ Executing workflow: Test log-event function
+ℹ️ Opening workflow: Test log-event function
+✅ Opened workflow: Test log-event function
+⚡ Open workflow: Test log-event function completed in 178ms
+ℹ️ Execution modal opened
+✅ Workflow execution triggered: Test log-event function
+⚡ Execute workflow: Test log-event function completed in 1.52s
+ℹ️ Verifying workflow execution succeeded: Test log-event function
+✅ Workflow execution confirmed: Test log-event function
+ℹ️ Execution details view link available
+⚡ Verify workflow execution success: Test log-event function completed in 3ms
+⚡ Execute and verify workflow: Test log-event function completed in 1.53s
+  ✓  6 [chromium] › tests/foundry.spec.ts:14:7 › Functions with Python - E2E Tests › should execute Test log-event function workflow (12.6s)
+ℹ️ Navigating to Fusion SOAR Workflows
+🔧 [2] Workflows: Foundry Home
+✅ Navigated to Endpoint Detections page
+⚡ Navigate to Endpoint Detections completed in 13.16s
+✅ Workflows page loaded
+⚡ Navigate to Workflows completed in 13.20s
+ℹ️ Executing workflow: Test hello function
+ℹ️ Opening workflow: Test hello function
+✅ Opened workflow: Test hello function
+⚡ Open workflow: Test hello function completed in 178ms
+⚡ Open first detection completed in 387ms
+✅ Navigated to detection with hello extension
+⚡ Navigate to Hello Extension completed in 13.55s
+ℹ️ Verifying hello extension renders
+ℹ️ Execution modal opened
+ℹ️ Scrolled to hello extension button
+ℹ️ Found hello extension button
+ℹ️ Clicked to expand hello extension
+✅ Workflow execution triggered: Test hello function
+⚡ Execute workflow: Test hello function completed in 2.53s
+ℹ️ Verifying workflow execution succeeded: Test hello function
+✅ Workflow execution confirmed: Test hello function
+ℹ️ Execution details view link available
+⚡ Verify workflow execution success: Test hello function completed in 3ms
+⚡ Execute and verify workflow: Test hello function completed in 2.53s
+  ✓  4 [chromium] › tests/foundry.spec.ts:9:7 › Functions with Python - E2E Tests › should execute Test hello function workflow (15.9s)
+ℹ️ Extension iframe loaded
+✅ hello extension renders correctly with expected content
+⚡ Verify hello extension renders completed in 2.39s
+  ✓  3 [chromium] › tests/foundry.spec.ts:4:7 › Functions with Python - E2E Tests › should render Hello UI extension (16.1s)
+✅ Workflows page loaded
+⚡ Navigate to Workflows completed in 9.45s
+ℹ️ Executing workflow: Test host-details function
+ℹ️ Opening workflow: Test host-details function
+✅ Opened workflow: Test host-details function
+⚡ Open workflow: Test host-details function completed in 174ms
+ℹ️ Execution modal opened
+ℹ️ Filling in 1 input parameter(s)
+ℹ️ Set Host ID = 814b5827a16549818f71a64bbe973ba7
+✅ Workflows page loaded
+⚡ Navigate to Workflows completed in 9.05s
+ℹ️ Verifying workflow renders: Test servicenow function
+ℹ️ Opening workflow: Test servicenow function
+✅ Workflow execution triggered: Test host-details function
+⚡ Execute workflow: Test host-details function completed in 1.52s
+ℹ️ Verifying workflow execution succeeded: Test host-details function
+✅ Workflow execution confirmed: Test host-details function
+ℹ️ Execution details view link available
+⚡ Verify workflow execution success: Test host-details function completed in 5ms
+⚡ Execute and verify workflow: Test host-details function completed in 1.52s
+  ✓  5 [chromium] › tests/foundry.spec.ts:19:7 › Functions with Python - E2E Tests › should execute Test host-details function workflow (21.9s)
+✅ Opened workflow: Test servicenow function
+⚡ Open workflow: Test servicenow function completed in 167ms
+⚠️ Workflow page loaded but canvas not detected: Test servicenow function
+ℹ️ This is acceptable for E2E - workflow exists and loads
+⚡ Verify workflow renders: Test servicenow function completed in 177ms
+  ✓  7 [chromium] › tests/foundry.spec.ts:35:7 › Functions with Python - E2E Tests › should render Test servicenow function workflow (without execution) (9.3s)
+🔧 [1] AppCatalogPage: App Catalog
+📦 [2] AppCatalogPage: Uninstall app 'foundry-sample-functions-python'
+ℹ️ Searching for app 'foundry-sample-functions-python' in catalog
+🔧 [3] AppCatalogPage: App catalog page
+✅ Found app 'foundry-sample-functions-python' in catalog
+👆 [4] AppCatalogPage: Click App 'foundry-sample-functions-python' link
+👆 [5] AppCatalogPage: Click Open menu button
+👆 [6] AppCatalogPage: Click Uninstall app menuitem
+👆 [7] AppCatalogPage: Click Uninstall button
+✅ App 'foundry-sample-functions-python' uninstalled successfully
+  ✓  8 [app-uninstall] › tests/app-uninstall.teardown.ts:3:9 › uninstall Functions with Python app (17.8s)
+
+  8 passed (51.2s)
