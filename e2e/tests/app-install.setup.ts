@@ -9,11 +9,7 @@ setup('install Functions with Python app', async ({ appCatalogPage, appName }) =
     const installed = await appCatalogPage.installApp(appName);
 
     if (!installed) {
-      throw new Error(
-        `Failed to install app '${appName}'. Please install the app manually at:\n` +
-        `https://falcon.us-2.crowdstrike.com/foundry/app-catalog/179c33c7963e4b1fb33d1d2734e6c621\n` +
-        `This is a known issue - see #ask-foundry for app installation problems.`
-      );
+      throw new Error(`Failed to install app '${appName}'`);
     }
   } else {
     console.log(`App '${appName}' is already installed`);
