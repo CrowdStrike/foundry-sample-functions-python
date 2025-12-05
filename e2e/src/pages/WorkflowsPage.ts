@@ -36,11 +36,11 @@ export class WorkflowsPage extends BasePage {
         await menuButton.click();
         await this.page.waitForLoadState('networkidle');
 
-        // Click Fusion SOAR in the navigation menu (not the home page cards)
-        const navigation = this.page.locator('nav, [role="navigation"]');
-        const fusionSoarButton = navigation.getByRole('button', { name: 'Fusion SOAR' });
+        // Click Fusion SOAR button in the navigation menu (not the content buttons)
+        // Look for the navigation and find the exact "Fusion SOAR" button (not content that mentions Fusion SOAR)
+        const navigation = this.page.getByRole('navigation');
+        const fusionSoarButton = navigation.getByRole('button', { name: 'Fusion SOAR', exact: true });
         await fusionSoarButton.click();
-        await this.page.waitForTimeout(500);
 
         // Click Workflows link
         const workflowsLink = this.page.getByRole('link', { name: 'Workflows' });
@@ -161,11 +161,12 @@ export class WorkflowsPage extends BasePage {
       async () => {
         this.logger.info(`Executing workflow: ${workflowName}`);
 
-        // Open the workflow
-        await this.openWorkflow(workflowName);
+        // Ensure we're on the workflows list page, not an individual workflow page
+        await this.navigateToWorkflows();
 
-        // Click "Open menu" button
-        const openMenuButton = this.page.getByRole('button', { name: /open menu/i });
+        // Click "Open menu" button for the specific workflow row
+        const workflowRow = this.page.getByRole('row', { name: new RegExp(workflowName, 'i') });
+        const openMenuButton = workflowRow.getByRole('button', { name: /open menu/i });
         await openMenuButton.click();
 
         // Click "Execute workflow" option

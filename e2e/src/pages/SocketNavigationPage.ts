@@ -42,12 +42,13 @@ export class SocketNavigationPage extends BasePage {
         await this.page.waitForLoadState('networkidle');
 
         // Click "Endpoint security"
-        const endpointSecurityButton = this.page.getByRole('button', { name: /Endpoint security/i });
+        const navigation = this.page.getByRole('navigation');
+        const endpointSecurityButton = navigation.getByRole('button', { name: /Endpoint security/ });
         await endpointSecurityButton.click();
         await this.waiter.delay(500);
 
         // Click "Monitor" to expand submenu (if not already expanded)
-        const monitorButton = this.page.getByRole('button', { name: /^Monitor$/i });
+        const monitorButton = navigation.getByRole('button', { name: 'Monitor', exact: true });
         const isExpanded = await monitorButton.getAttribute('aria-expanded');
         if (isExpanded !== 'true') {
           await monitorButton.click();
@@ -55,7 +56,7 @@ export class SocketNavigationPage extends BasePage {
         }
 
         // Click "Endpoint detections" link
-        const endpointDetectionsLink = this.page.getByRole('link', { name: /Endpoint detections/i });
+        const endpointDetectionsLink = navigation.getByRole('link', { name: /Endpoint detections/ });
         await endpointDetectionsLink.click();
 
         // Wait for page to load
