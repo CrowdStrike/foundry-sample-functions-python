@@ -590,6 +590,12 @@ var React$1 = /*#__PURE__*/_mergeNamespaces({
 	default: React
 }, [reactExports]);
 
+var REGEX = /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/i;
+
+function validate(uuid) {
+    return typeof uuid === 'string' && REGEX.test(uuid);
+}
+
 const byteToHex = [];
 for (let i = 0; i < 256; ++i) {
     byteToHex.push((i + 0x100).toString(16).slice(1));
@@ -632,10 +638,7 @@ function rng() {
 const randomUUID = typeof crypto !== 'undefined' && crypto.randomUUID && crypto.randomUUID.bind(crypto);
 var native = { randomUUID };
 
-function v4(options, buf, offset) {
-    if (native.randomUUID && true && !options) {
-        return native.randomUUID();
-    }
+function _v4(options, buf, offset) {
     options = options || {};
     const rnds = options.random ?? options.rng?.() ?? rng();
     if (rnds.length < 16) {
@@ -644,6 +647,12 @@ function v4(options, buf, offset) {
     rnds[6] = (rnds[6] & 0x0f) | 0x40;
     rnds[8] = (rnds[8] & 0x3f) | 0x80;
     return unsafeStringify(rnds);
+}
+function v4(options, buf, offset) {
+    if (native.randomUUID && true && !options) {
+        return native.randomUUID();
+    }
+    return _v4(options);
 }
 
 const VERSION = 'current';
@@ -662,6 +671,13 @@ event) {
 const CONNECTION_TIMEOUT = 5_000;
 const API_TIMEOUT = 30_000;
 const NAVIGATION_TIMEOUT = 5_000;
+function sanitizeMessageId(messageId) {
+    // Only allow valid UUID strings
+    if (typeof messageId !== 'string' || !validate(messageId)) {
+        return null;
+    }
+    return messageId;
+}
 function timeoutForMessage(message) {
     const timeout = message.type === 'connect'
         ? CONNECTION_TIMEOUT
@@ -753,12 +769,18 @@ class Bridge {
             return;
         }
         const { messageId } = event.data.meta;
-        const callback = this.pendingMessages.get(messageId);
-        if (!callback) {
+        // Sanitize messageId to prevent unvalidated dynamic method calls
+        const sanitizedMessageId = sanitizeMessageId(messageId);
+        if (!sanitizedMessageId) {
+            this.throwError(`Received message with invalid messageId format`);
+            return;
+        }
+        const callback = this.pendingMessages.get(sanitizedMessageId);
+        if (!callback || typeof callback !== 'function') {
             this.throwError(`Received unexpected message`);
             return;
         }
-        this.pendingMessages.delete(messageId);
+        this.pendingMessages.delete(sanitizedMessageId);
         callback(message.payload);
     };
     throwError(message) {
