@@ -48,10 +48,10 @@ def on_post(request: Request) -> Response:
             "timestamp": int(time.time())
         }
 
-        api_client = CustomStorage(ext_headers=_app_headers())
+        custom_storage = CustomStorage(ext_headers=_app_headers())
         collection_name = "event_logs"
 
-        response = api_client.PutObject(body=json_data,
+        response = custom_storage.PutObject(body=json_data,
                                         collection_name=collection_name,
                                         object_key=event_id)
 
@@ -66,7 +66,7 @@ def on_post(request: Request) -> Response:
             )
 
         # Query the collection to retrieve the event by id
-        query_response = api_client.SearchObjects(filter=f"event_id:'{event_id}'",
+        query_response = custom_storage.SearchObjects(filter=f"event_id:'{event_id}'",
                                                   collection_name=collection_name,
                                                   limit=5)
 
