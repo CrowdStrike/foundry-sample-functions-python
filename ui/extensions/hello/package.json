@@ -68,7 +68,7 @@
   },
   "overrides": {
     "js-yaml": "^3.14.2",
-    "lodash": "4.18.1",
+    "lodash": "4.17.23",
     "svgo": "2.8.1",
     "minimatch@3": "3.1.4",
     "minimatch@9": "9.0.9",
