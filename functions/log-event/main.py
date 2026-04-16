@@ -5,9 +5,17 @@ import time
 import uuid
 
 from crowdstrike.foundry.function import Function, Request, Response, APIError
-from falconpy import APIHarnessV2
+from falconpy import CustomStorage
 
 FUNC = Function.instance()
+
+
+def _app_headers() -> dict:
+    """Build app headers for CustomStorage construction."""
+    app_id = os.environ.get("APP_ID")
+    if app_id:
+        return {"X-CS-APP-ID": app_id}
+    return {}
 
 
 @FUNC.handler(method="POST", path="/log-event")
@@ -40,22 +48,12 @@ def on_post(request: Request) -> Response:
             "timestamp": int(time.time())
         }
 
-        # Allow setting APP_ID as an env variable for local testing
-        headers = {}
-        if os.environ.get("APP_ID"):
-            headers = {
-                "X-CS-APP-ID": os.environ.get("APP_ID")
-            }
-
-        api_client = APIHarnessV2()
+        custom_storage = CustomStorage(ext_headers=_app_headers())
         collection_name = "event_logs"
 
-        response = api_client.command("PutObject",
-                                      body=json_data,
-                                      collection_name=collection_name,
-                                      object_key=event_id,
-                                      headers=headers
-                                      )
+        response = custom_storage.PutObject(body=json_data,
+                                        collection_name=collection_name,
+                                        object_key=event_id)
 
         if response["status_code"] != 200:
             error_message = response.get("error", {}).get("message", "Unknown error")
@@ -68,17 +66,14 @@ def on_post(request: Request) -> Response:
             )
 
         # Query the collection to retrieve the event by id
-        query_response = api_client.command("SearchObjects",
-                                            filter=f"event_id:'{event_id}'",
-                                            collection_name=collection_name,
-                                            limit=5,
-                                            headers=headers
-                                            )
+        query_response = custom_storage.SearchObjects(filter=f"event_id:'{event_id}'",
+                                                  collection_name=collection_name,
+                                                  limit=5)
 
         return Response(
             body={
                 "stored": True,
-                "metadata": query_response.get("body").get("resources", [])
+                "metadata": query_response.get("body", {}).get("resources", [])
             },
             code=200
         )
