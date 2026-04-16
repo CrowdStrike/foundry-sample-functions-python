@@ -3857,6 +3857,9 @@ class Navigation {
             },
         });
     }
+    /**
+     * @deprecated Use navigateTo directly
+     */
     async onClick(event, defaultTarget = '_self', defaultType = 'falcon') {
         if (!(event instanceof Event)) {
             throw Error('"event" property should be subclass of Event');

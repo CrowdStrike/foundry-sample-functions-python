@@ -58,11 +58,11 @@ export class HelloExtensionPage extends SocketNavigationPage {
         }
 
         // Verify iframe loads
-        await expect(this.page.locator('iframe')).toBeVisible({ timeout: 15000 });
+        await expect(this.page.locator('iframe[name="portal"]')).toBeVisible({ timeout: 15000 });
         this.logger.info('Extension iframe loaded');
 
         // Verify iframe content
-        const iframe: FrameLocator = this.page.frameLocator('iframe');
+        const iframe: FrameLocator = this.page.frameLocator('iframe[name="portal"]');
 
         // Check for "Foundry Functions Demo" text
         await expect(iframe.getByText(/Foundry Functions Demo/i)).toBeVisible({ timeout: 10000 });
