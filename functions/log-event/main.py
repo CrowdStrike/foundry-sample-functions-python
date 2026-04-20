@@ -52,8 +52,8 @@ def on_post(request: Request) -> Response:
         collection_name = "event_logs"
 
         response = custom_storage.PutObject(body=json_data,
-                                        collection_name=collection_name,
-                                        object_key=event_id)
+                                            collection_name=collection_name,
+                                            object_key=event_id)
 
         if response["status_code"] != 200:
             error_message = response.get("error", {}).get("message", "Unknown error")
@@ -67,8 +67,8 @@ def on_post(request: Request) -> Response:
 
         # Query the collection to retrieve the event by id
         query_response = custom_storage.SearchObjects(filter=f"event_id:'{event_id}'",
-                                                  collection_name=collection_name,
-                                                  limit=5)
+                                                      collection_name=collection_name,
+                                                      limit=5)
 
         return Response(
             body={
