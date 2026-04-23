@@ -1,17 +1,14 @@
-import { test as setup } from '../src/fixtures';
+import { test as setup } from '@playwright/test';
+import { AppCatalogPage, config } from '@crowdstrike/foundry-playwright';
 
-setup('install Functions with Python app', async ({ appCatalogPage, appName }) => {
-  // Check if app is already installed (this navigates to the app page)
-  const isInstalled = await appCatalogPage.isAppInstalled(appName);
-
-  if (!isInstalled) {
-    console.log(`App '${appName}' is not installed. Installing...`);
-    const installed = await appCatalogPage.installApp(appName);
-
-    if (!installed) {
-      throw new Error(`Failed to install app '${appName}'`);
-    }
-  } else {
-    console.log(`App '${appName}' is already installed`);
-  }
+setup('install app', async ({ page }) => {
+  const catalog = new AppCatalogPage(page);
+  await catalog.installApp(config.appName, {
+    configureSettings: async (page) => {
+      await page.getByLabel('Name').first().fill('ServiceNow Integration');
+      await page.getByLabel('Instance').fill('dev12345');
+      await page.getByLabel('Username').fill('test_user');
+      await page.getByLabel('Password').fill('test_password');
+    },
+  });
 });
