@@ -1,7 +1,7 @@
 {
   "name": "playwright-foundry",
   "version": "1.0.0",
-  "description": "Playwright e2e tests to ensure app installs and renders properly",
+  "description": "Playwright E2E tests for foundry-sample-functions-python",
   "scripts": {
     "test": "npx playwright test",
     "test:ui": "npx playwright test --ui",
@@ -15,11 +15,9 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "@dotenvx/dotenvx": "1.52.0",
-    "otpauth": "9.5.0"
+    "@crowdstrike/foundry-playwright": "file:../../foundry-playwright/crowdstrike-foundry-playwright-0.5.0.tgz"
   },
   "devDependencies": {
-    "@playwright/test": "1.57.0",
-    "@types/node": "25.1.0"
+    "@types/node": "25.6.0"
   }
 }
