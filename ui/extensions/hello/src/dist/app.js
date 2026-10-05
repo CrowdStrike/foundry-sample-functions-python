@@ -4178,7 +4178,7 @@ function useFalconApiContext() {
 }
 
 /**
- * react-router v7.17.0
+ * react-router v7.18.2
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -4187,6 +4187,13 @@ function useFalconApiContext() {
  *
  * @license MIT
  */
+
+// lib/router/url.ts
+var ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|[\\/]{2})/i;
+var PROTOCOL_RELATIVE_URL_REGEX = /^[\\/]{2}/;
+function normalizeProtocolRelativeUrl(url, protocol) {
+  return protocol + url.replace(/\\/g, "/");
+}
 function invariant(value, message) {
   if (value === false || value === null || typeof value === "undefined") {
     throw new Error(message);
@@ -4298,7 +4305,18 @@ function flattenRoutes(routes, branches = [], parentsMeta = [], parentPath = "",
     branches.push({
       path,
       score: computeScore(path, route.index),
-      routesMeta
+      routesMeta: routesMeta.map((meta2, i) => {
+        let [matcher, params] = compilePath(
+          meta2.relativePath,
+          meta2.caseSensitive,
+          i === routesMeta.length - 1
+        );
+        return {
+          ...meta2,
+          matcher,
+          compiledParams: params
+        };
+      })
     });
   };
   routes.forEach((route, index) => {
@@ -4387,9 +4405,19 @@ function matchRouteBranch(branch, pathname, allowPartial = false) {
     let meta = routesMeta[i];
     let end = i === routesMeta.length - 1;
     let remainingPathname = matchedPathname === "/" ? pathname : pathname.slice(matchedPathname.length) || "/";
-    let match = matchPath(
-      { path: meta.relativePath, caseSensitive: meta.caseSensitive, end },
-      remainingPathname
+    let pattern = {
+      path: meta.relativePath,
+      caseSensitive: meta.caseSensitive,
+      end
+    };
+    let match = (
+      // Use precomputed matcher if it exists
+      meta.matcher && meta.compiledParams ? matchPathImpl(
+        pattern,
+        remainingPathname,
+        meta.matcher,
+        meta.compiledParams
+      ) : matchPath(pattern, remainingPathname)
     );
     let route = meta.route;
     if (!match && end && allowPartial && !routesMeta[routesMeta.length - 1].route.index) {
@@ -4430,6 +4458,9 @@ function matchPath(pattern, pathname) {
     pattern.caseSensitive,
     pattern.end
   );
+  return matchPathImpl(pattern, pathname, matcher, compiledParams);
+}
+function matchPathImpl(pattern, pathname, matcher, compiledParams) {
   let match = pathname.match(matcher);
   if (!match) return null;
   let matchedPathname = match[0];
@@ -4512,7 +4543,6 @@ function stripBasename(pathname, basename) {
   }
   return pathname.slice(startIndex) || "/";
 }
-var ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
 function resolvePath(to, fromPathname = "/") {
   let {
     pathname: toPathname,
@@ -4608,7 +4638,7 @@ function resolveTo(toArg, routePathnames, locationPathname, isPathRelative = fal
   }
   return path;
 }
-var removeDoubleSlashes = (path) => path.replace(/\/\/+/g, "/");
+var removeDoubleSlashes = (path) => path.replace(/[\\/]{2,}/g, "/");
 var joinPaths = (paths) => removeDoubleSlashes(paths.join("/"));
 var removeTrailingSlash = (path) => path.replace(/\/+$/, "");
 var normalizePathname = (pathname) => removeTrailingSlash(pathname).replace(/^\/*/, "/");
@@ -4649,7 +4679,7 @@ function parseToInfo(_to, basename) {
   if (isBrowser) {
     try {
       let currentUrl = new URL(window.location.href);
-      let targetUrl = to.startsWith("//") ? new URL(currentUrl.protocol + to) : new URL(to);
+      let targetUrl = PROTOCOL_RELATIVE_URL_REGEX.test(to) ? new URL(normalizeProtocolRelativeUrl(to, currentUrl.protocol)) : new URL(to);
       let path = stripBasename(targetUrl.pathname, basename);
       if (targetUrl.origin === currentUrl.origin && path != null) {
         to = path + targetUrl.search + targetUrl.hash;
@@ -4686,6 +4716,26 @@ var validRequestMethodsArr = [
   ...validMutationMethodsArr
 ];
 new Set(validRequestMethodsArr);
+var invalidProtocols = [
+  "about:",
+  "blob:",
+  "chrome:",
+  "chrome-untrusted:",
+  "content:",
+  "data:",
+  "devtools:",
+  "file:",
+  "filesystem:",
+  // eslint-disable-next-line no-script-url
+  "javascript:"
+];
+function hasInvalidProtocol(location) {
+  try {
+    return invalidProtocols.includes(new URL(location).protocol);
+  } catch {
+    return false;
+  }
+}
 var DataRouterContext = reactExports.createContext(null);
 DataRouterContext.displayName = "DataRouter";
 var DataRouterStateContext = reactExports.createContext(null);
@@ -5029,9 +5079,13 @@ function RSCErrorHandler({
       let existingRedirect = errorRedirectHandledMap.get(error);
       if (existingRedirect) throw existingRedirect;
       let parsed = parseToInfo(redirect2.location, basename);
+      let target = parsed.absoluteURL || parsed.to;
+      if (hasInvalidProtocol(target)) {
+        throw new Error("Invalid redirect location");
+      }
       if (isBrowser && !errorRedirectHandledMap.get(error)) {
         if (parsed.isExternal || redirect2.reloadDocument) {
-          window.location.href = parsed.absoluteURL || parsed.to;
+          window.location.href = target;
         } else {
           const redirectPromise = Promise.resolve().then(
             () => window.__reactRouterDataRouter.navigate(parsed.to, {
@@ -5042,13 +5096,7 @@ function RSCErrorHandler({
           throw redirectPromise;
         }
       }
-      return /* @__PURE__ */ reactExports.createElement(
-        "meta",
-        {
-          httpEquiv: "refresh",
-          content: `0;url=${parsed.absoluteURL || parsed.to}`
-        }
-      );
+      return /* @__PURE__ */ reactExports.createElement("meta", { httpEquiv: "refresh", content: `0;url=${target}` });
     }
   }
   return children;
@@ -5654,6 +5702,7 @@ function composeEventHandlers(theirHandler, ourHandler) {
 }
 function PrefetchPageLinks({ page, ...linkProps }) {
   let rsc = useIsRSCRouterContext();
+  let { nonce: contextNonce } = useFrameworkContext();
   let { router } = useDataRouterContext2();
   let matches = reactExports.useMemo(
     () => matchRoutes(router.routes, page, router.basename),
@@ -5661,6 +5710,9 @@ function PrefetchPageLinks({ page, ...linkProps }) {
   );
   if (!matches) {
     return null;
+  }
+  if (linkProps.nonce == null && contextNonce) {
+    linkProps = { ...linkProps, nonce: contextNonce };
   }
   if (rsc) {
     return /* @__PURE__ */ reactExports.createElement(RSCPrefetchPageLinksImpl, { page, matches, ...linkProps });
@@ -5836,11 +5888,10 @@ var isBrowser2 = typeof window !== "undefined" && typeof window.document !== "un
 try {
   if (isBrowser2) {
     window.__reactRouterVersion = // @ts-expect-error
-    "7.17.0";
+    "7.18.2";
   }
 } catch (e) {
 }
-var ABSOLUTE_URL_REGEX2 = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
 var Link$1 = reactExports.forwardRef(
   function LinkWithRef({
     onClick,
@@ -5859,7 +5910,7 @@ var Link$1 = reactExports.forwardRef(
     ...rest
   }, forwardedRef) {
     let { basename, navigator, useTransitions } = reactExports.useContext(NavigationContext);
-    let isAbsolute = typeof to === "string" && ABSOLUTE_URL_REGEX2.test(to);
+    let isAbsolute = typeof to === "string" && ABSOLUTE_URL_REGEX.test(to);
     let parsed = parseToInfo(to, basename);
     to = parsed.to;
     let href = useHref(to, { relative });
@@ -6006,7 +6057,7 @@ var Form = reactExports.forwardRef(
     let submit = useSubmit();
     let formAction = useFormAction(action, { relative });
     let formMethod = method.toLowerCase() === "get" ? "get" : "post";
-    let isAbsolute = typeof action === "string" && ABSOLUTE_URL_REGEX2.test(action);
+    let isAbsolute = typeof action === "string" && ABSOLUTE_URL_REGEX.test(action);
     let submitHandler = (event) => {
       onSubmit && onSubmit(event);
       if (event.defaultPrevented) return;
