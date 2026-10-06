@@ -21,4 +21,4 @@ tests:
           body:
             host_id: "does_not_exist"
         expect:
-          status: 404
+          status: 400
