@@ -81,6 +81,8 @@
     "fast-uri": "3.1.5",
     "uuid": "13.0.1",
     "tmp": "0.2.7",
-    "ws": "8.21.0"
+    "ws": "8.21.0",
+    "source-map-js": "1.2.2",
+    "postcss-selector-parser": "7.1.6"
   }
 }
