@@ -4,9 +4,15 @@ on:
   push:
     paths:
       - '**.py'
+      - '.github/workflows/pylint.yml'
+      - '.pylintrc'
+      - 'functions/**/requirements.txt'
   pull_request:
     paths:
       - '**.py'
+      - '.github/workflows/pylint.yml'
+      - '.pylintrc'
+      - 'functions/**/requirements.txt'
 
 permissions:
   contents: read
@@ -15,7 +21,7 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     env:
-      PYTHON_VERSION: '3.13'
+      PYTHON_VERSION: '3.14'
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
       - name: Set up Python
