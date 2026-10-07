@@ -1,0 +1,24 @@
+tests:
+  - handler: host-details
+    cases:
+      - name: valid_host_id
+        input:
+          body:
+            host_id: "YOUR_HOST_AID_HERE"
+        expect:
+          status: 200
+
+      - name: missing_host_id
+        input:
+          body: {}
+        expect:
+          status: 400
+          errors:
+            - "missing host_id from request body"
+
+      - name: invalid_host_id
+        input:
+          body:
+            host_id: "does_not_exist"
+        expect:
+          status: 400

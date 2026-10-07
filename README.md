@@ -83,6 +83,39 @@ foundry apps release
 
 Next, go to **Foundry** > **App catalog**, find your app, and install it. Go to **Fusion SOAR** > **Workflows** to see the test workflows from this app.
 
+## Testing
+
+This sample has two kinds of tests: unit tests that run locally with mocked dependencies, and integration tests that run against the deployed functions.
+
+### Unit tests
+
+Each function has a `test_main.py`. Create a virtual environment at the root of the repo, install the function's dependencies and pytest, and run pytest from the function's directory:
+
+```shell
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r functions/hello/requirements.txt pytest
+cd functions/hello && pytest
+```
+
+Keep the virtual environment at the repo root. A `.venv` inside a function's directory is never deployed, but `foundry functions exec` and `foundry functions test` count it as an undeployed local change.
+
+### Integration tests
+
+The `hello` and `host-details` functions have a `tests.yml` with test cases that `foundry functions test` runs against the deployed function (Foundry CLI 2.1.0 or later). Deploy the app first, then run:
+
+```shell
+foundry functions test --function hello
+```
+
+The `host-details` tests call the Hosts API through FalconPy, which needs an installed app. Release and install the app once, replace `YOUR_HOST_AID_HERE` in `functions/host-details/tests.yml` with a host ID from **Host management** in the Falcon console, then run:
+
+```shell
+foundry functions test --function host-details
+```
+
+Use `--case <name>` to run a single test case. Until the app is installed, the `valid_host_id` and `invalid_host_id` cases return `403` with `app is not installed`.
+
 ## About this sample app
 
 <!-- Intro below should match app_docs/README.md -->
