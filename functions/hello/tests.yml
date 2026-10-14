@@ -1,0 +1,19 @@
+tests:
+  - handler: hello
+    cases:
+      - name: valid_name
+        input:
+          body:
+            name: "Foundry"
+        expect:
+          status: 200
+          body:
+            greeting: "Hello Foundry! It is nice to see you."
+
+      - name: missing_name
+        input:
+          body: {}
+        expect:
+          status: 400
+          errors:
+            - "missing name from request body"
