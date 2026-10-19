@@ -13,6 +13,12 @@ ignored:
   - .+/venv/.+
   - e2e
   - e2e/.+
+  - .+/__pycache__$
+  - .+/__pycache__/.+
+  - .+/\.pytest_cache$
+  - .+/\.pytest_cache/.+
+  - .+/\.venv$
+  - .+/\.venv/.+
 ui:
   homepage: ""
   extensions:
