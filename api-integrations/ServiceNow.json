@@ -443,7 +443,7 @@
       "url": "{instance}.service-now.com",
       "variables": {
         "instance": {
-          "description": "the \"instance\" variable is replaced with a dynamic value at execution time"
+          "description": "Your ServiceNow instance name, the part before .service-now.com (for example, dev12345). Don't include https:// or the domain."
         }
       }
     }

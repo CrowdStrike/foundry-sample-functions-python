@@ -66,21 +66,25 @@ def on_post(request: Request, _config: Optional[Dict[str, object]], logger: Logg
 
     try:
         # Use the APIIntegrations client to call ServiceNow Table API to create incident
+        # Pass the full request as body=: in keyword form, FalconPy ignores a
+        # request= argument, so the payload and headers would never be sent
         api = APIIntegrations()
-        response = api.execute_command_proxy(
-            definition_id="ServiceNow",
-            operation_id="POST__api_now_table_tablename",
-            params={
-                "path": {"tableName": "incident"}
-            },
-            request={
-                "json": payload,
-                "headers": {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
+        response = api.execute_command_proxy(body={
+            "resources": [{
+                "definition_id": "ServiceNow",
+                "operation_id": "POST__api_now_table_tablename",
+                "request": {
+                    "params": {
+                        "path": {"tableName": "incident"},
+                        "header": {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        }
+                    },
+                    "json": payload
                 }
-            }
-        )
+            }]
+        })
 
         # Log the raw response for troubleshooting
         logger.info(f"ServiceNow API response: {response}")

@@ -75,25 +75,27 @@ class FnTestCase(unittest.TestCase):
         self.assertEqual(response.body["url"], "https://instance.service-now.com/api/now/table/incident/abc123def456")
 
         # Verify API call was made correctly
-        mock_api_instance.execute_command_proxy.assert_called_once_with(
-            definition_id="ServiceNow",
-            operation_id="POST__api_now_table_tablename",
-            params={
-                "path": {"tableName": "incident"}
-            },
-            request={
-                "json": {
-                    "short_description": "Test incident",
-                    "description": "This is a test incident description",
-                    "impact": "2",
-                    "urgency": "2"
-                },
-                "headers": {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
+        mock_api_instance.execute_command_proxy.assert_called_once_with(body={
+            "resources": [{
+                "definition_id": "ServiceNow",
+                "operation_id": "POST__api_now_table_tablename",
+                "request": {
+                    "params": {
+                        "path": {"tableName": "incident"},
+                        "header": {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        }
+                    },
+                    "json": {
+                        "short_description": "Test incident",
+                        "description": "This is a test incident description",
+                        "impact": "2",
+                        "urgency": "2"
+                    }
                 }
-            }
-        )
+            }]
+        })
 
         # Verify logger was called
         self.assertEqual(mock_logger.info.call_count, 2)
@@ -145,7 +147,7 @@ class FnTestCase(unittest.TestCase):
 
         # Verify API call included all optional fields
         call_args = mock_api_instance.execute_command_proxy.call_args
-        payload = call_args[1]["request"]["json"]
+        payload = call_args[1]["body"]["resources"][0]["request"]["json"]
         self.assertEqual(payload["impact"], "1")
         self.assertEqual(payload["urgency"], "1")
         self.assertEqual(payload["category"], "Security")
@@ -359,13 +361,40 @@ class FnTestCase(unittest.TestCase):
 
         # Verify API call payload excludes None values but includes empty strings
         call_args = mock_api_instance.execute_command_proxy.call_args
-        payload = call_args[1]["request"]["json"]
+        payload = call_args[1]["body"]["resources"][0]["request"]["json"]
         self.assertEqual(payload["impact"], "3")
         self.assertEqual(payload["category"], "Hardware")
         self.assertEqual(payload["assignment_group"], "")
         self.assertNotIn("subcategory", payload)
         self.assertNotIn("caller_id", payload)
 
+
+    def test_payload_survives_falconpy(self):
+        """The request FalconPy actually sends carries the incident payload.
+
+        A mocked execute_command_proxy accepts any keywords, so this runs the
+        real method against a stubbed transport and checks the outgoing body.
+        """
+        from falconpy import APIIntegrations  # pylint: disable=import-outside-toplevel
+
+        sent = {}
+
+        def fake_request(*_args, **kwargs):
+            sent.update(kwargs)
+            return {"status_code": 201, "headers": {"Location": "x"}, "body": {"result": {
+                "sys_id": "1", "number": "INC1", "state": "1", "priority": "3",
+                "sys_created_on": "now", "assigned_to": ""}}}
+
+        request = Request()
+        request.body = {"title": "Test incident", "description": "Body must reach ServiceNow"}
+        with patch("main.APIIntegrations", lambda: APIIntegrations(access_token="test")), \
+                patch("falconpy._util._functions.service_request", side_effect=fake_request):
+            response = main.on_post(request, None, MagicMock())
+
+        self.assertEqual(response.code, 201)
+        resource = sent["body"]["resources"][0]
+        self.assertEqual(resource["request"]["json"]["short_description"], "Test incident")
+        self.assertEqual(resource["request"]["params"]["header"]["Content-Type"], "application/json")
 
 if __name__ == "__main__":
     unittest.main()
