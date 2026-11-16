@@ -2,6 +2,7 @@ version: 2
 updates:
   - package-ecosystem: pip
     directories:
+      - "/.github"
       - "/functions/hello/"
       - "/functions/host-details/"
       - "/functions/host-info/"
